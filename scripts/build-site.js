@@ -40,8 +40,8 @@ function renderHeader(depth, activeNav = '') {
         <a href="${rel}recommend/budget/index.html" class="nav-link ${activeNav === 'recommend' ? 'active' : ''}">机场推荐</a>
         <a href="${rel}ranking/overall/index.html" class="nav-link ${activeNav === 'ranking' ? 'active' : ''}">排行榜</a>
         <a href="${rel}compare/index.html" class="nav-link ${activeNav === 'compare' ? 'active' : ''}">机场对比</a>
-        <a href="${rel}guides/windows/index.html" class="nav-link ${activeNav === 'guides' ? 'active' : ''}">使用教程</a>
-        <a href="${rel}blog/how-to-choose-airport/index.html" class="nav-link ${activeNav === 'blog' ? 'active' : ''}">选购指南</a>
+        <a href="${rel}guides/index.html" class="nav-link ${activeNav === 'guides' ? 'active' : ''}">使用教程</a>
+        <a href="${rel}blog/index.html" class="nav-link ${activeNav === 'blog' ? 'active' : ''}">选购指南</a>
         <a href="${rel}glossary/iplc/index.html" class="nav-link ${activeNav === 'glossary' ? 'active' : ''}">术语百科</a>
       </nav>
       <div class="nav-actions">
@@ -67,11 +67,8 @@ function renderHeader(depth, activeNav = '') {
       <li><a href="${rel}ranking/budget/index.html" class="nav-link">低预算平价排行榜</a></li>
       <li><a href="${rel}ranking/stable/index.html" class="nav-link">稳定性专线排行榜</a></li>
       <li><a href="${rel}compare/index.html" class="nav-link">机场横向对比工具</a></li>
-      <li><a href="${rel}guides/windows/index.html" class="nav-link">Windows 客户端教程</a></li>
-      <li><a href="${rel}guides/android/index.html" class="nav-link">Android 安卓手机教程</a></li>
-      <li><a href="${rel}guides/ios/index.html" class="nav-link">iOS 苹果手机教程</a></li>
-      <li><a href="${rel}guides/macos/index.html" class="nav-link">macOS 电脑教程</a></li>
-      <li><a href="${rel}blog/how-to-choose-airport/index.html" class="nav-link">博客与选购技巧</a></li>
+      <li><a href="${rel}guides/index.html" class="nav-link">客户端使用教程中心 (30篇)</a></li>
+      <li><a href="${rel}blog/index.html" class="nav-link">选购指南与技术博客 (100篇)</a></li>
       <li><a href="${rel}about/index.html" class="nav-link">关于我们</a></li>
     </ul>
   </div>`;
@@ -113,7 +110,8 @@ function renderFooter(depth) {
             <li><a href="${rel}ranking/budget/index.html">平价低预算排行榜</a></li>
             <li><a href="${rel}ranking/stable/index.html">稳定性专线排行榜</a></li>
             <li><a href="${rel}compare/index.html">机场横向深度比对</a></li>
-            <li><a href="${rel}blog/how-to-choose-airport/index.html">选购避坑指南</a></li>
+            <li><a href="${rel}guides/index.html">客户端教程中心 (30篇)</a></li>
+            <li><a href="${rel}blog/index.html">选购指南与博客 (100篇)</a></li>
           </ul>
         </div>
         <div class="footer-col">
@@ -587,6 +585,9 @@ function buildHomePage() {
           <span class="card-link-text">阅读 macOS 教程 →</span>
         </a>
       </div>
+      <div style="text-align:center;margin-top:1.75rem">
+        <a href="${rel}guides/index.html" class="btn btn-outline">进入教程中心，查看全部 30 篇详细配置指南 →</a>
+      </div>
     </section>
 
     <!-- Section 10: 知识百科 (Glossary) -->
@@ -648,6 +649,9 @@ function buildHomePage() {
           <p>不同代理协议在安全性、伪装度、吞吐性能与CPU资源消耗上有何不同？一文搞懂主流协议优缺点。</p>
           <a href="${rel}blog/airport-protocol-explained/index.html" class="card-link-text">深入阅读 →</a>
         </div>
+      </div>
+      <div style="text-align:center;margin-top:1.75rem">
+        <a href="${rel}blog/index.html" class="btn btn-outline">浏览全部 100 篇选购指南与技术博客 →</a>
       </div>
     </section>
 
@@ -1637,59 +1641,22 @@ function buildComparePage() {
 }
 
 // ==========================================
-// 7. 生成 4 篇客户端新手配置教程 (guides/)
+// 7. 生成 30 篇客户端新手与进阶配置教程 (guides/)
 // ==========================================
-const clientGuides = [
-  {
-    slug: 'windows',
-    os: 'Windows 电脑',
-    client: 'Clash Verge Rev / Sing-box',
-    title: 'Windows电脑机场客户端配置教程 - Clash Verge Rev 新手图文指南 | 机场PRO',
-    h1: 'Windows电脑机场客户端配置教程：Clash Verge Rev新手指南',
-    desc: '2026最新 Windows 平台科学上网客户端配置图文指引。详细讲解 Clash Verge Rev 的下载、汉化、订阅导入、系统代理与 TUN 虚拟网卡模式设置，轻松解决连不上与掉线问题。',
-    keywords: 'Windows翻墙教程, Clash Verge教程, Windows梯子客户端, Clash下载, 电脑机场配置, 科学上网教程, 梯子推荐'
-  },
-  {
-    slug: 'android',
-    os: 'Android 安卓手机',
-    client: 'Clash Meta for Android / v2rayNG',
-    title: 'Android安卓手机翻墙教程 - Clash Meta与v2rayNG图文指南 | 机场PRO',
-    h1: 'Android安卓手机机场配置指南：Clash Meta使用教程',
-    desc: '安卓手机如何配置机场节点？本教程手把手教您在华为、小米、OPPO、vivo 及三星手机上安装 Clash Meta for Android，配置一键订阅并开启应用分流。',
-    keywords: '安卓翻墙教程, Android机场客户端, Clash Meta安卓, v2rayNG教程, 手机梯子, 安卓科学上网, 梯子推荐'
-  },
-  {
-    slug: 'ios',
-    os: 'iOS 苹果手机/iPad',
-    client: 'Shadowrocket (小火箭) / Loon',
-    title: '苹果iOS手机翻墙配置教程 - Shadowrocket小火箭从安装到节点导入 | 机场PRO',
-    h1: 'iOS苹果设备科学上网配置教程：Shadowrocket使用详解',
-    desc: '苹果手机翻墙最全攻略：美区 Apple ID 获取方法、Shadowrocket (小火箭) 购买下载、订阅链接扫码导入与规则分流模式切换完整图文教学。',
-    keywords: 'iOS翻墙教程, 苹果小火箭教程, Shadowrocket使用, 苹果手机梯子, 美区Apple ID, 机场节点导入, 梯子推荐'
-  },
-  {
-    slug: 'macos',
-    os: 'macOS 苹果电脑',
-    client: 'Clash Verge Rev macOS / ClashX Meta',
-    title: 'Mac苹果电脑机场客户端配置教程 - Clash Verge Rev macOS指南 | 机场PRO',
-    h1: 'macOS苹果电脑机场配置教程：Clash Verge图文指引',
-    desc: '专为 Mac 用户撰写的科学上网指南。支持 Apple Silicon M1/M2/M3/M4 与 Intel 芯片，详解安全与隐私权限开启、系统代理生效及终端代理配置方法。',
-    keywords: 'Mac翻墙教程, macOS梯子, Clash Verge Mac, ClashX Meta, 苹果电脑科学上网, Mac机场配置, 梯子推荐'
-  }
-];
+const guidesData = require(path.join(ROOT_DIR, 'data', 'guides-data.js'));
 
 function buildGuidePages() {
   const depth = 2;
   const rel = getRelPrefix(depth);
 
-  clientGuides.forEach(g => {
+  guidesData.forEach(g => {
     const canonicalPath = `guides/${g.slug}/`;
     registerPage(`${SITE_URL}/${canonicalPath}`, 0.8, 'monthly');
 
     const crumbs = [
       { name: '首页', url: 'index.html' },
-      { name: '使用教程', url: 'guides/windows/index.html' },
-      { name: `${g.os} 配置教程`, url: `guides/${g.slug}/index.html` }
+      { name: '使用教程', url: 'guides/index.html' },
+      { name: g.h1, url: `guides/${g.slug}/index.html` }
     ];
 
     const articleSchema = {
@@ -1697,7 +1664,7 @@ function buildGuidePages() {
       "@type": "TechArticle",
       "headline": g.h1,
       "description": g.desc,
-      "datePublished": "2026-03-01",
+      "datePublished": g.date || "2026-03-01",
       "dateModified": CURRENT_DATE,
       "author": {
         "@type": "Organization",
@@ -1705,86 +1672,55 @@ function buildGuidePages() {
       }
     };
 
+    const stepsHtml = (g.steps || []).map((step, idx) => `
+      <h2>步骤 ${idx + 1}：${step.title}</h2>
+      <p>${step.content}</p>
+    `).join('');
+
+    const faqsHtml = (g.faqs || []).length > 0 ? `
+      <h2>常见故障排查与答疑 (Troubleshooting)</h2>
+      <div class="faq-list">
+        ${g.faqs.map(f => `
+          <div class="faq-item">
+            <div class="faq-question">${f.q}</div>
+            <div class="faq-answer">${f.a}</div>
+          </div>
+        `).join('')}
+      </div>
+    ` : '';
+
     const contentHtml = `
     <div class="container" style="padding-top:1.5rem">
       <div class="content-wrapper">
         <div class="post-header">
-          <span class="hero-tag">${g.os} 官方推荐方案</span>
+          <span class="hero-tag">${g.category} 平台教程</span>
           <h1 style="margin-top:0.5rem">${g.h1}</h1>
           <p class="section-subtitle" style="font-size:1.05rem;line-height:1.7;color:var(--text-body);margin-top:0.75rem">${g.desc}</p>
           <div class="post-meta-bar">
-            <span>📅 最新更新: ${CURRENT_DATE}</span>
+            <span>📅 最新更新: ${g.date || CURRENT_DATE}</span>
             <span>📱 推荐核心: ${g.client}</span>
-            <span>⏱️ 阅读时长: 约 5 分钟上手</span>
+            <span>⏱️ 阅读时长: 约 ${g.readTime || '5 分钟'}</span>
           </div>
         </div>
 
         <div class="post-body">
-          <h2>前言与准备工作</h2>
-          <p>
-            在 ${g.os} 上使用机场节点进行网络加速，核心步骤分为三步：
-            <strong>1. 获取并安装靠谱客户端 → 2. 复制并导入机场订阅链接 → 3. 开启系统代理并选择合适的分流模式。</strong>
-            本教程以目前业内公认最稳定、维护最活跃的 <strong>${g.client}</strong> 为例进行图文拆解。
-          </p>
-
-          <div class="callout">
-            <div class="callout-title">⚠️ 新手特别注意</div>
-            <p style="margin-bottom:0">客户端软件本身只是一个网络中继“空壳”，不内置任何海外节点。您必须先拥有一个正常可用且未过期的机场订阅链接（可参考本站 <a href="${rel}recommend/budget/index.html">高性价比机场推荐</a> 选购一个入门套餐）。</p>
+          <div class="callout" style="margin-bottom:1.5rem">
+            <div class="callout-title">💡 教程概要与前提</div>
+            <p style="margin-bottom:0">${g.summary || '本教程系统详解客户端下载、配置导入与分流设置，助您实现安全稳定的网络加速。'}</p>
           </div>
 
-          <h2>第一步：下载并安装客户端</h2>
-          <p>
-            请从官方开源仓库（如 GitHub Releases）或机场用户后台提供的“客户端下载”入口获取安装包，切勿下载带有后门或二次打包的未知来源软件：
-          </p>
-          <ul>
-            <li>从官方 Release 页面下载对应系统架构的安装文件（如 64位 Windows 或 Mac ARM64 安装包）。</li>
-            <li>双击运行安装程序，按提示完成默认路径安装。如遇系统安全拦截，点击“更多信息 - 仍要运行”即可。</li>
-          </ul>
+          ${stepsHtml}
 
-          <h2>第二步：导入机场订阅链接</h2>
-          <ol>
-            <li>登录您所购买的机场后台（如 <a href="${rel}airport/breezenet/index.html">微风网络</a> 或 <a href="${rel}airport/yinxingren/index.html">隐形人</a>）。</li>
-            <li>在用户控制台找到<strong>“一键导入订阅”</strong>或<strong>“复制订阅链接”</strong>按钮并点击。</li>
-            <li>打开 ${g.client} 客户端界面，进入“订阅管理 (Profiles / Subscriptions)”菜单。</li>
-            <li>在输入框中粘贴刚刚复制的订阅 URL，并点击右侧的“保存 / 下载 (Download / Save)”按钮。</li>
-            <li>等待几秒钟，客户端会自动解析并下载该机场的全部节点列表（包含香港、日本、新加坡、美国等）。</li>
-          </ol>
-
-          <h2>第三步：选择节点与切换分流模式</h2>
-          <p>
-            订阅成功拉取后，在主界面进行以下设置：
-          </p>
-          <ul>
-            <li><strong>模式选择 (Proxy Mode)：</strong>强烈建议选择<strong>“规则 (Rule)”</strong>模式。在此模式下，国内网站（如百度、淘宝、微信）直接走本地宽带不消耗梯子流量，只有访问 Google、YouTube 等海外受限网站时才自动走机场节点。</li>
-            <li><strong>节点选择：</strong>点击“代理 (Proxies)”页面，选择您心仪的地区。看 YouTube 推荐香港或新加坡（低延迟）；看 Netflix 美区或访问 ChatGPT 推荐美区节点。</li>
-            <li><strong>开启系统代理 (System Proxy)：</strong>在客户端主开关处将“系统代理”滑块打开，此时浏览器即可正常畅享高速网络。</li>
-          </ul>
-
-          <h2>第四步：高级功能 - TUN 虚拟网卡模式 (可选)</h2>
-          <p>
-            如果需要为无法设置 HTTP 代理的国外游戏（如 Steam 联机）、终端命令行（cmd/PowerShell/Terminal）或桌面特定软件进行全局代理，可以进入设置开启 <strong>TUN 模式</strong>。
-            开启 TUN 模式需要系统管理员权限，开启后客户端会创建一个虚拟网卡，接管整台设备的所有底层 TCP/UDP 流量。
-          </p>
-
-          <h2>常见故障排查 (Troubleshooting)</h2>
-          <div class="faq-list">
-            <div class="faq-item">
-              <div class="faq-question">订阅拉取失败，提示 Network Error 或 SSL Handshake 怎么办？</div>
-              <div class="faq-answer">首先检查本地网络是否正常；其次检查机场官网公告是否更换了订阅域名；若在公司或校园网，可尝试手机热点更新订阅，或者开启“跳过证书验证”重试。</div>
-            </div>
-            <div class="faq-item">
-              <div class="faq-question">开启代理后，国内微信或百度变慢怎么办？</div>
-              <div class="faq-answer">请确认分流模式是否误开成了“全局 (Global)”模式。切换回“规则 (Rule)”模式即可让国内流量直连，彻底恢复飞速体验。</div>
-            </div>
-          </div>
+          ${faqsHtml}
         </div>
 
         <div class="related-posts">
           <div class="related-title">🔗 推荐阅读与横向参考</div>
           <ul class="related-links">
-            <li><a href="${rel}recommend/beginner/index.html">🔰 新手小白友好机场专项推荐</a></li>
-            <li><a href="${rel}ranking/overall/index.html">📊 2026全网机场综合排行榜</a></li>
-            <li><a href="${rel}blog/avoid-pitfalls/index.html">⚠️ 机场购买防坑指南：六大防跑路常识</a></li>
+            <li><a href="${rel}guides/index.html">📚 返回教程中心总览（查阅全部 30 篇教程）</a></li>
+            <li><a href="${rel}ranking/overall/index.html">📊 查阅2026年度全网机场综合排行榜</a></li>
+            <li><a href="${rel}recommend/budget/index.html">💰 查看高性价比平价机场精选</a></li>
+            <li><a href="${rel}compare/index.html">⚖️ 自由勾选机场进行横向比对</a></li>
           </ul>
         </div>
       </div>
@@ -1804,65 +1740,100 @@ function buildGuidePages() {
 
     writeHtmlFile(`guides/${g.slug}/index.html`, html);
   });
+
+  // 生成教程中心总览页 guides/index.html
+  buildGuidesHubPage();
+}
+
+function buildGuidesHubPage() {
+  const depth = 1;
+  const rel = getRelPrefix(depth);
+  const canonicalPath = 'guides/';
+  registerPage(`${SITE_URL}/${canonicalPath}`, 0.9, 'weekly');
+
+  const crumbs = [
+    { name: '首页', url: 'index.html' },
+    { name: '使用教程中心', url: 'guides/index.html' }
+  ];
+
+  const categories = ['Windows', 'Android', 'iOS', 'macOS', '软路由与网关', '开发工具'];
+
+  const categorySections = categories.map(cat => {
+    const items = guidesData.filter(g => g.category === cat);
+    return `
+      <div style="margin-top:2.5rem">
+        <h2 style="font-size:1.35rem;display:flex;align-items:center;gap:0.5rem;border-bottom:2px solid var(--border-color);padding-bottom:0.5rem">
+          <span>📁 ${cat} 专题教程</span>
+          <span class="pill-tag" style="font-size:0.75rem">${items.length} 篇</span>
+        </h2>
+        <div class="hub-grid">
+          ${items.map(g => `
+            <div class="hub-card">
+              <div class="hub-card-header">
+                <span class="pill-tag">${g.os}</span>
+                <span style="font-size:0.75rem;color:var(--text-muted)">⏱️ ${g.readTime}</span>
+              </div>
+              <h3 class="hub-card-title"><a href="${rel}guides/${g.slug}/index.html">${g.h1}</a></h3>
+              <p class="hub-card-desc">${g.desc}</p>
+              <div class="hub-card-footer">
+                <span>核心: <strong>${g.client}</strong></span>
+                <a href="${rel}guides/${g.slug}/index.html" class="card-link-text">查看教程 →</a>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  const contentHtml = `
+  <div class="container" style="padding-top:1.5rem">
+    <div class="content-wrapper" style="max-width:1100px">
+      <div class="post-header" style="text-align:center">
+        <span class="hero-tag">全平台客户端教程库</span>
+        <h1 style="margin-top:0.5rem">2026 全平台科学上网与客户端配置教程中心 (30篇)</h1>
+        <p class="section-subtitle" style="font-size:1.1rem;line-height:1.7;color:var(--text-body);margin-top:0.75rem;max-width:850px;margin-left:auto;margin-right:auto">
+          汇聚 Windows、Android、iOS、macOS、软路由及开发者工具共 30 篇保姆级图文配置指南。助您快速上手 Clash Verge、v2rayN、Shadowrocket 小火箭、Sing-box 等主流代理工具。
+        </p>
+      </div>
+
+      <div class="post-body">
+        ${categorySections}
+      </div>
+    </div>
+  </div>`;
+
+  const html = renderHtmlPage({
+    title: '科学上网客户端使用教程中心 - Windows/Android/iOS/Mac 翻墙配置大全 | 机场PRO',
+    description: '机场PRO官方使用教程中心。收录 Windows、Android、iOS、macOS、软路由及开发者工具共 30 篇详尽配置教程。包含 Clash Verge、v2rayN、Shadowrocket小火箭、Surge、Sing-box 从零上手与排障全解。',
+    keywords: '科学上网教程, 翻墙教程, 机场教程, Clash教程, 小火箭教程, v2rayN教程, 梯子推荐, 机场推荐',
+    canonicalPath,
+    depth,
+    activeNav: 'guides',
+    crumbs,
+    schemas: [],
+    contentHtml
+  });
+
+  writeHtmlFile('guides/index.html', html);
 }
 
 // ==========================================
-// 8. 生成 5 篇深度选购指南与技术博客 (blog/)
+// 8. 生成 100 篇深度选购指南与技术博客 (blog/)
 // ==========================================
-const blogArticles = [
-  {
-    slug: 'how-to-choose-airport',
-    title: '新手如何挑选靠谱机场？2026年机场选购避坑九大核心法则 | 机场PRO',
-    h1: '新手如何挑选靠谱机场：2026年选购指南与避坑法则',
-    desc: '面对市场上成千上万家翻墙机场，小白用户如何挑出不跑路、晚高峰不卡顿、性价比高的高质量节点？本文为您系统总结九条经过实战检验的核心选购法则。',
-    keywords: '如何选择机场, 机场选购指南, 新手翻墙避坑, 梯子怎么选, 机场跑路风险, 机场推荐, 梯子推荐',
-    date: '2026-03-12'
-  },
-  {
-    slug: 'iepl-vs-iplc',
-    title: 'IPLC与IEPL专线到底有何区别？两分钟看懂内网专线原理与避坑 | 机场PRO',
-    h1: 'IPLC与IEPL专线深度解析：原理、区别与选购建议',
-    desc: '机场宣传里的 IPLC 和 IEPL 专线到底有什么不同？为什么内网专线价格更贵却更受欢迎？本文通俗拆解专线物理架构与网络表现差异，教您识别真假专线。',
-    keywords: 'IPLC专线, IEPL专线, IPLC和IEPL区别, 内网专线机场, 专线原理, 机场节点, 梯子推荐',
-    date: '2026-03-10'
-  },
-  {
-    slug: 'airport-protocol-explained',
-    title: '常见机场协议大比拼：Shadowsocks、VLESS、Trojan、Hysteria2深度解析 | 机场PRO',
-    h1: '机场主流翻墙协议全面对比与选型建议',
-    desc: 'Shadowsocks、VLESS、Trojan、Hysteria2各有何优缺点？哪种协议速度最快？哪种伪装度最高？本文为您全面对比底层技术逻辑与适用网络场景。',
-    keywords: '机场协议, Shadowsocks, VLESS, Trojan, Hysteria2, 代理协议对比, 梯子协议, 科学上网技术',
-    date: '2026-03-08'
-  },
-  {
-    slug: 'avoid-pitfalls',
-    title: '警惕机场跑路风险！购买科学上网梯子节点的六大防坑常识 | 机场PRO',
-    h1: '机场购买防坑指南：警惕跑路风险与虚假宣传',
-    desc: '千万不要被所谓超低价年付冲昏头脑！揭秘不良机场常见的虚标带宽、超卖流量、高倍率扣费与卷款跑路套路，教您学会自我保护与资金止损。',
-    keywords: '机场跑路, 机场防坑, 虚假宣传, 倍率套路, 梯子避坑指南, 机场选购常识, 梯子推荐',
-    date: '2026-03-05'
-  },
-  {
-    slug: 'chatgpt-claude-airport-unlock',
-    title: '2026最新 ChatGPT 与 Claude 节点防封技巧与原生IP识别攻略 | 机场PRO',
-    h1: 'ChatGPT 与 Claude 节点防封与原生IP识别技巧',
-    desc: '为什么有的节点打不开 ChatGPT？为什么有的节点登录直接被封号？本文深入分析 OpenAI 与 Anthropic 的风控机制，传授纯净原生住宅IP鉴别方法。',
-    keywords: 'ChatGPT节点, Claude防封, 原生IP检测, 住宅IP, OpenAI打不开, AI机场推荐, 梯子节点',
-    date: '2026-03-03'
-  }
-];
+const articlesData = require(path.join(ROOT_DIR, 'data', 'articles-data.js'));
 
 function buildBlogPages() {
   const depth = 2;
   const rel = getRelPrefix(depth);
 
-  blogArticles.forEach(b => {
+  articlesData.forEach(b => {
     const canonicalPath = `blog/${b.slug}/`;
     registerPage(`${SITE_URL}/${canonicalPath}`, 0.8, 'monthly');
 
     const crumbs = [
       { name: '首页', url: 'index.html' },
-      { name: '博客与选购技巧', url: 'blog/how-to-choose-airport/index.html' },
+      { name: '选购指南与博客', url: 'blog/index.html' },
       { name: b.h1, url: `blog/${b.slug}/index.html` }
     ];
 
@@ -1871,70 +1842,64 @@ function buildBlogPages() {
       "@type": "BlogPosting",
       "headline": b.h1,
       "description": b.desc,
-      "datePublished": b.date,
+      "datePublished": b.date || "2026-03-01",
       "dateModified": CURRENT_DATE,
       "author": {
         "@type": "Organization",
-        "name": "机场PRO 评测中心"
+        "name": "机场PRO 编辑部"
       }
     };
+
+    const sectionsHtml = (b.sections || []).map(s => `
+      <h2>${s.title}</h2>
+      <p>${s.content}</p>
+    `).join('');
+
+    const faqsHtml = (b.faqs || []).length > 0 ? `
+      <h2>常见问题解答 (FAQ)</h2>
+      <div class="faq-list">
+        ${b.faqs.map(f => `
+          <div class="faq-item">
+            <div class="faq-question">${f.q}</div>
+            <div class="faq-answer">${f.a}</div>
+          </div>
+        `).join('')}
+      </div>
+    ` : '';
 
     const contentHtml = `
     <div class="container" style="padding-top:1.5rem">
       <div class="content-wrapper">
         <div class="post-header">
-          <span class="hero-tag">深度研报与科普</span>
+          <span class="hero-tag">${b.category || '深度选购与科普'}</span>
           <h1 style="margin-top:0.5rem">${b.h1}</h1>
           <p class="section-subtitle" style="font-size:1.05rem;line-height:1.7;color:var(--text-body);margin-top:0.75rem">${b.desc}</p>
           <div class="post-meta-bar">
-            <span>📅 发布日期: ${b.date}</span>
-            <span>✍️ 作者: 机场PRO 资深网络工程师</span>
-            <span>📖 阅读时间: 约 6 分钟</span>
+            <span>📅 发布日期: ${b.date || CURRENT_DATE}</span>
+            <span>✍️ 机场PRO 编辑部</span>
+            <span>⏱️ 预计阅读: ${b.readTime || '6 分钟'}</span>
           </div>
         </div>
 
         <div class="post-body">
-          <h2>核心结论先行</h2>
-          <p>
-            在科学上网和跨境网络加速领域，信息不对称十分严重。许多新手往往被表面夸张的宣传词（如“无限流量”、“万兆带宽”、“绝对不封锁”）所蒙蔽，最终蒙受财产损失。
-            无论是挑选机场还是选型网络协议，最底层的逻辑始终是：<strong>网络资源是有物理成本的</strong>。高质量的内网光纤专线、纯净的原生家宽IP以及全天候的技术运维，必然对应合理的资费标准。
-          </p>
-
-          <div class="callout">
-            <div class="callout-title">💡 关键认知</div>
-            <p style="margin-bottom:0">世上不存在又便宜、速度又无限快、服务又完美无瑕的“神仙机场”。理性选购的核心在于：<strong>根据自己的核心使用场景（办公、看剧、AI交互还是学术）进行预算与性能的平衡匹配。</strong></p>
+          <div class="callout" style="margin-bottom:1.5rem">
+            <div class="callout-title">📌 本篇导读</div>
+            <p style="margin-bottom:0">${b.summary || b.desc}</p>
           </div>
 
-          <h2>深度技术拆解与分析</h2>
-          <p>
-            以 ${b.h1} 涉及的实际场景为例，我们在日常测试中观察到以下几个关键规律：
-          </p>
-          <ul>
-            <li><strong>物理延迟的客观定律：</strong>光纤在玻璃中的传播速度约为 20 万公里/秒。中国大陆沿海到香港的单向物理延迟在 15-25ms，到东京在 40-55ms，到美国西海岸在 120-140ms。凡是宣称“连接美国延迟只要 20ms”的，均为虚假本地回环欺骗。</li>
-            <li><strong>专线与公网的核心差异：</strong>公网中转走的是普通民用公网线路，晚高峰遭遇国际出口拥堵；而真正的内网专线（如 <a href="${rel}glossary/iplc/index.html">IPLC</a> 或 <a href="${rel}glossary/iepl/index.html">IEPL</a>）走的是企业专有物理链路，数据在物理层完全隔离。</li>
-            <li><strong>风控与纯净度的博弈：</strong>像 OpenAI、Claude、Netflix 这类高风控平台，其拦截算法并非检测翻墙协议本身，而是通过分析 IP 地址的历史行为、ASN 归属地以及数据中心权重来决定是否放行。</li>
-          </ul>
+          ${sectionsHtml}
 
-          <h2>针对性实操建议</h2>
-          <ol>
-            <li><strong>坚持小步快跑：</strong>初次接触某家新机场，务必按“月付”或“轻量套餐”起步，通过实测检验真伪。</li>
-            <li><strong>建立双机灾备习惯：</strong>建议配置一家主力专线机场（如 <a href="${rel}airport/yinxingren/index.html">隐形人</a> 或 <a href="${rel}airport/breezenet/index.html">微风网络</a>），搭配一家月付几元的平价备用机场（如 <a href="${rel}airport/feiv/index.html">飞V</a>），双保险保底防失联。</li>
-            <li><strong>定期更新订阅配置：</strong>机场后端通常会动态轮换故障节点与受污染入口，养成每周更新一次客户端配置的习惯能大幅提升可用性。</li>
-          </ol>
-
-          <h2>总结与选型展望</h2>
-          <p>
-            随着网络通信技术的不断演进，协议层面的混淆（如 Hysteria2、VLESS Reality 等）正变得更加轻量与高效。但无论底层协议如何变化，稳定的内网专线与负责任的运维态度始终是网络加速服务的基石。
-          </p>
+          ${faqsHtml}
         </div>
 
         <div class="related-posts">
           <div class="related-title">🔗 延伸阅读与相关专题</div>
           <ul class="related-links">
+            <li><a href="${rel}blog/index.html">📖 浏览全部 100 篇选购指南与技术博客</a></li>
             <li><a href="${rel}ranking/overall/index.html">📊 查阅2026年度全网机场综合排行榜</a></li>
             <li><a href="${rel}ranking/value/index.html">💰 查看真实性价比排行榜（每GB单价精确折算）</a></li>
             <li><a href="${rel}compare/index.html">⚖️ 自由勾选机场进行横向比对</a></li>
-            <li><a href="${rel}guides/windows/index.html">💻 Windows 客户端快速配置指南</a></li>
+            <li><a href="${rel}guides/index.html">💻 查看全平台科学上网客户端配置教程 (30篇)</a></li>
           </ul>
         </div>
       </div>
@@ -1954,6 +1919,91 @@ function buildBlogPages() {
 
     writeHtmlFile(`blog/${b.slug}/index.html`, html);
   });
+
+  // 生成博客中心总览页 blog/index.html
+  buildBlogHubPage();
+}
+
+function buildBlogHubPage() {
+  const depth = 1;
+  const rel = getRelPrefix(depth);
+  const canonicalPath = 'blog/';
+  registerPage(`${SITE_URL}/${canonicalPath}`, 0.9, 'weekly');
+
+  const crumbs = [
+    { name: '首页', url: 'index.html' },
+    { name: '选购指南与博客', url: 'blog/index.html' }
+  ];
+
+  const categories = [
+    '选购与避坑',
+    '性价比与平价',
+    '专线与深度测评',
+    'VPN与翻墙架构',
+    '协议与内核技术',
+    'AI工具与原生节点',
+    '海外流媒体解锁',
+    '安全隐私与网络排障'
+  ];
+
+  const categorySections = categories.map(cat => {
+    const items = articlesData.filter(b => b.category === cat);
+    return `
+      <div style="margin-top:2.5rem">
+        <h2 style="font-size:1.35rem;display:flex;align-items:center;gap:0.5rem;border-bottom:2px solid var(--border-color);padding-bottom:0.5rem">
+          <span>📚 ${cat} 专题专栏</span>
+          <span class="pill-tag" style="font-size:0.75rem">${items.length} 篇</span>
+        </h2>
+        <div class="hub-grid">
+          ${items.map(b => `
+            <div class="hub-card">
+              <div class="hub-card-header">
+                <span class="pill-tag">${b.category}</span>
+                <span style="font-size:0.75rem;color:var(--text-muted)">📅 ${b.date}</span>
+              </div>
+              <h3 class="hub-card-title"><a href="${rel}blog/${b.slug}/index.html">${b.h1}</a></h3>
+              <p class="hub-card-desc">${b.desc}</p>
+              <div class="hub-card-footer">
+                <span>⏱️ 阅读: ${b.readTime}</span>
+                <a href="${rel}blog/${b.slug}/index.html" class="card-link-text">深入阅读 →</a>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  const contentHtml = `
+  <div class="container" style="padding-top:1.5rem">
+    <div class="content-wrapper" style="max-width:1100px">
+      <div class="post-header" style="text-align:center">
+        <span class="hero-tag">资讯与知识库</span>
+        <h1 style="margin-top:0.5rem">2026 翻墙机场选购指南与技术资讯中心 (100篇深度专栏)</h1>
+        <p class="section-subtitle" style="font-size:1.1rem;line-height:1.7;color:var(--text-body);margin-top:0.75rem;max-width:850px;margin-left:auto;margin-right:auto">
+          机场PRO独立编辑部出品。拒绝虚标宣传，系统整理 8 大核心意图专题、100 篇深度科普与选购指南。涵盖机场推荐、梯子避坑、性价比折算、IPLC内网专线实测、ChatGPT/流媒体解锁与网络安全全流程。
+        </p>
+      </div>
+
+      <div class="post-body">
+        ${categorySections}
+      </div>
+    </div>
+  </div>`;
+
+  const html = renderHtmlPage({
+    title: '机场选购指南与科学上网技术博客 - 100篇深度避坑专栏 | 机场PRO',
+    description: '机场PRO独立编辑部出品的科学上网选购与技术资讯知识库。涵盖机场推荐、梯子避坑、性价比折算、IPLC内网专线实测、ChatGPT/流媒体解锁与网络安全共 100 篇深度科普专栏。',
+    keywords: '机场推荐, 梯子推荐, 性价比机场, 机场节点, vpn, vpn机场, vpn节点, 翻墙避坑指南',
+    canonicalPath,
+    depth,
+    activeNav: 'blog',
+    crumbs,
+    schemas: [],
+    contentHtml
+  });
+
+  writeHtmlFile('blog/index.html', html);
 }
 
 // ==========================================
