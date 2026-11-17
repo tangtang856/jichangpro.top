@@ -430,7 +430,7 @@ function buildHomePage() {
             </tr>
           </thead>
           <tbody>
-            ${[...airportsData].sort((a,b) => b.ratings.overall - a.ratings.overall).map((item, idx) => `
+            ${[...airportsData].sort((a,b) => (a.rank || 0) - (b.rank || 0)).map((item, idx) => `
               <tr>
                 <td><span class="rank-badge ${idx === 0 ? 'rank-1' : idx === 1 ? 'rank-2' : idx === 2 ? 'rank-3' : ''}">${idx + 1}</span></td>
                 <td>
@@ -931,7 +931,7 @@ const rankingPages = [
     desc: '基于晚高峰测速、内网线路质量、客服工单时效与套餐合理性进行多维度加权计算得出的2026年度综合排行榜。评分标准透明公开，绝不虚构测速数据。',
     keywords: '机场排行榜, 2026梯子排名, 翻墙机场综合排名, vpn排行, 机场节点推荐, 稳定梯子推荐',
     metric: '综合加权评分',
-    sortFn: (a, b) => b.ratings.overall - a.ratings.overall
+    sortFn: (a, b) => (a.rank || 0) - (b.rank || 0)
   },
   {
     slug: 'value',

@@ -7,8 +7,8 @@ document.addEventListener('DOMContentLoaded', function () {
   var tableWrapper = document.getElementById('compare-table-wrapper');
   if (!selectorContainer || !tableWrapper) return;
 
-  // 默认对比前3家代表性机场
-  var selectedSlugs = ['yinxingren', 'breezenet', 'flashleap'];
+  // 默认对比排名前3家代表性机场 (微风网络、暮光网络、飞猫云)
+  var selectedSlugs = ['breezenet', 'muguang', 'feimaoyun'];
 
   // 渲染选择器
   function renderSelectors() {
