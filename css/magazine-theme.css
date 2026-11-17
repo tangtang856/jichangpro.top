@@ -74,15 +74,22 @@
 .bento-champion-card::before {
   content: "综合冠军 · 编辑部之选";
   position: absolute;
-  top: 1.25rem;
-  right: -3rem;
+  top: 48px;
+  right: -44px;
+  width: 230px;
+  height: 26px;
+  line-height: 26px;
+  text-align: center;
   background: linear-gradient(90deg, #2563eb, #1d4ed8);
   color: #fff;
-  font-size: 0.75rem;
+  font-size: 0.68rem;
   font-weight: 700;
-  padding: 0.35rem 3.5rem;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
   transform: rotate(45deg);
-  box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.16);
+  z-index: 2;
+  pointer-events: none;
 }
 
 .bento-champion-header {
