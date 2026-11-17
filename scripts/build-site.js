@@ -707,7 +707,7 @@ const recommendCategories = [
     keywords: '性价比机场, 便宜机场, 便宜梯子, 平价机场推荐, 梯子推荐, 低预算翻墙, 机场节点, 5元机场',
     theme: '低预算与高性价比',
     intro: '在选择网络加速工具时，很多用户既希望价格亲民，又担心买到一到晚上就断流的劣质直连节点。本专题专门为追求“极致性价比”的用户设立。我们重点考察各家机场的真实每GB单价、节点倍率设置以及晚高峰可用性，为您推荐真正花小钱办大事的优质机场。',
-    filterAirports: ['feiv', 'feimaoyun', 'breezenet', 'firefly', 'wuyou']
+    filterAirports: ['breezenet', 'feimaoyun', 'wuyou', 'firefly', 'feiv', 'yinxingren']
   },
   {
     slug: 'premium',
@@ -769,7 +769,7 @@ function buildRecommendPages() {
     const canonicalPath = `recommend/${cat.slug}/`;
     registerPage(`${SITE_URL}/${canonicalPath}`, 0.9, 'weekly');
 
-    const filtered = airportsData.filter(a => cat.filterAirports.includes(a.id));
+    const filtered = cat.filterAirports.map(id => airportsData.find(a => a.id === id)).filter(Boolean);
 
     const crumbs = [
       { name: '首页', url: 'index.html' },
