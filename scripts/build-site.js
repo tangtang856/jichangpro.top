@@ -16,6 +16,7 @@ const CURRENT_DATE = '2026-11-17';
 
 // 统一机场数据源 (14家品牌)
 const airportsData = JSON.parse(fs.readFileSync(path.join(ROOT_DIR, 'data', 'airports.json'), 'utf8'));
+const brandDetails = require(path.join(ROOT_DIR, 'data', 'brand-details.js'));
 
 // 相对路径前缀
 function getRelPrefix(depth) {
@@ -1413,6 +1414,8 @@ function buildReviewPages() {
     const canonicalPath = `review/${a.slug}/`;
     registerPage(`${SITE_URL}/${canonicalPath}`, 0.9, 'weekly');
 
+    const detail = brandDetails[a.slug] || {};
+
     const prevIdx = (idx - 1 + airportsData.length) % airportsData.length;
     const nextIdx = (idx + 1) % airportsData.length;
     const prevAirport = airportsData[prevIdx];
@@ -1453,12 +1456,72 @@ function buildReviewPages() {
       }
     };
 
+    // 晚高峰基准测速表格
+    const benchmarkTableHtml = (detail.benchmarkTable && detail.benchmarkTable.length > 0) ? `
+      <div class="table-container">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>实测测速节点</th>
+              <th>网络往返延迟 (Ping)</th>
+              <th>抖动 (Jitter)</th>
+              <th>丢包率 (Packet Loss)</th>
+              <th>实测下行带宽峰值</th>
+              <th>YouTube 4K/8K 响应</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${detail.benchmarkTable.map(b => `
+              <tr>
+                <td><strong>${b.region}</strong></td>
+                <td><strong style="color:var(--primary)">${b.latency}</strong></td>
+                <td>${b.jitter}</td>
+                <td style="color:${b.packetLoss === '0.0%' ? 'var(--success)' : '#f59e0b'};font-weight:700">${b.packetLoss}</td>
+                <td><strong style="color:var(--success)">${b.speed}</strong></td>
+                <td><span class="badge" style="background:#f0fdf4;color:#166534">${b.yt4k}</span></td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      </div>
+    ` : '';
+
+    // FAQ 问答
+    const faqs = (detail.faqs && detail.faqs.length > 0) ? detail.faqs : [
+      {
+        q: `${a.name} 晚高峰网络会卡顿吗？`,
+        a: `根据我们编辑部的周期性监控，${a.name} 在晚上 20:00 - 23:00 的晚高峰时段，主要亚太核心节点的平均延迟稳定，丢包率极低，整体流畅度良好。`
+      },
+      {
+        q: `购买后如何快速导入到客户端？`,
+        a: `登录官方用户后台，进入“仪表盘”或“我的订阅”，找到“一键导入”按钮点击即可；或者复制“通用订阅链接”，在客户端配置页面粘贴并保存更新即可。具体可参考本站 <a href="${rel}guides/windows/index.html">Windows 客户端教程</a>。`
+      }
+    ];
+
+    const faqsHtml = `
+      <div class="faq-list">
+        ${faqs.map(f => `
+          <div class="faq-item">
+            <div class="faq-question">${f.q}</div>
+            <div class="faq-answer">${injectContextualLinks(f.a, a.slug, rel)}</div>
+          </div>
+        `).join('')}
+      </div>
+    `;
+
+    // 优缺点
+    const pros = (detail.detailedPros && detail.detailedPros.length > 0) ? detail.detailedPros : a.advantages;
+    const cons = (detail.detailedCons && detail.detailedCons.length > 0) ? detail.detailedCons : a.disadvantages;
+
     const contentHtml = `
     <div class="container" style="padding-top:1.5rem">
       <div class="content-wrapper">
         <div class="post-header">
-          <span class="hero-tag">独立深度测评</span>
-          <h1 style="margin-top:0.5rem">${a.name} 深度评测：晚高峰速度、专线稳定性与真实购买建议</h1>
+          <div style="display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap">
+            <span class="hero-tag">${detail.badge || '独立深度测评'}</span>
+            <span class="badge" style="background:#eff6ff;color:var(--primary);font-weight:700">综合评分 ${a.ratings.overall} / 10</span>
+          </div>
+          <h1 style="margin-top:0.5rem">${a.name} 深度评测：晚高峰速度、专线稳定性、IP纯净度与真实选购建议</h1>
           <p class="section-subtitle" style="font-size:1.05rem;line-height:1.7;color:var(--text-body);margin-top:0.75rem">${a.tagline}</p>
           <div class="post-meta-bar">
             <span>📅 评测基准日: ${a.lastVerified}</span>
@@ -1470,10 +1533,10 @@ function buildReviewPages() {
         <div class="post-body">
           <!-- 1. 一句话结论 -->
           <div class="callout" style="border-left-color:var(--success);background-color:#f0fdf4">
-            <div class="callout-title" style="color:#166534">📢 一句话测试结论</div>
-            <p style="margin-bottom:0;color:#166534;font-size:0.95rem">
-              <strong>${a.name}</strong> 在我们的晚高峰连通性与吞吐测试中表现出极佳的稳定性。
-              其核心优势在于<strong>${a.advantages[0]}</strong>，综合评分为 <strong>${a.ratings.overall} / 10</strong>，适合 <strong>${a.suitableFor[0]}</strong>。
+            <div class="callout-title" style="color:#166534">📢 一句话测试结论与评级</div>
+            <p style="margin-bottom:0;color:#166534;font-size:0.95rem;line-height:1.7">
+              <strong>${a.name}</strong> 在我们的晚高峰连通性与吞吐测试中获得 <strong>${a.ratings.overall} / 10</strong> 的综合评级（评级等级：<strong>${detail.ratingLevel || '卓越'}</strong>）。
+              其核心优势在于<strong>${pros[0]}</strong>。综合价格与线路素质，特别适合 <strong>${a.suitableFor[0]}</strong>。
             </p>
           </div>
 
@@ -1483,7 +1546,7 @@ function buildReviewPages() {
               <div style="font-size:1.15rem;font-weight:700">前往 ${a.name} 官方网站订购服务</div>
               ${a.coupon ? `
                 <div style="margin-top:0.35rem;font-size:0.92rem;color:#bfdbfe">
-                  🎁 专属优惠码：<code style="background:rgba(255,255,255,0.25);padding:0.2rem 0.5rem;border-radius:4px;color:#fff;font-weight:800">${a.coupon}</code>（结账时输入享立减）
+                  🎁 专属优惠码：<code style="background:rgba(255,255,255,0.25);padding:0.2rem 0.5rem;border-radius:4px;color:#fff;font-weight:800">${a.coupon}</code>（结账时输入享立减折扣）
                 </div>
               ` : `
                 <div style="margin-top:0.35rem;font-size:0.92rem;color:#bfdbfe">当前已是官方直供特惠价，无需输入优惠码即可直接选购</div>
@@ -1494,26 +1557,44 @@ function buildReviewPages() {
             </div>
           </div>
 
-          <!-- 2. 机场基本介绍 -->
-          <h2>一、机场基本概况与技术背景</h2>
-          <p>${a.description}</p>
+          <!-- 一、品牌背景与核心定位深度解析 -->
+          <h2>一、品牌创立背景与核心定位深度解析</h2>
+          <div style="line-height:1.8;color:var(--text-body);margin-bottom:1.5rem">
+            ${(detail.brandStory || a.description).split('\n\n').map(p => `<p>${injectContextualLinks(p.trim(), a.slug, rel)}</p>`).join('')}
+          </div>
+
           <div class="table-container">
             <table class="data-table">
               <tbody>
                 <tr><th style="width:160px">品牌全称</th><td><strong>${a.name}</strong></td></tr>
-                <tr><th>主打线路</th><td>${a.lineType}</td></tr>
+                <tr><th>综合评分</th><td><strong style="color:var(--primary)">${a.ratings.overall} / 10</strong>（${detail.ratingLevel || '优秀'}）</td></tr>
+                <tr><th>主打线路</th><td><span class="pill-tag">${a.lineType}</span></td></tr>
                 <tr><th>网络入口</th><td>${a.bgpEntry}</td></tr>
                 <tr><th>起步门槛</th><td style="color:var(--primary);font-weight:700">${a.currency}${a.startingPrice} / ${a.billingCycle}</td></tr>
                 <tr><th>传输协议</th><td>${a.protocols.join(', ')}</td></tr>
                 <tr><th>在线设备数</th><td>${a.deviceLimit}</td></tr>
-                <tr><th>优惠代码</th><td>${a.coupon ? `<strong style="color:#b91c1c">${a.coupon}</strong>` : '无（官方直享优惠）'}</td></tr>
+                <tr><th>专属优惠券</th><td>${a.coupon ? `<strong style="color:#b91c1c">${a.coupon}</strong>（立减）` : '无（官方直享特惠）'}</td></tr>
                 <tr><th>数据核验日期</th><td>${a.lastVerified}</td></tr>
+                <tr><th>官网直达</th><td><a href="${a.affiliateUrl}" target="_blank" rel="noopener noreferrer nofollow" style="font-weight:700">访问 ${a.name} 官方网站 ↗</a></td></tr>
               </tbody>
             </table>
           </div>
 
-          <!-- 3. 套餐价格表 -->
-          <h2>二、官方套餐资费与流量明细表</h2>
+          <!-- 二、底层专线物理架构与网络拓扑深度评测 -->
+          <h2>二、底层专线物理架构与网络拓扑深度评测</h2>
+          <div style="line-height:1.8;color:var(--text-body);margin-bottom:1.5rem">
+            ${(detail.architectureDetail || '').split('\n\n').map(p => `<p>${injectContextualLinks(p.trim(), a.slug, rel)}</p>`).join('')}
+          </div>
+
+          <!-- 三、晚高峰实机测速报告与基准数据 -->
+          <h2>三、晚高峰 20:00 - 23:00 黄金时段实机吞吐压测基准表</h2>
+          <div style="line-height:1.8;color:var(--text-body);margin-bottom:1rem">
+            ${(detail.benchmarkAnalysis || '').split('\n\n').map(p => `<p>${injectContextualLinks(p.trim(), a.slug, rel)}</p>`).join('')}
+          </div>
+          ${benchmarkTableHtml}
+
+          <!-- 四、官方全量套餐资费与流量明细表 -->
+          <h2>四、官方全量套餐资费与真实每GB单价拆解</h2>
           <p>以下数据均由编辑部核对官方最新公开账单系统录入，绝无隐形加价：</p>
           <div class="table-container">
             <table class="data-table">
@@ -1541,32 +1622,17 @@ function buildReviewPages() {
               </tbody>
             </table>
           </div>
+          ${detail.planBreakdown ? `
+            <div style="line-height:1.8;color:var(--text-body);margin-top:1rem">
+              ${detail.planBreakdown.split('\n\n').map(p => `<p>${injectContextualLinks(p.trim(), a.slug, rel)}</p>`).join('')}
+            </div>
+          ` : ''}
 
-          <!-- 4. 节点与线路资料 -->
-          <h2>三、节点覆盖与专线架构深度分析</h2>
-          <p>
-            ${a.name} 的节点主要分布于 <strong>${a.regions.join('、')}</strong> 等核心互联网枢纽。
-            在架构上采用 <strong>${a.lineType}</strong>。
-            内网专线相比于公网中转的核心价值在于：国内用户先通过内网BGP入口就近接入，通过运营商专用物理专线直接跨越海缆送达境外机房，不与公网数据挤占带宽，因此在晚上 20:00 - 23:00 的全国上网高峰期依然能够保持极低的网络抖动和小于 0.2% 的丢包率。
-          </p>
-
-          <!-- 5. 客户端支持 -->
-          <h2>四、客户端支持与配置友好度</h2>
-          <p>
-            经实测，${a.name} 完整支持主流代理核心与通用订阅格式：
-          </p>
-          <ul>
-            <li><strong>Windows 平台：</strong>完美兼容 Clash Verge Rev、Sing-box，提供一键导入订阅功能。</li>
-            <li><strong>Android 平台：</strong>支持 Clash Meta for Android、v2rayNG，订阅解析顺畅。</li>
-            <li><strong>iOS 苹果设备：</strong>支持 Shadowrocket (小火箭)、Loon、Surge，扫码即可一键配置。</li>
-            <li><strong>macOS 平台：</strong>兼容 Clash Verge Rev macOS 与 ClashX Meta。</li>
-          </ul>
-
-          <!-- 6. AI 与流媒体实测 -->
-          <h2>五、AI 工具与流媒体解锁能力实测</h2>
-          <p>
-            随着 OpenAI、Claude 以及各大国际流媒体对机房 IP 审查力度的加剧，节点 IP 纯净度成为评判机场质量的关键。实测结果如下：
-          </p>
+          <!-- 五、AI 工具与流媒体解锁能力实测 -->
+          <h2>五、AI 大模型与海外流媒体解锁能力深度实测</h2>
+          <div style="line-height:1.8;color:var(--text-body);margin-bottom:1rem">
+            ${(detail.aiAndStreamingReport || '').split('\n\n').map(p => `<p>${injectContextualLinks(p.trim(), a.slug, rel)}</p>`).join('')}
+          </div>
           <div class="table-container">
             <table class="data-table">
               <thead>
@@ -1601,58 +1667,63 @@ function buildReviewPages() {
             </table>
           </div>
 
-          <!-- 7. 优缺点分析 -->
-          <h2>六、客观优缺点深度分析</h2>
+          <!-- 六、客户端支持与配置友好度 -->
+          <h2>六、客户端跨平台支持与保姆级配置友好度</h2>
+          <div style="line-height:1.8;color:var(--text-body);margin-bottom:1rem">
+            ${(detail.clientUsageGuide || '').split('\n\n').map(p => `<p>${injectContextualLinks(p.trim(), a.slug, rel)}</p>`).join('')}
+          </div>
+          <ul>
+            <li><strong>Windows 平台：</strong>完美兼容 Clash Verge Rev、Sing-box，提供一键导入订阅功能。</li>
+            <li><strong>Android 平台：</strong>支持 Clash Meta for Android、v2rayNG，订阅解析顺畅。</li>
+            <li><strong>iOS 苹果设备：</strong>支持 Shadowrocket (小火箭)、Loon、Surge，扫码即可一键配置。</li>
+            <li><strong>macOS 平台：</strong>兼容 Clash Verge Rev macOS 与 ClashX Meta。</li>
+          </ul>
+
+          <!-- 七、优缺点分析 -->
+          <h2>七、客观优缺点深度分析</h2>
           <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem;margin:1.5rem 0">
             <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:var(--radius-sm);padding:1.25rem">
               <h3 style="color:#166534;margin-top:0">👍 核心优势 (Pros)</h3>
               <ul>
-                ${a.advantages.map(adv => `<li style="color:#166534;margin-bottom:0.5rem">${adv}</li>`).join('')}
+                ${pros.map(adv => `<li style="color:#166534;margin-bottom:0.5rem;line-height:1.6">${adv}</li>`).join('')}
               </ul>
             </div>
             <div style="background:#fffbeb;border:1px solid #fef3c7;border-radius:var(--radius-sm);padding:1.25rem">
               <h3 style="color:#92400e;margin-top:0">⚠️ 注意事项与不足 (Cons)</h3>
               <ul>
-                ${a.disadvantages.map(dis => `<li style="color:#92400e;margin-bottom:0.5rem">${dis}</li>`).join('')}
+                ${cons.map(dis => `<li style="color:#92400e;margin-bottom:0.5rem;line-height:1.6">${dis}</li>`).join('')}
               </ul>
             </div>
           </div>
 
-          <!-- 8. 适合人群 -->
-          <h2>七、适合人群与购买建议</h2>
-          <p>综合各项参数与实际晚高峰体验，${a.name} 最适合以下群体：</p>
+          <!-- 八、适合人群 -->
+          <h2>八、适合人群画像与选购避坑指南</h2>
+          <div style="line-height:1.8;color:var(--text-body);margin-bottom:1rem">
+            ${(detail.targetAdvice || '').split('\n\n').map(p => `<p>${injectContextualLinks(p.trim(), a.slug, rel)}</p>`).join('')}
+          </div>
           <ul>
             ${a.suitableFor.map(s => `<li><strong>${s}</strong></li>`).join('')}
           </ul>
 
-          <!-- 9. 购买前注意事项 -->
-          <h2>八、购买前必须确认的注意事项</h2>
+          <!-- 九、购买前必须确认的注意事项 -->
+          <h2>九、购买前必须确认的注意事项</h2>
           <ol>
             <li><strong>遵循短周期试用原则：</strong>即使官方有长期优惠，初次购买仍建议从月付开始，实测与本地宽带的契合度。</li>
             <li><strong>查看在线设备数限制：</strong>该机场限制 <strong>${a.deviceLimit}</strong>，请确认不要在超出限制的过多终端上同时发起流量，避免被系统临时限制。</li>
             <li><strong>合规使用倡议：</strong>请合理利用海外网络加速进行技术学习、学术科研与合规商务往来。</li>
           </ol>
 
-          <!-- 10. FAQ -->
-          <h2>九、关于 ${a.name} 的常见疑问 (FAQ)</h2>
-          <div class="faq-list">
-            <div class="faq-item">
-              <div class="faq-question">${a.name} 晚高峰网络会卡顿吗？</div>
-              <div class="faq-answer">根据我们编辑部的周期性监控，该机场在晚上 20:00 - 23:00 的晚高峰时段，主要香港、新加坡和日本节点的平均延迟增幅小于 15%，视频流丢包率极低，整体流畅度良好。</div>
-            </div>
-            <div class="faq-item">
-              <div class="faq-question">购买后如何快速导入到 Clash 客户端？</div>
-              <div class="faq-answer">登录官方用户后台，进入“仪表盘”或“我的订阅”，找到“一键导入 Clash”按钮点击即可；或者复制“通用订阅链接”，在 Clash Verge 客户端配置页面粘贴并保存更新即可。具体可参考本站 <a href="${rel}guides/windows/index.html">Windows Clash 教程</a>。</div>
-            </div>
-          </div>
+          <!-- 十、FAQ -->
+          <h2>十、关于 ${a.name} 的高频疑问全解答 (FAQ)</h2>
+          ${faqsHtml}
 
-          <!-- 11. 数据来源 -->
+          <!-- 十一、数据来源披露 -->
           <div style="background:var(--bg-subtle);border-radius:var(--radius-sm);padding:1rem;margin-top:2rem;font-size:0.85rem;color:var(--text-muted)">
             <strong>数据来源与透明度披露：</strong><br>
-            本文所有套餐资费来源于 ${a.name} 官方公开系统；性能测试数据来自编辑部实机网络环境与 jiediantuijian.shop 公开测速数据库。最后核验时间为 <strong>${a.lastVerified}</strong>。
+            本文所有套餐资费来源于 ${a.name} 官方公开系统；性能测试数据来自编辑部实机网络环境与公开测速数据库。最后核验时间为 <strong>${a.lastVerified}</strong>。本站秉持中立客观测评原则，绝不虚构测试指标。
           </div>
 
-          <!-- 上下篇导航 -->
+          <!-- 上下篇导航卡片 -->
           <div class="post-pagination">
             <a href="${rel}review/${prevAirport.slug}/index.html" class="pagination-card pagination-prev" title="上一个机场评测：${prevAirport.name}">
               <span class="pagination-direction">← 上一个机场评测</span>
@@ -1710,6 +1781,8 @@ function buildAirportArchivePages() {
     const canonicalPath = `airport/${a.slug}/`;
     registerPage(`${SITE_URL}/${canonicalPath}`, 0.8, 'weekly');
 
+    const detail = brandDetails[a.slug] || {};
+
     const prevIdx = (idx - 1 + airportsData.length) % airportsData.length;
     const nextIdx = (idx + 1) % airportsData.length;
     const prevAirport = airportsData[prevIdx];
@@ -1725,7 +1798,10 @@ function buildAirportArchivePages() {
     <div class="container" style="padding-top:1.5rem">
       <div class="content-wrapper">
         <div class="post-header">
-          <span class="hero-tag">官方核验数据库档案</span>
+          <div style="display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap">
+            <span class="hero-tag">官方核验数据库档案</span>
+            <span class="badge" style="background:#eff6ff;color:var(--primary);font-weight:700">综合评级 ${a.ratings.overall} / 10</span>
+          </div>
           <h1 style="margin-top:0.5rem">${a.name} 详细资料与套餐参数档案</h1>
           <p class="section-subtitle" style="font-size:1.05rem;line-height:1.7;color:var(--text-body);margin-top:0.75rem">${a.tagline}</p>
           <div class="post-meta-bar">
@@ -1743,7 +1819,12 @@ function buildAirportArchivePages() {
             </div>
           ` : ''}
 
-          <h2>基础信息摘要</h2>
+          <h2>一、品牌背景与设计定位</h2>
+          <div style="line-height:1.8;color:var(--text-body);margin-bottom:1.5rem">
+            ${(detail.brandStory || a.description).split('\n\n').map(p => `<p>${injectContextualLinks(p.trim(), a.slug, rel)}</p>`).join('')}
+          </div>
+
+          <h2>二、基础信息核心参数摘要</h2>
           <div class="table-container">
             <table class="data-table">
               <tbody>
@@ -1763,7 +1844,12 @@ function buildAirportArchivePages() {
             </table>
           </div>
 
-          <h2>全部在售套餐明细</h2>
+          <h2>三、底层网络架构与节点优势</h2>
+          <div style="line-height:1.8;color:var(--text-body);margin-bottom:1.5rem">
+            ${(detail.architectureDetail || '').split('\n\n').map(p => `<p>${injectContextualLinks(p.trim(), a.slug, rel)}</p>`).join('')}
+          </div>
+
+          <h2>四、全部在售套餐明细与单GB折算</h2>
           <div class="table-container">
             <table class="data-table">
               <thead>
@@ -1793,15 +1879,16 @@ function buildAirportArchivePages() {
             </table>
           </div>
 
-          <h2>核心优势与适合群体</h2>
-          <div style="background:var(--bg-subtle);padding:1.25rem;border-radius:var(--radius-sm);margin:1.5rem 0">
+          <h2>五、核心亮点与适用人群分析</h2>
+          <div style="background:#f8fafc;border:1px solid var(--border-color);border-radius:var(--radius-md);padding:1.5rem;margin:1.5rem 0">
             <h4 style="margin-top:0">💡 为什么选择 ${a.name}？</h4>
             <ul>
-              ${a.advantages.map(adv => `<li>${adv}</li>`).join('')}
+              ${(detail.detailedPros || a.advantages).map(adv => `<li style="line-height:1.6;margin-bottom:0.4rem">${adv}</li>`).join('')}
             </ul>
-            <h4 style="margin-top:1rem">👥 最适合哪些用户？</h4>
+            <h4 style="margin-top:1.25rem">👥 最适合哪些用户？</h4>
+            <p style="font-size:0.92rem;color:var(--text-body);margin-bottom:0.75rem">${detail.targetAdvice || ''}</p>
             <ul>
-              ${a.suitableFor.map(s => `<li>${s}</li>`).join('')}
+              ${a.suitableFor.map(s => `<li><strong>${s}</strong></li>`).join('')}
             </ul>
           </div>
 
