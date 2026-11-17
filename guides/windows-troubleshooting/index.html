@@ -153,13 +153,28 @@
           </div>
 
           
-      <h2>步骤 1：检查一：系统时间同步（最容易被忽视）</h2>
+      <div class="article-toc">
+        <div class="article-toc-title">📋 教程步骤导览</div>
+        <ul class="article-toc-list">
+          
+      <li><a href="#step-1"><span class="toc-num">步骤 1</span> <span class="toc-text">检查一：系统时间同步（最容易被忽视）</span></a></li>
+    
+      <li><a href="#step-2"><span class="toc-num">步骤 2</span> <span class="toc-text">检查二：检查注册表代理残留</span></a></li>
+    
+      <li><a href="#step-3"><span class="toc-num">步骤 3</span> <span class="toc-text">检查三：端口占用排查</span></a></li>
+    
+        </ul>
+      </div>
+    
+
+          
+      <h2 id="step-1">步骤 1：检查一：系统时间同步（最容易被忽视）</h2>
       <p>进入 Windows 设置 - 时间和语言 - 日期和时间，点击“立即同步”。现代加密协议对时间误差极度敏感，误差超过 60 秒将导致所有节点握手失败。</p>
     
-      <h2>步骤 2：检查二：检查注册表代理残留</h2>
+      <h2 id="step-2">步骤 2：检查二：检查注册表代理残留</h2>
       <p>在 Windows 设置 - 网络和 Internet - 代理中，查看“手动设置代理”是否开启。若客户端异常退出，有时会遗留无效的 127.0.0.1 端口，手动关闭即可恢复国内网络。</p>
     
-      <h2>步骤 3：检查三：端口占用排查</h2>
+      <h2 id="step-3">步骤 3：检查三：端口占用排查</h2>
       <p>默认 7890 端口可能被其他后台程序占用。在客户端设置中将 Mixed Port 改为 7892 或 10808 等不常用端口再试。</p>
     
 
@@ -172,6 +187,48 @@
             <div class="faq-answer">这是典型的“代理未清理”现象。打开 Windows 代理设置，将“使用代理服务器”手动关闭即可立即恢复上网。</div>
           </div>
         
+      </div>
+    
+
+          
+      <div class="post-pagination">
+        <a href="../../guides/windows-tun-mode/index.html" class="pagination-card pagination-prev" title="上一篇教程：Windows TUN 模式深度配置教学：解决游戏加速与命令行不走代理痛点">
+          <span class="pagination-direction">← 上一篇教程</span>
+          <span class="pagination-category">Windows 平台客户端</span>
+          <span class="pagination-title">Windows TUN 模式深度配置教学：解决游戏加速与命令行不走代理痛点</span>
+        </a>
+        <a href="../../guides/android/index.html" class="pagination-card pagination-next" title="下一篇教程：安卓手机科学上网指南：Clash Meta for Android 极简配置教程">
+          <span class="pagination-direction">下一篇教程 →</span>
+          <span class="pagination-category">Android 平台客户端</span>
+          <span class="pagination-title">安卓手机科学上网指南：Clash Meta for Android 极简配置教程</span>
+        </a>
+      </div>
+    
+
+          
+      <div style="margin-top:2.5rem;padding-top:2rem;border-top:1px solid var(--border-color)">
+        <h3 style="font-size:1.1rem;margin-bottom:1rem">🛠️ 关联客户端与进阶配置推荐</h3>
+        <div class="related-articles-grid">
+          
+            <a href="../../guides/windows/index.html" class="related-article-mini-card">
+              <span class="badge" style="align-self:flex-start;margin-bottom:0.4rem;font-size:0.72rem">Windows</span>
+              <strong>Windows 电脑翻墙教程：Clash Verge Rev 安装、配置与使用全攻略</strong>
+              <p>面向 Windows 10/11 用户的 Clash Verge Rev 客户端保姆级安装使用指南。...</p>
+            </a>
+          
+            <a href="../../guides/windows-v2rayn/index.html" class="related-article-mini-card">
+              <span class="badge" style="align-self:flex-start;margin-bottom:0.4rem;font-size:0.72rem">Windows</span>
+              <strong>v2rayN 电脑客户端新手使用指南：Xray 内核与多协议聚合配置</strong>
+              <p>系统详解 Windows 平台经典代理客户端 v2rayN 的安装、Xray 内核更新、节点批量导入...</p>
+            </a>
+          
+            <a href="../../guides/windows-singbox/index.html" class="related-article-mini-card">
+              <span class="badge" style="align-self:flex-start;margin-bottom:0.4rem;font-size:0.72rem">Windows</span>
+              <strong>Sing-box Windows 图形客户端配置指南：极速核心与规则集详解</strong>
+              <p>全面解析新一代开源通用代理平台 Sing-box 在 Windows 上的安装配置、配置导入、分流规...</p>
+            </a>
+          
+        </div>
       </div>
     
         </div>
@@ -187,6 +244,13 @@
         </div>
       </div>
     </div>
+    
+      <a href="../../guides/android/index.html" class="floating-next-bar" title="阅读下一篇教程：安卓手机科学上网指南：Clash Meta for Android 极简配置教程">
+        <span class="floating-next-label">下一篇教程 ➔</span>
+        <span class="floating-next-title">安卓手机科学上网指南：Clash Meta for Android 极简配置教程</span>
+      </a>
+    
+    
   </main>
   
   <footer class="site-footer">

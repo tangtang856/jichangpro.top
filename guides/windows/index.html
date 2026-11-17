@@ -153,19 +153,38 @@
           </div>
 
           
-      <h2>步骤 1：下载并安装客户端</h2>
+      <div class="article-toc">
+        <div class="article-toc-title">📋 教程步骤导览</div>
+        <ul class="article-toc-list">
+          
+      <li><a href="#step-1"><span class="toc-num">步骤 1</span> <span class="toc-text">下载并安装客户端</span></a></li>
+    
+      <li><a href="#step-2"><span class="toc-num">步骤 2</span> <span class="toc-text">获取并导入机场订阅链接</span></a></li>
+    
+      <li><a href="#step-3"><span class="toc-num">步骤 3</span> <span class="toc-text">选择代理模式与优选节点</span></a></li>
+    
+      <li><a href="#step-4"><span class="toc-num">步骤 4</span> <span class="toc-text">开启系统代理与自启动</span></a></li>
+    
+      <li><a href="#step-5"><span class="toc-num">步骤 5</span> <span class="toc-text">高级技巧：开启 TUN 虚拟网卡模式</span></a></li>
+    
+        </ul>
+      </div>
+    
+
+          
+      <h2 id="step-1">步骤 1：下载并安装客户端</h2>
       <p>从官方开源仓库或机场后台下载最新版 Clash Verge Rev 安装包（通常推荐 <code>.msi</code> 或 <code>-x64-setup.exe</code>）。安装时建议选择默认路径。若遇 Windows Defender 拦截，点击“更多信息 - 仍要运行”即可。</p>
     
-      <h2>步骤 2：获取并导入机场订阅链接</h2>
-      <p>登录您选购的机场后台（如微风网络或暮光网络），复制“Clash 订阅链接”。打开 Clash Verge Rev，进入左侧“订阅 (Profiles)”页面，在顶部地址栏粘贴订阅链接并点击“导入 (Import)”，等待配置成功拉取。</p>
+      <h2 id="step-2">步骤 2：获取并导入机场订阅链接</h2>
+      <p>登录您选购的机场后台（如<a href="../../review/breezenet/index.html" class="inner-link" title="了解更多关于 微风网络">微风网络</a>或<a href="../../review/muguang/index.html" class="inner-link" title="了解更多关于 暮光网络">暮光网络</a>），复制“Clash 订阅链接”。打开 Clash Verge Rev，进入左侧“订阅 (Profiles)”页面，在顶部地址栏粘贴订阅链接并点击“导入 (Import)”，等待配置成功拉取。</p>
     
-      <h2>步骤 3：选择代理模式与优选节点</h2>
+      <h2 id="step-3">步骤 3：选择代理模式与优选节点</h2>
       <p>在左侧菜单进入“代理 (Proxies)”，建议将分流模式设为<strong>规则 (Rule)</strong>。展开节点组列表，点击“延迟测试”测速图标，挑选延迟较低且绿色的节点（例如香港专线或日本优化节点）。</p>
     
-      <h2>步骤 4：开启系统代理与自启动</h2>
+      <h2 id="step-4">步骤 4：开启系统代理与自启动</h2>
       <p>在主界面或系统托盘图标右键菜单中，开启<strong>系统代理 (System Proxy)</strong>。在“设置 (Settings)”中建议勾选“开机自启动”，确保每次电脑开机自动恢复安全加速环境。</p>
     
-      <h2>步骤 5：高级技巧：开启 TUN 虚拟网卡模式</h2>
+      <h2 id="step-5">步骤 5：高级技巧：开启 TUN 虚拟网卡模式</h2>
       <p>若需要为 Steam 联机加速、终端命令行或不支持系统代理的桌面应用提供全局中继，可在设置中安装 Service Mode 服务模式并开启 TUN 模式，实现全系统底层流量接管。</p>
     
 
@@ -185,6 +204,48 @@
         
       </div>
     
+
+          
+      <div class="post-pagination">
+        <a href="../../guides/telegram-proxy-mtproto/index.html" class="pagination-card pagination-prev" title="上一篇教程：Telegram 独占代理配置全解：不开启全局软件也能畅聊电报">
+          <span class="pagination-direction">← 上一篇教程</span>
+          <span class="pagination-category">开发工具 平台客户端</span>
+          <span class="pagination-title">Telegram 独占代理配置全解：不开启全局软件也能畅聊电报</span>
+        </a>
+        <a href="../../guides/windows-v2rayn/index.html" class="pagination-card pagination-next" title="下一篇教程：v2rayN 电脑客户端新手使用指南：Xray 内核与多协议聚合配置">
+          <span class="pagination-direction">下一篇教程 →</span>
+          <span class="pagination-category">Windows 平台客户端</span>
+          <span class="pagination-title">v2rayN 电脑客户端新手使用指南：Xray 内核与多协议聚合配置</span>
+        </a>
+      </div>
+    
+
+          
+      <div style="margin-top:2.5rem;padding-top:2rem;border-top:1px solid var(--border-color)">
+        <h3 style="font-size:1.1rem;margin-bottom:1rem">🛠️ 关联客户端与进阶配置推荐</h3>
+        <div class="related-articles-grid">
+          
+            <a href="../../guides/windows-v2rayn/index.html" class="related-article-mini-card">
+              <span class="badge" style="align-self:flex-start;margin-bottom:0.4rem;font-size:0.72rem">Windows</span>
+              <strong>v2rayN 电脑客户端新手使用指南：Xray 内核与多协议聚合配置</strong>
+              <p>系统详解 Windows 平台经典代理客户端 v2rayN 的安装、Xray 内核更新、节点批量导入...</p>
+            </a>
+          
+            <a href="../../guides/windows-singbox/index.html" class="related-article-mini-card">
+              <span class="badge" style="align-self:flex-start;margin-bottom:0.4rem;font-size:0.72rem">Windows</span>
+              <strong>Sing-box Windows 图形客户端配置指南：极速核心与规则集详解</strong>
+              <p>全面解析新一代开源通用代理平台 Sing-box 在 Windows 上的安装配置、配置导入、分流规...</p>
+            </a>
+          
+            <a href="../../guides/windows-clash-nyanpasu/index.html" class="related-article-mini-card">
+              <span class="badge" style="align-self:flex-start;margin-bottom:0.4rem;font-size:0.72rem">Windows</span>
+              <strong>Clash Nyanpasu Windows 快速上手指南：现代极简与极低内存占用</strong>
+              <p>基于 Tauri 与 Rust 构建的下一代跨平台 Clash 客户端 Clash Nyanpasu...</p>
+            </a>
+          
+        </div>
+      </div>
+    
         </div>
 
         <div class="related-posts">
@@ -198,6 +259,13 @@
         </div>
       </div>
     </div>
+    
+      <a href="../../guides/windows-v2rayn/index.html" class="floating-next-bar" title="阅读下一篇教程：v2rayN 电脑客户端新手使用指南：Xray 内核与多协议聚合配置">
+        <span class="floating-next-label">下一篇教程 ➔</span>
+        <span class="floating-next-title">v2rayN 电脑客户端新手使用指南：Xray 内核与多协议聚合配置</span>
+      </a>
+    
+    
   </main>
   
   <footer class="site-footer">

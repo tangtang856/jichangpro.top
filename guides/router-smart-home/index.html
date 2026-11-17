@@ -153,13 +153,28 @@
           </div>
 
           
-      <h2>步骤 1：固定终端设备的局域网内网 IP</h2>
+      <div class="article-toc">
+        <div class="article-toc-title">📋 教程步骤导览</div>
+        <ul class="article-toc-list">
+          
+      <li><a href="#step-1"><span class="toc-num">步骤 1</span> <span class="toc-text">固定终端设备的局域网内网 IP</span></a></li>
+    
+      <li><a href="#step-2"><span class="toc-num">步骤 2</span> <span class="toc-text">设置访问控制策略 (Access Control)</span></a></li>
+    
+      <li><a href="#step-3"><span class="toc-num">步骤 3</span> <span class="toc-text">开启 UDP 转发加速主机联机</span></a></li>
+    
+        </ul>
+      </div>
+    
+
+          
+      <h2 id="step-1">步骤 1：固定终端设备的局域网内网 IP</h2>
       <p>在路由器 DHCP 设置中，将 Apple TV 或 PS5 的 MAC 地址与固定局域网 IP（例如 <code>192.168.1.100</code>）进行静态绑定。</p>
     
-      <h2>步骤 2：设置访问控制策略 (Access Control)</h2>
-      <p>在软路由插件中，针对该 IP 设置专门的代理规则。例如为 Apple TV 绑定专用解锁流媒体的香港/美区 IPLC 专线。</p>
+      <h2 id="step-2">步骤 2：设置访问控制策略 (Access Control)</h2>
+      <p>在软路由插件中，针对该 IP 设置专门的代理规则。例如为 Apple TV 绑定专用解锁流媒体的香港/美区 <a href="../../glossary/iplc/index.html" class="inner-link" title="了解更多关于 IPLC 专线">IPLC 专线</a>。</p>
     
-      <h2>步骤 3：开启 UDP 转发加速主机联机</h2>
+      <h2 id="step-3">步骤 3：开启 UDP 转发加速主机联机</h2>
       <p>确保软路由开启了 UDP 代理与 FullCone NAT 转发，使得游戏主机的 NAT 类型达到最优的 NAT Type A/B，联机秒匹配。</p>
     
 
@@ -172,6 +187,48 @@
             <div class="faq-answer">游戏下载多走 CDN 直连，可在分流规则中将 Playstation CDN 域名设为直连，跑满家里原始宽带速度。</div>
           </div>
         
+      </div>
+    
+
+          
+      <div class="post-pagination">
+        <a href="../../guides/openwrt-openclash/index.html" class="pagination-card pagination-prev" title="上一篇教程：OpenClash 软路由高阶配置：Fake-IP 极速响应与策略组进阶实战">
+          <span class="pagination-direction">← 上一篇教程</span>
+          <span class="pagination-category">软路由与网关 平台客户端</span>
+          <span class="pagination-title">OpenClash 软路由高阶配置：Fake-IP 极速响应与策略组进阶实战</span>
+        </a>
+        <a href="../../guides/router-dns-leak/index.html" class="pagination-card pagination-next" title="下一篇教程：软路由 DNS 防污染防泄漏手册：分流解析、MosDNS 与隐私保护">
+          <span class="pagination-direction">下一篇教程 →</span>
+          <span class="pagination-category">软路由与网关 平台客户端</span>
+          <span class="pagination-title">软路由 DNS 防污染防泄漏手册：分流解析、MosDNS 与隐私保护</span>
+        </a>
+      </div>
+    
+
+          
+      <div style="margin-top:2.5rem;padding-top:2rem;border-top:1px solid var(--border-color)">
+        <h3 style="font-size:1.1rem;margin-bottom:1rem">🛠️ 关联客户端与进阶配置推荐</h3>
+        <div class="related-articles-grid">
+          
+            <a href="../../guides/openwrt-passwall/index.html" class="related-article-mini-card">
+              <span class="badge" style="align-self:flex-start;margin-bottom:0.4rem;font-size:0.72rem">软路由与网关</span>
+              <strong>OpenWrt 软路由 PassWall 配置全攻略：全屋透明代理与无感分流</strong>
+              <p>详解 OpenWrt / iStoreOS 软路由 PassWall 插件的安装、节点订阅导入、主节...</p>
+            </a>
+          
+            <a href="../../guides/openwrt-openclash/index.html" class="related-article-mini-card">
+              <span class="badge" style="align-self:flex-start;margin-bottom:0.4rem;font-size:0.72rem">软路由与网关</span>
+              <strong>OpenClash 软路由高阶配置：Fake-IP 极速响应与策略组进阶实战</strong>
+              <p>面向软路由高阶玩家的 OpenClash 深度教程。手把手配置 Clash.Meta 内核、Fake...</p>
+            </a>
+          
+            <a href="../../guides/router-dns-leak/index.html" class="related-article-mini-card">
+              <span class="badge" style="align-self:flex-start;margin-bottom:0.4rem;font-size:0.72rem">软路由与网关</span>
+              <strong>软路由 DNS 防污染防泄漏手册：分流解析、MosDNS 与隐私保护</strong>
+              <p>深入剖析 GFW 的 DNS 投毒机制。详解如何通过国内国外双向 DNS 分流、MosDNS 与 D...</p>
+            </a>
+          
+        </div>
       </div>
     
         </div>
@@ -187,6 +244,13 @@
         </div>
       </div>
     </div>
+    
+      <a href="../../guides/router-dns-leak/index.html" class="floating-next-bar" title="阅读下一篇教程：软路由 DNS 防污染防泄漏手册：分流解析、MosDNS 与隐私保护">
+        <span class="floating-next-label">下一篇教程 ➔</span>
+        <span class="floating-next-title">软路由 DNS 防污染防泄漏手册：分流解析、MosDNS 与隐私保护</span>
+      </a>
+    
+    
   </main>
   
   <footer class="site-footer">

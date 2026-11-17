@@ -153,13 +153,28 @@
           </div>
 
           
-      <h2>步骤 1：检查 Wi-Fi 高级代理设置</h2>
+      <div class="article-toc">
+        <div class="article-toc-title">📋 教程步骤导览</div>
+        <ul class="article-toc-list">
+          
+      <li><a href="#step-1"><span class="toc-num">步骤 1</span> <span class="toc-text">检查 Wi-Fi 高级代理设置</span></a></li>
+    
+      <li><a href="#step-2"><span class="toc-num">步骤 2</span> <span class="toc-text">刷新本地 DNS 解析缓存</span></a></li>
+    
+      <li><a href="#step-3"><span class="toc-num">步骤 3</span> <span class="toc-text">新建网络位置彻底重置</span></a></li>
+    
+        </ul>
+      </div>
+    
+
+          
+      <h2 id="step-1">步骤 1：检查 Wi-Fi 高级代理设置</h2>
       <p>打开系统设置 - 网络 - Wi-Fi - 详细信息 - 代理，检查网页代理 (HTTP) 和安全网页代理 (HTTPS) 是否被勾选，手动取消勾选并应用。</p>
     
-      <h2>步骤 2：刷新本地 DNS 解析缓存</h2>
+      <h2 id="step-2">步骤 2：刷新本地 DNS 解析缓存</h2>
       <p>在终端执行命令：<code>sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder</code> 清除本地过期的 DNS 解析记录。</p>
     
-      <h2>步骤 3：新建网络位置彻底重置</h2>
+      <h2 id="step-3">步骤 3：新建网络位置彻底重置</h2>
       <p>若依然异常，可在网络设置中新建一个“备用位置”，系统将自动重建所有网卡的默认路由表。</p>
     
 
@@ -172,6 +187,48 @@
             <div class="faq-answer">Chrome 有独立的网络连接池，而 Safari 严格依赖系统网络配置。检查并取消系统代理勾选即可恢复正常。</div>
           </div>
         
+      </div>
+    
+
+          
+      <div class="post-pagination">
+        <a href="../../guides/macos-terminal-proxy/index.html" class="pagination-card pagination-prev" title="上一篇教程：Mac 程序员必备：终端 Terminal、Git 与 Homebrew 命令行代理终极配置">
+          <span class="pagination-direction">← 上一篇教程</span>
+          <span class="pagination-category">macOS 平台客户端</span>
+          <span class="pagination-title">Mac 程序员必备：终端 Terminal、Git 与 Homebrew 命令行代理终极配置</span>
+        </a>
+        <a href="../../guides/openwrt-passwall/index.html" class="pagination-card pagination-next" title="下一篇教程：OpenWrt 软路由 PassWall 配置全攻略：全屋透明代理与无感分流">
+          <span class="pagination-direction">下一篇教程 →</span>
+          <span class="pagination-category">软路由与网关 平台客户端</span>
+          <span class="pagination-title">OpenWrt 软路由 PassWall 配置全攻略：全屋透明代理与无感分流</span>
+        </a>
+      </div>
+    
+
+          
+      <div style="margin-top:2.5rem;padding-top:2rem;border-top:1px solid var(--border-color)">
+        <h3 style="font-size:1.1rem;margin-bottom:1rem">🛠️ 关联客户端与进阶配置推荐</h3>
+        <div class="related-articles-grid">
+          
+            <a href="../../guides/macos/index.html" class="related-article-mini-card">
+              <span class="badge" style="align-self:flex-start;margin-bottom:0.4rem;font-size:0.72rem">macOS</span>
+              <strong>Mac 电脑科学上网指南：Clash Verge Rev for macOS 保姆级配置教程</strong>
+              <p>专为 Mac 用户编写的 Clash Verge Rev 教程。全面适配 Apple Silicon...</p>
+            </a>
+          
+            <a href="../../guides/macos-surge/index.html" class="related-article-mini-card">
+              <span class="badge" style="align-self:flex-start;margin-bottom:0.4rem;font-size:0.72rem">macOS</span>
+              <strong>Surge Mac 版深度配置：增强模式、局部网关与发烧级分流实战</strong>
+              <p>深入挖掘 Surge for Mac 的终极潜能。教您利用 Enhanced Mode（增强模式）接...</p>
+            </a>
+          
+            <a href="../../guides/macos-loon/index.html" class="related-article-mini-card">
+              <span class="badge" style="align-self:flex-start;margin-bottom:0.4rem;font-size:0.72rem">macOS</span>
+              <strong>Loon Mac 桌面端教程：一次购买双端通用与丝滑规则分流</strong>
+              <p>在 Apple Silicon Mac 上运行原生 Loon 客户端。详解 iCloud 自动同步、...</p>
+            </a>
+          
+        </div>
       </div>
     
         </div>
@@ -187,6 +244,13 @@
         </div>
       </div>
     </div>
+    
+      <a href="../../guides/openwrt-passwall/index.html" class="floating-next-bar" title="阅读下一篇教程：OpenWrt 软路由 PassWall 配置全攻略：全屋透明代理与无感分流">
+        <span class="floating-next-label">下一篇教程 ➔</span>
+        <span class="floating-next-title">OpenWrt 软路由 PassWall 配置全攻略：全屋透明代理与无感分流</span>
+      </a>
+    
+    
   </main>
   
   <footer class="site-footer">

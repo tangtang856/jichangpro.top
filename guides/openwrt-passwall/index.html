@@ -153,13 +153,28 @@
           </div>
 
           
-      <h2>步骤 1：添加节点订阅并自动更新</h2>
+      <div class="article-toc">
+        <div class="article-toc-title">📋 教程步骤导览</div>
+        <ul class="article-toc-list">
+          
+      <li><a href="#step-1"><span class="toc-num">步骤 1</span> <span class="toc-text">添加节点订阅并自动更新</span></a></li>
+    
+      <li><a href="#step-2"><span class="toc-num">步骤 2</span> <span class="toc-text">设置主开关与默认节点</span></a></li>
+    
+      <li><a href="#step-3"><span class="toc-num">步骤 3</span> <span class="toc-text">配置 DNS 防污染与分流模式</span></a></li>
+    
+        </ul>
+      </div>
+    
+
+          
+      <h2 id="step-1">步骤 1：添加节点订阅并自动更新</h2>
       <p>进入 OpenWrt 后台 PassWall 页面，在“节点订阅”选项卡添加机场提供的订阅 URL，设置每日凌晨自动定时更新。</p>
     
-      <h2>步骤 2：设置主开关与默认节点</h2>
-      <p>在“基本设置”中打开主开关，选择一个低延迟的高品质专线节点作为默认主节点（如微风网络或隐形人专线），并配置一个备用节点防止单点失效。</p>
+      <h2 id="step-2">步骤 2：设置主开关与默认节点</h2>
+      <p>在“基本设置”中打开主开关，选择一个低延迟的高品质专线节点作为默认主节点（如<a href="../../review/breezenet/index.html" class="inner-link" title="了解更多关于 微风网络">微风网络</a>或<a href="../../review/yinxingren/index.html" class="inner-link" title="了解更多关于 隐形人">隐形人</a>专线），并配置一个备用节点防止单点失效。</p>
     
-      <h2>步骤 3：配置 DNS 防污染与分流模式</h2>
+      <h2 id="step-3">步骤 3：配置 DNS 防污染与分流模式</h2>
       <p>选择“中国列表以外 (非大陆IP走代理)”或“GFW 列表”模式，配置远程 DNS 通过节点安全解析，杜绝 DNS 投毒污染。</p>
     
 
@@ -172,6 +187,48 @@
             <div class="faq-answer">在 PassWall 中为 Netflix 单独分配一个已解锁流媒体非自制剧的原生住宅 IP 节点即可完美解决。</div>
           </div>
         
+      </div>
+    
+
+          
+      <div class="post-pagination">
+        <a href="../../guides/macos-network-location/index.html" class="pagination-card pagination-prev" title="上一篇教程：Mac 翻墙后无法上网修复：网络位置切换与代理重置全解">
+          <span class="pagination-direction">← 上一篇教程</span>
+          <span class="pagination-category">macOS 平台客户端</span>
+          <span class="pagination-title">Mac 翻墙后无法上网修复：网络位置切换与代理重置全解</span>
+        </a>
+        <a href="../../guides/openwrt-openclash/index.html" class="pagination-card pagination-next" title="下一篇教程：OpenClash 软路由高阶配置：Fake-IP 极速响应与策略组进阶实战">
+          <span class="pagination-direction">下一篇教程 →</span>
+          <span class="pagination-category">软路由与网关 平台客户端</span>
+          <span class="pagination-title">OpenClash 软路由高阶配置：Fake-IP 极速响应与策略组进阶实战</span>
+        </a>
+      </div>
+    
+
+          
+      <div style="margin-top:2.5rem;padding-top:2rem;border-top:1px solid var(--border-color)">
+        <h3 style="font-size:1.1rem;margin-bottom:1rem">🛠️ 关联客户端与进阶配置推荐</h3>
+        <div class="related-articles-grid">
+          
+            <a href="../../guides/openwrt-openclash/index.html" class="related-article-mini-card">
+              <span class="badge" style="align-self:flex-start;margin-bottom:0.4rem;font-size:0.72rem">软路由与网关</span>
+              <strong>OpenClash 软路由高阶配置：Fake-IP 极速响应与策略组进阶实战</strong>
+              <p>面向软路由高阶玩家的 OpenClash 深度教程。手把手配置 Clash.Meta 内核、Fake...</p>
+            </a>
+          
+            <a href="../../guides/router-smart-home/index.html" class="related-article-mini-card">
+              <span class="badge" style="align-self:flex-start;margin-bottom:0.4rem;font-size:0.72rem">软路由与网关</span>
+              <strong>全屋大屏与主机加速指南：Apple TV 4K 与游戏主机软路由分流配置</strong>
+              <p>电视盒子与外服主机无法安装翻墙客户端？教您如何通过软路由网关分流，实现 Apple TV 4K 极速...</p>
+            </a>
+          
+            <a href="../../guides/router-dns-leak/index.html" class="related-article-mini-card">
+              <span class="badge" style="align-self:flex-start;margin-bottom:0.4rem;font-size:0.72rem">软路由与网关</span>
+              <strong>软路由 DNS 防污染防泄漏手册：分流解析、MosDNS 与隐私保护</strong>
+              <p>深入剖析 GFW 的 DNS 投毒机制。详解如何通过国内国外双向 DNS 分流、MosDNS 与 D...</p>
+            </a>
+          
+        </div>
       </div>
     
         </div>
@@ -187,6 +244,13 @@
         </div>
       </div>
     </div>
+    
+      <a href="../../guides/openwrt-openclash/index.html" class="floating-next-bar" title="阅读下一篇教程：OpenClash 软路由高阶配置：Fake-IP 极速响应与策略组进阶实战">
+        <span class="floating-next-label">下一篇教程 ➔</span>
+        <span class="floating-next-title">OpenClash 软路由高阶配置：Fake-IP 极速响应与策略组进阶实战</span>
+      </a>
+    
+    
   </main>
   
   <footer class="site-footer">

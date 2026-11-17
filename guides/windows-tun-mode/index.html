@@ -153,13 +153,28 @@
           </div>
 
           
-      <h2>步骤 1：安装 Service Mode（服务模式）</h2>
-      <p>以管理员身份运行客户端（如 Clash Verge Rev），进入设置页面找到“服务模式 (Service Mode)”，点击“安装”。</p>
+      <div class="article-toc">
+        <div class="article-toc-title">📋 教程步骤导览</div>
+        <ul class="article-toc-list">
+          
+      <li><a href="#step-1"><span class="toc-num">步骤 1</span> <span class="toc-text">安装 Service Mode（服务模式）</span></a></li>
     
-      <h2>步骤 2：开启 TUN 模式开关</h2>
+      <li><a href="#step-2"><span class="toc-num">步骤 2</span> <span class="toc-text">开启 TUN 模式开关</span></a></li>
+    
+      <li><a href="#step-3"><span class="toc-num">步骤 3</span> <span class="toc-text">验证接管效果</span></a></li>
+    
+        </ul>
+      </div>
+    
+
+          
+      <h2 id="step-1">步骤 1：安装 Service Mode（服务模式）</h2>
+      <p>以管理员身份运行客户端（如 <a href="../../guides/windows/index.html" class="inner-link" title="了解更多关于 <a href="../../guides/windows/index.html" class="inner-link" title="了解更多关于 Clash Verge">Clash Verge</a> Rev">Clash Verge Rev</a>），进入设置页面找到“服务模式 (Service Mode)”，点击“安装”。</p>
+    
+      <h2 id="step-2">步骤 2：开启 TUN 模式开关</h2>
       <p>安装成功后，打开“TUN 模式”开关。此时系统网络适配器中会新增一张名为 <code>Mihomo</code> 或 <code>wintun</code> 的虚拟网卡。</p>
     
-      <h2>步骤 3：验证接管效果</h2>
+      <h2 id="step-3">步骤 3：验证接管效果</h2>
       <p>打开 cmd 或 PowerShell，输入 <code>curl -I https://www.google.com</code>，若直接返回 HTTP 200/301 即代表命令行流量已成功走代理。</p>
     
 
@@ -172,6 +187,48 @@
             <div class="faq-answer">请检查是否同时开启了其他 VPN 软件（如校园网客户端或杀毒软件防火墙），产生网卡路由冲突；关闭其他网络安全工具即可恢复。</div>
           </div>
         
+      </div>
+    
+
+          
+      <div class="post-pagination">
+        <a href="../../guides/windows-clash-nyanpasu/index.html" class="pagination-card pagination-prev" title="上一篇教程：Clash Nyanpasu Windows 快速上手指南：现代极简与极低内存占用">
+          <span class="pagination-direction">← 上一篇教程</span>
+          <span class="pagination-category">Windows 平台客户端</span>
+          <span class="pagination-title">Clash Nyanpasu Windows 快速上手指南：现代极简与极低内存占用</span>
+        </a>
+        <a href="../../guides/windows-troubleshooting/index.html" class="pagination-card pagination-next" title="下一篇教程：Windows 科学上网常见故障排查手册：节点连不上与代理异常修复">
+          <span class="pagination-direction">下一篇教程 →</span>
+          <span class="pagination-category">Windows 平台客户端</span>
+          <span class="pagination-title">Windows 科学上网常见故障排查手册：节点连不上与代理异常修复</span>
+        </a>
+      </div>
+    
+
+          
+      <div style="margin-top:2.5rem;padding-top:2rem;border-top:1px solid var(--border-color)">
+        <h3 style="font-size:1.1rem;margin-bottom:1rem">🛠️ 关联客户端与进阶配置推荐</h3>
+        <div class="related-articles-grid">
+          
+            <a href="../../guides/windows/index.html" class="related-article-mini-card">
+              <span class="badge" style="align-self:flex-start;margin-bottom:0.4rem;font-size:0.72rem">Windows</span>
+              <strong>Windows 电脑翻墙教程：Clash Verge Rev 安装、配置与使用全攻略</strong>
+              <p>面向 Windows 10/11 用户的 Clash Verge Rev 客户端保姆级安装使用指南。...</p>
+            </a>
+          
+            <a href="../../guides/windows-v2rayn/index.html" class="related-article-mini-card">
+              <span class="badge" style="align-self:flex-start;margin-bottom:0.4rem;font-size:0.72rem">Windows</span>
+              <strong>v2rayN 电脑客户端新手使用指南：Xray 内核与多协议聚合配置</strong>
+              <p>系统详解 Windows 平台经典代理客户端 v2rayN 的安装、Xray 内核更新、节点批量导入...</p>
+            </a>
+          
+            <a href="../../guides/windows-singbox/index.html" class="related-article-mini-card">
+              <span class="badge" style="align-self:flex-start;margin-bottom:0.4rem;font-size:0.72rem">Windows</span>
+              <strong>Sing-box Windows 图形客户端配置指南：极速核心与规则集详解</strong>
+              <p>全面解析新一代开源通用代理平台 Sing-box 在 Windows 上的安装配置、配置导入、分流规...</p>
+            </a>
+          
+        </div>
       </div>
     
         </div>
@@ -187,6 +244,13 @@
         </div>
       </div>
     </div>
+    
+      <a href="../../guides/windows-troubleshooting/index.html" class="floating-next-bar" title="阅读下一篇教程：Windows 科学上网常见故障排查手册：节点连不上与代理异常修复">
+        <span class="floating-next-label">下一篇教程 ➔</span>
+        <span class="floating-next-title">Windows 科学上网常见故障排查手册：节点连不上与代理异常修复</span>
+      </a>
+    
+    
   </main>
   
   <footer class="site-footer">

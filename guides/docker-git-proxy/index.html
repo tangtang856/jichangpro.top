@@ -153,13 +153,28 @@
           </div>
 
           
-      <h2>步骤 1：为 Git 命令行配置永久代理</h2>
+      <div class="article-toc">
+        <div class="article-toc-title">📋 教程步骤导览</div>
+        <ul class="article-toc-list">
+          
+      <li><a href="#step-1"><span class="toc-num">步骤 1</span> <span class="toc-text">为 Git 命令行配置永久代理</span></a></li>
+    
+      <li><a href="#step-2"><span class="toc-num">步骤 2</span> <span class="toc-text">为 Docker 守护进程配置代理</span></a></li>
+    
+      <li><a href="#step-3"><span class="toc-num">步骤 3</span> <span class="toc-text">测试加速效果</span></a></li>
+    
+        </ul>
+      </div>
+    
+
+          
+      <h2 id="step-1">步骤 1：为 Git 命令行配置永久代理</h2>
       <p>针对 github.com 域名单独配置代理（不影响国内 Gitee）：<pre><code>git config --global http.https://github.com.proxy http://127.0.0.1:7890</code></pre></p>
     
-      <h2>步骤 2：为 Docker 守护进程配置代理</h2>
+      <h2 id="step-2">步骤 2：为 Docker 守护进程配置代理</h2>
       <p>在 <code>/etc/docker/daemon.json</code> 中增加 <code>proxies</code> 字段，或在 systemd service 中注入 HTTP_PROXY 环境变量并重启 Docker 服务。</p>
     
-      <h2>步骤 3：测试加速效果</h2>
+      <h2 id="step-3">步骤 3：测试加速效果</h2>
       <p>执行 <code>docker pull alpine:latest</code>，原本超时的海外公共镜像可在几秒钟内飞速拉取完毕。</p>
     
 
@@ -172,6 +187,48 @@
             <div class="faq-answer">Docker 后台 daemon 是由独立系统服务运行的，默认不继承普通终端用户的桌面代理环境变量，必须为 daemon 单独配置。</div>
           </div>
         
+      </div>
+    
+
+          
+      <div class="post-pagination">
+        <a href="../../guides/router-dns-leak/index.html" class="pagination-card pagination-prev" title="上一篇教程：软路由 DNS 防污染防泄漏手册：分流解析、MosDNS 与隐私保护">
+          <span class="pagination-direction">← 上一篇教程</span>
+          <span class="pagination-category">软路由与网关 平台客户端</span>
+          <span class="pagination-title">软路由 DNS 防污染防泄漏手册：分流解析、MosDNS 与隐私保护</span>
+        </a>
+        <a href="../../guides/telegram-proxy-mtproto/index.html" class="pagination-card pagination-next" title="下一篇教程：Telegram 独占代理配置全解：不开启全局软件也能畅聊电报">
+          <span class="pagination-direction">下一篇教程 →</span>
+          <span class="pagination-category">开发工具 平台客户端</span>
+          <span class="pagination-title">Telegram 独占代理配置全解：不开启全局软件也能畅聊电报</span>
+        </a>
+      </div>
+    
+
+          
+      <div style="margin-top:2.5rem;padding-top:2rem;border-top:1px solid var(--border-color)">
+        <h3 style="font-size:1.1rem;margin-bottom:1rem">🛠️ 关联客户端与进阶配置推荐</h3>
+        <div class="related-articles-grid">
+          
+            <a href="../../guides/windows/index.html" class="related-article-mini-card">
+              <span class="badge" style="align-self:flex-start;margin-bottom:0.4rem;font-size:0.72rem">Windows</span>
+              <strong>Windows 电脑翻墙教程：Clash Verge Rev 安装、配置与使用全攻略</strong>
+              <p>面向 Windows 10/11 用户的 Clash Verge Rev 客户端保姆级安装使用指南。...</p>
+            </a>
+          
+            <a href="../../guides/windows-v2rayn/index.html" class="related-article-mini-card">
+              <span class="badge" style="align-self:flex-start;margin-bottom:0.4rem;font-size:0.72rem">Windows</span>
+              <strong>v2rayN 电脑客户端新手使用指南：Xray 内核与多协议聚合配置</strong>
+              <p>系统详解 Windows 平台经典代理客户端 v2rayN 的安装、Xray 内核更新、节点批量导入...</p>
+            </a>
+          
+            <a href="../../guides/windows-singbox/index.html" class="related-article-mini-card">
+              <span class="badge" style="align-self:flex-start;margin-bottom:0.4rem;font-size:0.72rem">Windows</span>
+              <strong>Sing-box Windows 图形客户端配置指南：极速核心与规则集详解</strong>
+              <p>全面解析新一代开源通用代理平台 Sing-box 在 Windows 上的安装配置、配置导入、分流规...</p>
+            </a>
+          
+        </div>
       </div>
     
         </div>
@@ -187,6 +244,13 @@
         </div>
       </div>
     </div>
+    
+      <a href="../../guides/telegram-proxy-mtproto/index.html" class="floating-next-bar" title="阅读下一篇教程：Telegram 独占代理配置全解：不开启全局软件也能畅聊电报">
+        <span class="floating-next-label">下一篇教程 ➔</span>
+        <span class="floating-next-title">Telegram 独占代理配置全解：不开启全局软件也能畅聊电报</span>
+      </a>
+    
+    
   </main>
   
   <footer class="site-footer">

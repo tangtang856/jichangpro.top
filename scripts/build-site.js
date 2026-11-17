@@ -273,6 +273,100 @@ function registerPage(canonicalUrl, priority = 0.8, changefreq = 'weekly') {
 }
 
 // ==========================================
+// 核心内部链接与上下文语义自动化注入引擎
+// ==========================================
+function injectContextualLinks(html, currentSlug, rel) {
+  const keywordsMap = [
+    { text: '微风网络 Breezenet', link: `${rel}review/breezenet/index.html` },
+    { text: '微风网络', link: `${rel}review/breezenet/index.html` },
+    { text: '暮光网络', link: `${rel}review/muguang/index.html` },
+    { text: '飞猫云', link: `${rel}review/feimaoyun/index.html` },
+    { text: '闪跃 FlashLeap', link: `${rel}review/flashleap/index.html` },
+    { text: '闪跃', link: `${rel}review/flashleap/index.html` },
+    { text: '隐形人机场', link: `${rel}review/yinxingren/index.html` },
+    { text: '隐形人', link: `${rel}review/yinxingren/index.html` },
+    { text: '无忧机场', link: `${rel}review/wuyou/index.html` },
+    { text: '无忧', link: `${rel}review/wuyou/index.html` },
+    { text: '灵猫机场', link: `${rel}review/lingmao/index.html` },
+    { text: '灵猫', link: `${rel}review/lingmao/index.html` },
+    { text: '萤火虫机场', link: `${rel}review/firefly/index.html` },
+    { text: '萤火虫', link: `${rel}review/firefly/index.html` },
+    { text: '跨界云', link: `${rel}review/kuajiecloud/index.html` },
+    { text: '跨界', link: `${rel}review/kuajiecloud/index.html` },
+    { text: '梯子云', link: `${rel}review/laddercloud/index.html` },
+    { text: '浪网 WaveNet', link: `${rel}review/wavenet/index.html` },
+    { text: '浪网', link: `${rel}review/wavenet/index.html` },
+    { text: '灵动云', link: `${rel}review/lingdongcloud/index.html` },
+    { text: '全球云', link: `${rel}review/quanqiuyun/index.html` },
+    { text: '飞V', link: `${rel}review/feiv/index.html` },
+    
+    // 技术术语与客户端
+    { text: 'IPLC专线', link: `${rel}glossary/iplc/index.html` },
+    { text: 'IPLC 专线', link: `${rel}glossary/iplc/index.html` },
+    { text: 'IEPL专线', link: `${rel}glossary/iepl/index.html` },
+    { text: 'IEPL 专线', link: `${rel}glossary/iepl/index.html` },
+    { text: 'Clash Verge Rev', link: `${rel}guides/windows/index.html` },
+    { text: 'Clash Verge', link: `${rel}guides/windows/index.html` },
+    { text: 'Sing-box', link: `${rel}guides/windows-singbox/index.html` },
+    { text: 'v2rayN', link: `${rel}guides/windows-v2rayn/index.html` },
+    { text: 'Shadowrocket', link: `${rel}guides/ios/index.html` },
+    { text: '小火箭', link: `${rel}guides/ios/index.html` },
+    { text: 'Quantumult X', link: `${rel}guides/ios-quantumult-x/index.html` },
+    { text: 'PassWall', link: `${rel}guides/openwrt-passwall/index.html` },
+    { text: 'OpenClash', link: `${rel}guides/openwrt-openclash/index.html` },
+    { text: 'Hysteria2 协议', link: `${rel}glossary/hysteria2/index.html` },
+    { text: 'Hysteria2', link: `${rel}glossary/hysteria2/index.html` },
+    { text: '住宅原生IP', link: `${rel}glossary/native-ip/index.html` },
+    { text: '原生住宅IP', link: `${rel}glossary/native-ip/index.html` },
+    { text: '原生IP', link: `${rel}glossary/native-ip/index.html` },
+
+    // 专题与排行榜
+    { text: '性价比机场', link: `${rel}recommend/budget/index.html` },
+    { text: '便宜机场', link: `${rel}recommend/budget/index.html` },
+    { text: '高端专线机场', link: `${rel}recommend/premium/index.html` },
+    { text: '商业专线', link: `${rel}recommend/premium/index.html` },
+    { text: '综合排行榜', link: `${rel}ranking/overall/index.html` },
+    { text: '横向对比工具', link: `${rel}compare/index.html` }
+  ];
+
+  const usedLinks = new Set();
+  const parts = html.split(/(<[^>]+>)/g);
+  let inAnchor = false;
+  let inHeading = false;
+
+  for (let i = 0; i < parts.length; i++) {
+    const part = parts[i];
+    if (part.startsWith('<')) {
+      if (/^<a\b/i.test(part)) inAnchor = true;
+      else if (/^<\/a>/i.test(part)) inAnchor = false;
+      else if (/^<h[1-6]\b/i.test(part)) inHeading = true;
+      else if (/^<\/h[1-6]>/i.test(part)) inHeading = false;
+      continue;
+    }
+
+    if (!inAnchor && !inHeading && part.trim().length > 0) {
+      let textSegment = part;
+      for (const item of keywordsMap) {
+        if (item.link.includes(currentSlug) || usedLinks.has(item.text)) {
+          continue;
+        }
+
+        const idx = textSegment.indexOf(item.text);
+        if (idx !== -1) {
+          textSegment = textSegment.substring(0, idx) + 
+            `<a href="${item.link}" class="inner-link" title="了解更多关于 ${item.text}">${item.text}</a>` + 
+            textSegment.substring(idx + item.text.length);
+          usedLinks.add(item.text);
+        }
+      }
+      parts[i] = textSegment;
+    }
+  }
+
+  return parts.join('');
+}
+
+// ==========================================
 // 1. 生成首页 (严格执行 Section 5 布局规范)
 // ==========================================
 function buildHomePage() {
@@ -1315,9 +1409,14 @@ function buildReviewPages() {
   const depth = 2;
   const rel = getRelPrefix(depth);
 
-  airportsData.forEach(a => {
+  airportsData.forEach((a, idx) => {
     const canonicalPath = `review/${a.slug}/`;
     registerPage(`${SITE_URL}/${canonicalPath}`, 0.9, 'weekly');
+
+    const prevIdx = (idx - 1 + airportsData.length) % airportsData.length;
+    const nextIdx = (idx + 1) % airportsData.length;
+    const prevAirport = airportsData[prevIdx];
+    const nextAirport = airportsData[nextIdx];
 
     const crumbs = [
       { name: '首页', url: 'index.html' },
@@ -1552,6 +1651,20 @@ function buildReviewPages() {
             <strong>数据来源与透明度披露：</strong><br>
             本文所有套餐资费来源于 ${a.name} 官方公开系统；性能测试数据来自编辑部实机网络环境与 jiediantuijian.shop 公开测速数据库。最后核验时间为 <strong>${a.lastVerified}</strong>。
           </div>
+
+          <!-- 上下篇导航 -->
+          <div class="post-pagination">
+            <a href="${rel}review/${prevAirport.slug}/index.html" class="pagination-card pagination-prev" title="上一个机场评测：${prevAirport.name}">
+              <span class="pagination-direction">← 上一个机场评测</span>
+              <span class="pagination-category">${prevAirport.lineType} · ¥${prevAirport.startingPrice}/月起</span>
+              <span class="pagination-title">${prevAirport.name} 深度评测报告</span>
+            </a>
+            <a href="${rel}review/${nextAirport.slug}/index.html" class="pagination-card pagination-next" title="下一个机场评测：${nextAirport.name}">
+              <span class="pagination-direction">下一个机场评测 →</span>
+              <span class="pagination-category">${nextAirport.lineType} · ¥${nextAirport.startingPrice}/月起</span>
+              <span class="pagination-title">${nextAirport.name} 深度评测报告</span>
+            </a>
+          </div>
         </div>
 
         <div class="related-posts">
@@ -1564,7 +1677,11 @@ function buildReviewPages() {
           </ul>
         </div>
       </div>
-    </div>`;
+    </div>
+    <a href="${rel}review/${nextAirport.slug}/index.html" class="floating-next-bar" title="阅读下一个评测：${nextAirport.name}">
+      <span class="floating-next-label">下一篇评测 ➔</span>
+      <span class="floating-next-title">${nextAirport.name} 深度评测</span>
+    </a>`;
 
     const html = renderHtmlPage({
       title: `${a.name} 深度评测 - 节点质量、套餐价格与真实晚高峰体验 | 机场PRO`,
@@ -1589,9 +1706,14 @@ function buildAirportArchivePages() {
   const depth = 2;
   const rel = getRelPrefix(depth);
 
-  airportsData.forEach(a => {
+  airportsData.forEach((a, idx) => {
     const canonicalPath = `airport/${a.slug}/`;
     registerPage(`${SITE_URL}/${canonicalPath}`, 0.8, 'weekly');
+
+    const prevIdx = (idx - 1 + airportsData.length) % airportsData.length;
+    const nextIdx = (idx + 1) % airportsData.length;
+    const prevAirport = airportsData[prevIdx];
+    const nextAirport = airportsData[nextIdx];
 
     const crumbs = [
       { name: '首页', url: 'index.html' },
@@ -1688,6 +1810,20 @@ function buildAirportArchivePages() {
             <a href="${rel}review/${a.slug}/index.html" class="btn btn-outline">阅读深度评测报告</a>
             <a href="${rel}compare/index.html" class="btn btn-outline">加入横向对比</a>
           </div>
+
+          <!-- 上下品牌导航 -->
+          <div class="post-pagination">
+            <a href="${rel}airport/${prevAirport.slug}/index.html" class="pagination-card pagination-prev" title="上一个品牌档案：${prevAirport.name}">
+              <span class="pagination-direction">← 上一个品牌档案</span>
+              <span class="pagination-category">${prevAirport.lineType}</span>
+              <span class="pagination-title">${prevAirport.name} 参数档案</span>
+            </a>
+            <a href="${rel}airport/${nextAirport.slug}/index.html" class="pagination-card pagination-next" title="下一个品牌档案：${nextAirport.name}">
+              <span class="pagination-direction">下一个品牌档案 →</span>
+              <span class="pagination-category">${nextAirport.lineType}</span>
+              <span class="pagination-title">${nextAirport.name} 参数档案</span>
+            </a>
+          </div>
         </div>
 
         <div class="related-posts">
@@ -1699,7 +1835,11 @@ function buildAirportArchivePages() {
           </ul>
         </div>
       </div>
-    </div>`;
+    </div>
+    <a href="${rel}airport/${nextAirport.slug}/index.html" class="floating-next-bar" title="查看下一个品牌：${nextAirport.name}">
+      <span class="floating-next-label">下一个品牌 ➔</span>
+      <span class="floating-next-title">${nextAirport.name} 参数档案</span>
+    </a>`;
 
     const html = renderHtmlPage({
       title: `${a.name} 详细资料与套餐参数档案 - 价格/节点/协议 | 机场PRO`,
@@ -1818,9 +1958,17 @@ function buildGuidePages() {
   const depth = 2;
   const rel = getRelPrefix(depth);
 
-  guidesData.forEach(g => {
+  guidesData.forEach((g, idx) => {
     const canonicalPath = `guides/${g.slug}/`;
     registerPage(`${SITE_URL}/${canonicalPath}`, 0.8, 'monthly');
+
+    const prevIdx = (idx - 1 + guidesData.length) % guidesData.length;
+    const nextIdx = (idx + 1) % guidesData.length;
+    const prevGuide = guidesData[prevIdx];
+    const nextGuide = guidesData[nextIdx];
+
+    const sameCatGuides = guidesData.filter((item, i) => i !== idx && item.category === g.category);
+    const relatedGuides = (sameCatGuides.length >= 3 ? sameCatGuides : guidesData.filter((_, i) => i !== idx)).slice(0, 3);
 
     const crumbs = [
       { name: '首页', url: 'index.html' },
@@ -1841,10 +1989,25 @@ function buildGuidePages() {
       }
     };
 
-    const stepsHtml = (g.steps || []).map((step, idx) => `
-      <h2>步骤 ${idx + 1}：${step.title}</h2>
+    // 目录导览
+    const tocList = (g.steps || []).map((step, sIdx) => `
+      <li><a href="#step-${sIdx + 1}"><span class="toc-num">步骤 ${sIdx + 1}</span> <span class="toc-text">${step.title}</span></a></li>
+    `).join('');
+    const tocHtml = (g.steps || []).length > 1 ? `
+      <div class="article-toc">
+        <div class="article-toc-title">📋 教程步骤导览</div>
+        <ul class="article-toc-list">
+          ${tocList}
+        </ul>
+      </div>
+    ` : '';
+
+    const rawStepsHtml = (g.steps || []).map((step, sIdx) => `
+      <h2 id="step-${sIdx + 1}">步骤 ${sIdx + 1}：${step.title}</h2>
       <p>${step.content}</p>
     `).join('');
+
+    const stepsHtml = injectContextualLinks(rawStepsHtml, g.slug, rel);
 
     const faqsHtml = (g.faqs || []).length > 0 ? `
       <h2>常见故障排查与答疑 (Troubleshooting)</h2>
@@ -1852,11 +2015,51 @@ function buildGuidePages() {
         ${g.faqs.map(f => `
           <div class="faq-item">
             <div class="faq-question">${f.q}</div>
-            <div class="faq-answer">${f.a}</div>
+            <div class="faq-answer">${injectContextualLinks(f.a, g.slug, rel)}</div>
           </div>
         `).join('')}
       </div>
     ` : '';
+
+    // 上下教程导航
+    const paginationHtml = `
+      <div class="post-pagination">
+        <a href="${rel}guides/${prevGuide.slug}/index.html" class="pagination-card pagination-prev" title="上一篇教程：${prevGuide.h1}">
+          <span class="pagination-direction">← 上一篇教程</span>
+          <span class="pagination-category">${prevGuide.category} 平台客户端</span>
+          <span class="pagination-title">${prevGuide.h1}</span>
+        </a>
+        <a href="${rel}guides/${nextGuide.slug}/index.html" class="pagination-card pagination-next" title="下一篇教程：${nextGuide.h1}">
+          <span class="pagination-direction">下一篇教程 →</span>
+          <span class="pagination-category">${nextGuide.category} 平台客户端</span>
+          <span class="pagination-title">${nextGuide.h1}</span>
+        </a>
+      </div>
+    `;
+
+    // 悬浮下一篇导读条
+    const floatingNextHtml = `
+      <a href="${rel}guides/${nextGuide.slug}/index.html" class="floating-next-bar" title="阅读下一篇教程：${nextGuide.h1}">
+        <span class="floating-next-label">下一篇教程 ➔</span>
+        <span class="floating-next-title">${nextGuide.h1}</span>
+      </a>
+    `;
+
+    // 相关教程卡片
+    const relatedCardsHtml = `
+      <div style="margin-top:2.5rem;padding-top:2rem;border-top:1px solid var(--border-color)">
+        <h3 style="font-size:1.1rem;margin-bottom:1rem">🛠️ 关联客户端与进阶配置推荐</h3>
+        <div class="related-articles-grid">
+          ${relatedGuides.map(r => `
+            <a href="${rel}guides/${r.slug}/index.html" class="related-article-mini-card">
+              <span class="badge" style="align-self:flex-start;margin-bottom:0.4rem;font-size:0.72rem">${r.category}</span>
+              <strong>${r.h1}</strong>
+              <p>${r.desc.substring(0, 50)}...</p>
+            </a>
+          `).join('')}
+        </div>
+      </div>
+    `;
 
     const contentHtml = `
     <div class="container" style="padding-top:1.5rem">
@@ -1878,9 +2081,15 @@ function buildGuidePages() {
             <p style="margin-bottom:0">${g.summary || '本教程系统详解客户端下载、配置导入与分流设置，助您实现安全稳定的网络加速。'}</p>
           </div>
 
+          ${tocHtml}
+
           ${stepsHtml}
 
           ${faqsHtml}
+
+          ${paginationHtml}
+
+          ${relatedCardsHtml}
         </div>
 
         <div class="related-posts">
@@ -1893,7 +2102,9 @@ function buildGuidePages() {
           </ul>
         </div>
       </div>
-    </div>`;
+    </div>
+    ${floatingNextHtml}
+    `;
 
     const html = renderHtmlPage({
       title: g.title,
@@ -1996,9 +2207,17 @@ function buildBlogPages() {
   const depth = 2;
   const rel = getRelPrefix(depth);
 
-  articlesData.forEach(b => {
+  articlesData.forEach((b, idx) => {
     const canonicalPath = `blog/${b.slug}/`;
     registerPage(`${SITE_URL}/${canonicalPath}`, 0.8, 'monthly');
+
+    const prevIdx = (idx - 1 + articlesData.length) % articlesData.length;
+    const nextIdx = (idx + 1) % articlesData.length;
+    const prevArticle = articlesData[prevIdx];
+    const nextArticle = articlesData[nextIdx];
+
+    const sameCatArticles = articlesData.filter((item, i) => i !== idx && item.category === b.category);
+    const relatedList = (sameCatArticles.length >= 3 ? sameCatArticles : articlesData.filter((_, i) => i !== idx)).slice(0, 3);
 
     const crumbs = [
       { name: '首页', url: 'index.html' },
@@ -2019,10 +2238,25 @@ function buildBlogPages() {
       }
     };
 
-    const sectionsHtml = (b.sections || []).map(s => `
-      <h2>${s.title}</h2>
+    // 目录导览
+    const tocList = (b.sections || []).map((s, sIdx) => `
+      <li><a href="#section-${sIdx + 1}"><span class="toc-num">${sIdx + 1}.</span> <span class="toc-text">${s.title}</span></a></li>
+    `).join('');
+    const tocHtml = (b.sections || []).length > 1 ? `
+      <div class="article-toc">
+        <div class="article-toc-title">📑 本文目录导航</div>
+        <ul class="article-toc-list">
+          ${tocList}
+        </ul>
+      </div>
+    ` : '';
+
+    const rawSectionsHtml = (b.sections || []).map((s, sIdx) => `
+      <h2 id="section-${sIdx + 1}">${s.title}</h2>
       <p>${s.content}</p>
     `).join('');
+
+    const sectionsHtml = injectContextualLinks(rawSectionsHtml, b.slug, rel);
 
     const faqsHtml = (b.faqs || []).length > 0 ? `
       <h2>常见问题解答 (FAQ)</h2>
@@ -2030,11 +2264,51 @@ function buildBlogPages() {
         ${b.faqs.map(f => `
           <div class="faq-item">
             <div class="faq-question">${f.q}</div>
-            <div class="faq-answer">${f.a}</div>
+            <div class="faq-answer">${injectContextualLinks(f.a, b.slug, rel)}</div>
           </div>
         `).join('')}
       </div>
     ` : '';
+
+    // 上下一篇分页卡片
+    const paginationHtml = `
+      <div class="post-pagination">
+        <a href="${rel}blog/${prevArticle.slug}/index.html" class="pagination-card pagination-prev" title="上一篇：${prevArticle.h1}">
+          <span class="pagination-direction">← 上一篇</span>
+          <span class="pagination-category">${prevArticle.category || '深度选购'}</span>
+          <span class="pagination-title">${prevArticle.h1}</span>
+        </a>
+        <a href="${rel}blog/${nextArticle.slug}/index.html" class="pagination-card pagination-next" title="下一篇：${nextArticle.h1}">
+          <span class="pagination-direction">下一篇 →</span>
+          <span class="pagination-category">${nextArticle.category || '深度选购'}</span>
+          <span class="pagination-title">${nextArticle.h1}</span>
+        </a>
+      </div>
+    `;
+
+    // 悬浮下一篇常驻浮条
+    const floatingNextHtml = `
+      <a href="${rel}blog/${nextArticle.slug}/index.html" class="floating-next-bar" title="点击阅读下一篇：${nextArticle.h1}">
+        <span class="floating-next-label">下一篇 ➔</span>
+        <span class="floating-next-title">${nextArticle.h1}</span>
+      </a>
+    `;
+
+    // 推荐相关阅读卡片
+    const relatedCardsHtml = `
+      <div style="margin-top:2.5rem;padding-top:2rem;border-top:1px solid var(--border-color)">
+        <h3 style="font-size:1.1rem;margin-bottom:1rem">📚 同主题精选推荐阅读</h3>
+        <div class="related-articles-grid">
+          ${relatedList.map(r => `
+            <a href="${rel}blog/${r.slug}/index.html" class="related-article-mini-card">
+              <span class="badge" style="align-self:flex-start;margin-bottom:0.4rem;font-size:0.72rem">${r.category}</span>
+              <strong>${r.h1}</strong>
+              <p>${r.desc.substring(0, 50)}...</p>
+            </a>
+          `).join('')}
+        </div>
+      </div>
+    `;
 
     const contentHtml = `
     <div class="container" style="padding-top:1.5rem">
@@ -2056,9 +2330,15 @@ function buildBlogPages() {
             <p style="margin-bottom:0">${b.summary || b.desc}</p>
           </div>
 
+          ${tocHtml}
+
           ${sectionsHtml}
 
           ${faqsHtml}
+
+          ${paginationHtml}
+
+          ${relatedCardsHtml}
         </div>
 
         <div class="related-posts">
@@ -2072,7 +2352,9 @@ function buildBlogPages() {
           </ul>
         </div>
       </div>
-    </div>`;
+    </div>
+    ${floatingNextHtml}
+    `;
 
     const html = renderHtmlPage({
       title: b.title,
@@ -2235,9 +2517,14 @@ function buildGlossaryPages() {
   const depth = 2;
   const rel = getRelPrefix(depth);
 
-  glossaryTerms.forEach(t => {
+  glossaryTerms.forEach((t, idx) => {
     const canonicalPath = `glossary/${t.slug}/`;
     registerPage(`${SITE_URL}/${canonicalPath}`, 0.7, 'monthly');
+
+    const prevIdx = (idx - 1 + glossaryTerms.length) % glossaryTerms.length;
+    const nextIdx = (idx + 1) % glossaryTerms.length;
+    const prevTerm = glossaryTerms[prevIdx];
+    const nextTerm = glossaryTerms[nextIdx];
 
     const crumbs = [
       { name: '首页', url: 'index.html' },
@@ -2295,6 +2582,20 @@ function buildGlossaryPages() {
               <a href="${rel}airport/flashleap/index.html" class="btn btn-outline btn-sm">闪跃 FlashLeap</a>
             </div>
           </div>
+
+          <!-- 上下词条导航 -->
+          <div class="post-pagination">
+            <a href="${rel}glossary/${prevTerm.slug}/index.html" class="pagination-card pagination-prev" title="上一个百科词条：${prevTerm.term}">
+              <span class="pagination-direction">← 上一个百科词条</span>
+              <span class="pagination-category">网络技术百科</span>
+              <span class="pagination-title">${prevTerm.term} 原理解析</span>
+            </a>
+            <a href="${rel}glossary/${nextTerm.slug}/index.html" class="pagination-card pagination-next" title="下一个百科词条：${nextTerm.term}">
+              <span class="pagination-direction">下一个百科词条 →</span>
+              <span class="pagination-category">网络技术百科</span>
+              <span class="pagination-title">${nextTerm.term} 原理解析</span>
+            </a>
+          </div>
         </div>
 
         <div class="related-posts">
@@ -2309,7 +2610,11 @@ function buildGlossaryPages() {
           </ul>
         </div>
       </div>
-    </div>`;
+    </div>
+    <a href="${rel}glossary/${nextTerm.slug}/index.html" class="floating-next-bar" title="阅读下一个术语：${nextTerm.term}">
+      <span class="floating-next-label">下一词条 ➔</span>
+      <span class="floating-next-title">${nextTerm.term}</span>
+    </a>`;
 
     const html = renderHtmlPage({
       title: t.title,
