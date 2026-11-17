@@ -1130,3 +1130,576 @@ p {
   font-size: 0.8rem;
   color: var(--text-muted);
 }
+
+
+/* ==========================================================================
+   全新现代科技媒体杂志风格扩展 (Modern Tech Media & Editorial Magazine Theme)
+   彻底打破千篇一律的卡片网格，引入 Bento Grid、分级梯队看板、Verge式深度专栏
+   ========================================================================== */
+
+/* 顶部测速情报实时跑马灯 */
+.top-ticker-bar {
+  background: #0f172a;
+  color: #94a3b8;
+  font-size: 0.78rem;
+  padding: 0.45rem 0;
+  border-bottom: 1px solid #1e293b;
+}
+
+.ticker-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.pulse-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #10b981;
+  box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+  animation: pulseGreen 2s infinite;
+  margin-right: 0.35rem;
+  vertical-align: middle;
+}
+
+@keyframes pulseGreen {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+  70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+}
+
+/* Bento Hero 主画幅区 */
+.bento-hero-section {
+  padding: 2.5rem 0 2rem;
+  background: radial-gradient(circle at 50% 0%, #eff6ff 0%, var(--bg-main) 70%);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.bento-headline-wrap {
+  text-align: center;
+  max-width: 860px;
+  margin: 0 auto 2.25rem;
+}
+
+.bento-grid {
+  display: grid;
+  grid-template-columns: 1.45fr 1fr;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+/* 冠军头条大卡片 (微风网络) */
+.bento-champion-card {
+  background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+  border: 2px solid #3b82f6;
+  border-radius: var(--radius-lg);
+  padding: 2rem;
+  box-shadow: 0 10px 25px -5px rgba(37, 99, 235, 0.12), 0 8px 10px -6px rgba(37, 99, 235, 0.08);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+
+.bento-champion-card::before {
+  content: "综合冠军 · 编辑部之选";
+  position: absolute;
+  top: 1.25rem;
+  right: -3rem;
+  background: linear-gradient(90deg, #2563eb, #1d4ed8);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.35rem 3.5rem;
+  transform: rotate(45deg);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+}
+
+.bento-champion-header {
+  margin-bottom: 1.25rem;
+}
+
+.bento-stats-ribbon {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  border-radius: var(--radius-md);
+  padding: 1rem;
+  margin: 1.25rem 0;
+  text-align: center;
+}
+
+.bento-stat-num {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--primary);
+}
+
+.bento-stat-label {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-top: 0.2rem;
+}
+
+.speed-radar-mini {
+  display: flex;
+  gap: 0.75rem;
+  background: #f8fafc;
+  border-left: 3px solid var(--success);
+  padding: 0.65rem 0.85rem;
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  font-size: 0.82rem;
+  color: var(--text-body);
+  margin-bottom: 1.25rem;
+}
+
+/* 亚军与季军分栏卡片 */
+.bento-side-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.bento-sub-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.bento-sub-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--primary);
+}
+
+.bento-rank-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+  width: fit-content;
+  margin-bottom: 0.5rem;
+}
+
+.rank-label-silver {
+  background: #f1f5f9;
+  color: #475569;
+  border: 1px solid #cbd5e1;
+}
+
+.rank-label-bronze {
+  background: #fef3c7;
+  color: #92400e;
+  border: 1px solid #fde68a;
+}
+
+/* 晚高峰网络连通率数据指示条 */
+.radar-strip {
+  background: #0f172a;
+  color: #fff;
+  border-radius: var(--radius-md);
+  padding: 0.85rem 1.5rem;
+  margin: 2rem 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.radar-node-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+}
+
+.radar-ping {
+  font-weight: 700;
+  color: #38bdf8;
+}
+
+/* 阶梯式媒体分栏 (Tiered Showcase) */
+.tier-showcase-section {
+  margin: 3rem 0;
+}
+
+.tier-title-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 2px solid var(--border-color);
+  padding-bottom: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.tier-title-bar h3 {
+  font-size: 1.35rem;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Tier 1: 极客商业专线横幅大卡 */
+.tier-horizontal-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.tier-horizontal-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 1.25rem 1.5rem;
+  display: grid;
+  grid-template-columns: 240px 1fr 180px 180px;
+  align-items: center;
+  gap: 1.5rem;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.2s ease;
+}
+
+.tier-horizontal-card:hover {
+  border-color: var(--primary);
+  box-shadow: var(--shadow-md);
+}
+
+/* Tier 2: 极致性价比紧凑型芯片卡片 */
+.tier-chip-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+  gap: 1.25rem;
+}
+
+.tier-chip-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.2s ease;
+}
+
+.tier-chip-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--primary);
+  box-shadow: var(--shadow-md);
+}
+
+.tier-chip-price-badge {
+  display: flex;
+  align-items: baseline;
+  gap: 0.35rem;
+  margin: 0.5rem 0 0.75rem;
+}
+
+.tier-chip-price {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--primary);
+}
+
+.tier-chip-unit {
+  font-size: 0.78rem;
+  color: var(--success);
+  font-weight: 600;
+}
+
+/* 彭博 / Verge 级专业基准排行榜 */
+.benchmark-table-wrapper {
+  margin: 2rem 0;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.benchmark-table-header {
+  background: #0f172a;
+  color: #fff;
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.benchmark-table-header h3 {
+  color: #fff;
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+.rank-medal-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  font-weight: 800;
+  font-size: 0.85rem;
+}
+
+.rank-gold {
+  background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%);
+  color: #fff;
+  box-shadow: 0 2px 5px rgba(217, 119, 6, 0.4);
+}
+
+.rank-silver {
+  background: linear-gradient(135deg, #94a3b8 0%, #64748b 100%);
+  color: #fff;
+}
+
+.rank-bronze {
+  background: linear-gradient(135deg, #f59e0b 0%, #b45309 100%);
+  color: #fff;
+}
+
+.score-bar-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.score-bar-track {
+  width: 55px;
+  height: 6px;
+  background: #e2e8f0;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.score-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #3b82f6, #1d4ed8);
+  border-radius: 3px;
+}
+
+/* 杂志图文专栏排版 (The Verge / Wired Style) */
+.magazine-editorial-grid {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr;
+  gap: 1.75rem;
+  margin: 2rem 0;
+}
+
+.lead-story-box {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 1.75rem;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+}
+
+.lead-story-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: #fee2e2;
+  color: #b91c1c;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+  width: fit-content;
+  margin-bottom: 0.75rem;
+}
+
+.lead-story-title {
+  font-size: 1.45rem;
+  font-weight: 800;
+  line-height: 1.4;
+  margin-bottom: 0.85rem;
+}
+
+.lead-story-title a {
+  color: var(--text-main);
+}
+
+.lead-story-title a:hover {
+  color: var(--primary);
+}
+
+.lead-story-excerpt {
+  color: var(--text-body);
+  line-height: 1.75;
+  font-size: 0.95rem;
+  margin-bottom: 1.5rem;
+}
+
+/* 杂志热读榜 Top 5 */
+.trending-sidebar-box {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.trending-sidebar-header {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--text-main);
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid var(--border-color);
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.trending-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 0.85rem 0;
+  border-bottom: 1px dashed var(--border-color);
+}
+
+.trending-item:last-child {
+  border-bottom: none;
+}
+
+.trending-num {
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: #cbd5e1;
+  line-height: 1;
+  min-width: 28px;
+}
+
+.trending-item:nth-child(1) .trending-num { color: #f59e0b; }
+.trending-item:nth-child(2) .trending-num { color: #3b82f6; }
+.trending-item:nth-child(3) .trending-num { color: #10b981; }
+
+.trending-title {
+  font-size: 0.92rem;
+  font-weight: 600;
+  line-height: 1.45;
+  margin-bottom: 0.35rem;
+}
+
+.trending-title a {
+  color: var(--text-main);
+}
+
+.trending-title a:hover {
+  color: var(--primary);
+}
+
+.trending-meta {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+/* 场景特刊渐变矩阵 (Thematic Matrix) */
+.thematic-matrix-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+  margin: 1.5rem 0;
+}
+
+.matrix-topic-card {
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.25s ease;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+}
+
+.matrix-topic-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 15px -3px rgba(0,0,0,0.15);
+}
+
+.matrix-topic-card h3 {
+  color: #fff;
+  font-size: 1.2rem;
+  margin: 0.5rem 0;
+}
+
+.matrix-topic-card p {
+  color: rgba(255, 255, 255, 0.88);
+  font-size: 0.85rem;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+.matrix-topic-card .card-link-text {
+  color: #fff;
+  font-weight: 700;
+  margin-top: auto;
+  font-size: 0.85rem;
+}
+
+.topic-bg-premium { background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%); }
+.topic-bg-budget { background: linear-gradient(135deg, #064e3b 0%, #047857 100%); }
+.topic-bg-beginner { background: linear-gradient(135deg, #0c4a6e 0%, #0284c7 100%); }
+.topic-bg-stable { background: linear-gradient(135deg, #78350f 0%, #d97706 100%); }
+.topic-bg-ai { background: linear-gradient(135deg, #581c87 0%, #7e22ce 100%); }
+.topic-bg-streaming { background: linear-gradient(135deg, #881337 0%, #be123c 100%); }
+
+/* 响应式断点适配 */
+@media (max-width: 992px) {
+  .bento-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .tier-horizontal-card {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+  
+  .magazine-editorial-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .thematic-matrix-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .thematic-matrix-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .bento-stats-ribbon {
+    grid-template-columns: 1fr;
+  }
+  
+  .radar-strip {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
