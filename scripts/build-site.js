@@ -234,12 +234,19 @@ ${JSON.stringify(allSchemas, null, 2)}
   </script>
 </head>
 <body>
+  <!-- 全局动态意境背景层 (Dynamic Ambient Background) -->
+  <div id="dynamic-bg-container" class="dynamic-bg-container" aria-hidden="true">
+    <div class="dynamic-bg-img" style="background-image: url('${rel}images/bg-tree-lake.jpg');"></div>
+    <canvas id="dynamic-bg-canvas" class="dynamic-bg-canvas"></canvas>
+    <div class="dynamic-bg-overlay"></div>
+  </div>
   ${renderHeader(depth, activeNav)}
   ${crumbs && crumbs.length > 0 ? renderBreadcrumb(crumbs, depth) : ''}
   <main id="main-content">
     ${contentHtml}
   </main>
   ${renderFooter(depth)}
+  <script src="${rel}js/dynamic-bg.js"></script>
   ${extraScripts}
 </body>
 </html>`;

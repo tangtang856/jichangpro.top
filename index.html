@@ -56,6 +56,12 @@
   </script>
 </head>
 <body>
+  <!-- 全局动态意境背景层 (Dynamic Ambient Background) -->
+  <div id="dynamic-bg-container" class="dynamic-bg-container" aria-hidden="true">
+    <div class="dynamic-bg-img" style="background-image: url('./images/bg-tree-lake.jpg');"></div>
+    <canvas id="dynamic-bg-canvas" class="dynamic-bg-canvas"></canvas>
+    <div class="dynamic-bg-overlay"></div>
+  </div>
   
   <header class="site-header">
     <div class="container header-inner">
@@ -1282,6 +1288,7 @@
     </div>
   </footer>
   <script src="./js/main.js"></script>
+  <script src="./js/dynamic-bg.js"></script>
   
 </body>
 </html>
