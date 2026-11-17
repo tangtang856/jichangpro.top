@@ -1521,7 +1521,7 @@ function buildReviewPages() {
             <span class="hero-tag">${detail.badge || '独立深度测评'}</span>
             <span class="badge" style="background:#eff6ff;color:var(--primary);font-weight:700">综合评分 ${a.ratings.overall} / 10</span>
           </div>
-          <h1 style="margin-top:0.5rem">${a.name} 深度评测：晚高峰速度、专线稳定性、IP纯净度与真实选购建议</h1>
+          <h1 style="margin-top:0.5rem">${detail.tdk && detail.tdk.reviewH1 ? detail.tdk.reviewH1 : `${a.name}如何？2026深度评测：套餐价格、${a.plans[0]?.traffic || '大'}流量、${a.lineType}节点与晚高峰测速全解`}</h1>
           <p class="section-subtitle" style="font-size:1.05rem;line-height:1.7;color:var(--text-body);margin-top:0.75rem">${a.tagline}</p>
           <div class="post-meta-bar">
             <span>📅 评测基准日: ${a.lastVerified}</span>
@@ -1754,10 +1754,20 @@ function buildReviewPages() {
       <span class="floating-next-title">${nextAirport.name} 深度评测</span>
     </a>`;
 
+    const pageTitle = (detail.tdk && detail.tdk.reviewTitle) 
+      ? detail.tdk.reviewTitle 
+      : `${a.name}如何？2026评测：套餐价格/月付${a.startingPrice}元起、${a.plans[0]?.traffic || '大'}流量、${a.lineType}节点晚高峰测速信息全解 | 机场PRO`;
+    const pageDesc = (detail.tdk && detail.tdk.reviewDesc)
+      ? detail.tdk.reviewDesc
+      : `【2026深度评测】${a.name}到底好不好用？全面评测${a.name}晚高峰网速延迟、${a.lineType}专线稳定性、套餐价格折算每GB单价、ChatGPT及Netflix流媒体解锁能力。`;
+    const pageKeywords = (detail.tdk && detail.tdk.reviewKeywords)
+      ? detail.tdk.reviewKeywords
+      : `${a.name}, ${a.name}如何, ${a.name}怎么样, ${a.name}套餐价格, ${a.name}流量, ${a.name}节点, ${a.name}测速信息, 机场推荐, 专线机场, 机场PRO`;
+
     const html = renderHtmlPage({
-      title: `${a.name} 深度评测 - 节点质量、套餐价格与真实晚高峰体验 | 机场PRO`,
-      description: `【2026深度实测】${a.name}到底好不好用？全面评测${a.name}晚高峰网速延迟、${a.lineType}专线稳定性、套餐价格折算每GB单价、ChatGPT及Netflix流媒体解锁能力。`,
-      keywords: `${a.name}, ${a.name}评测, ${a.name}怎么样, ${a.name}官网, 机场推荐, 梯子推荐, 专线机场, 机场节点`,
+      title: pageTitle,
+      description: pageDesc,
+      keywords: pageKeywords,
       canonicalPath,
       depth,
       activeNav: 'ranking',
@@ -1928,10 +1938,20 @@ function buildAirportArchivePages() {
       <span class="floating-next-title">${nextAirport.name} 参数档案</span>
     </a>`;
 
+    const pageTitle = (detail.tdk && detail.tdk.archiveTitle) 
+      ? detail.tdk.archiveTitle 
+      : `${a.name}怎么样？官方参数档案与资费明细：套餐价格¥${a.startingPrice}/月起、${a.plans[0]?.traffic || ''}流量、${a.lineType}节点配置与官网优惠码 | 机场PRO`;
+    const pageDesc = (detail.tdk && detail.tdk.archiveDesc)
+      ? detail.tdk.archiveDesc
+      : `【官方数据核查】${a.name}完整资料档案：起步价格${a.startingPrice}元，线路类型${a.lineType}，协议支持${a.protocols.join('/')}，各套餐流量与每GB单价精确明细。`;
+    const pageKeywords = (detail.tdk && detail.tdk.archiveKeywords)
+      ? detail.tdk.archiveKeywords
+      : `${a.name}, ${a.name}怎么样, ${a.name}参数, ${a.name}套餐价格, ${a.name}流量明细, ${a.name}节点配置, 机场PRO`;
+
     const html = renderHtmlPage({
-      title: `${a.name} 详细资料与套餐参数档案 - 价格/节点/协议 | 机场PRO`,
-      description: `【官方数据核查】${a.name}完整资料档案：起步价格${a.startingPrice}元，线路类型${a.lineType}，协议支持${a.protocols.join('/')}，各套餐流量与每GB单价精确明细。`,
-      keywords: `${a.name}, ${a.name}套餐, ${a.name}价格, ${a.name}节点, 机场节点, 梯子推荐, 性价比机场`,
+      title: pageTitle,
+      description: pageDesc,
+      keywords: pageKeywords,
       canonicalPath,
       depth,
       activeNav: 'recommend',
