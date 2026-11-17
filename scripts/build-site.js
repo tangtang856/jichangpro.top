@@ -419,13 +419,13 @@ function buildHomePage() {
         <table class="data-table">
           <thead>
             <tr>
-              <th style="width:60px">排名</th>
-              <th>品牌名称与专属券</th>
-              <th>起步价格</th>
-              <th>入门流量 / 单价</th>
-              <th>线路类型</th>
-              <th>综合评分</th>
-              <th>适合人群</th>
+              <th style="width:55px;text-align:center">排名</th>
+              <th style="min-width:230px">品牌名称与专属券</th>
+              <th style="min-width:110px">起步价格</th>
+              <th style="min-width:115px">入门流量 / 单价</th>
+              <th style="min-width:120px">线路类型</th>
+              <th style="min-width:90px">综合评分</th>
+              <th style="min-width:150px">适合人群</th>
               <th style="text-align:center;min-width:140px">操作入口</th>
             </tr>
           </thead>
@@ -434,9 +434,11 @@ function buildHomePage() {
               <tr>
                 <td><span class="rank-badge ${idx === 0 ? 'rank-1' : idx === 1 ? 'rank-2' : idx === 2 ? 'rank-3' : ''}">${idx + 1}</span></td>
                 <td>
-                  <strong>${item.name}</strong>
-                  ${item.coupon ? `<span class="pill-tag" style="background:#fee2e2;color:#b91c1c;border-color:#fca5a5;font-size:0.72rem;margin-left:0.25rem;font-weight:700">券: ${item.coupon}</span>` : ''}
-                  <br><small style="color:var(--text-muted)">${item.tagline.split('·')[0]}</small>
+                  <div style="display:flex;align-items:center;gap:0.4rem;flex-wrap:wrap">
+                    <strong style="font-size:0.95rem">${item.name}</strong>
+                    ${item.coupon ? `<span class="coupon-tag">券: ${item.coupon}</span>` : ''}
+                  </div>
+                  <div style="font-size:0.75rem;color:var(--text-muted);margin-top:0.25rem">${item.tagline.split('·')[0]}</div>
                 </td>
                 <td style="color:var(--primary);font-weight:700">${item.currency}${item.startingPrice} <span style="font-size:0.8rem;color:var(--text-muted)">/ ${item.billingCycle}</span></td>
                 <td>${item.plans[0].traffic}<br><small style="color:var(--text-muted)">(¥${item.plans[0].unitPrice}/GB)</small></td>
@@ -846,7 +848,7 @@ function buildRecommendPages() {
             <table class="data-table">
               <thead>
                 <tr>
-                  <th>品牌</th>
+                  <th style="min-width:210px">品牌与专属券</th>
                   <th>起步价</th>
                   <th>入门每GB单价</th>
                   <th>线路架构</th>
@@ -859,8 +861,11 @@ function buildRecommendPages() {
                 ${filtered.map(a => `
                   <tr>
                     <td>
-                      <strong>${a.name}</strong>
-                      ${a.coupon ? `<br><small style="color:#b91c1c;font-weight:700">券: ${a.coupon}</small>` : ''}
+                      <div style="display:flex;align-items:center;gap:0.4rem;flex-wrap:wrap">
+                        <strong style="font-size:0.95rem">${a.name}</strong>
+                        ${a.coupon ? `<span class="coupon-tag">券: ${a.coupon}</span>` : ''}
+                      </div>
+                      <div style="font-size:0.75rem;color:var(--text-muted);margin-top:0.25rem">${a.tagline.split('·')[0]}</div>
                     </td>
                     <td style="color:var(--primary);font-weight:700">${a.currency}${a.startingPrice}</td>
                     <td>¥${a.plans[0].unitPrice} / GB</td>
@@ -1022,13 +1027,13 @@ function buildRankingPages() {
             <table class="data-table">
               <thead>
                 <tr>
-                  <th style="width:60px">名次</th>
-                  <th>品牌名称与专属券</th>
-                  <th>起步价格</th>
-                  <th>入门流量与单价</th>
-                  <th>线路架构</th>
-                  <th>核心维度</th>
-                  <th>适合人群</th>
+                  <th style="width:55px;text-align:center">名次</th>
+                  <th style="min-width:230px">品牌名称与专属券</th>
+                  <th style="min-width:110px">起步价格</th>
+                  <th style="min-width:115px">入门流量与单价</th>
+                  <th style="min-width:120px">线路架构</th>
+                  <th style="min-width:100px">核心维度</th>
+                  <th style="min-width:150px">适合人群</th>
                   <th style="text-align:center;min-width:140px">直达与报告</th>
                 </tr>
               </thead>
@@ -1037,9 +1042,11 @@ function buildRankingPages() {
                   <tr>
                     <td><span class="rank-badge ${idx === 0 ? 'rank-1' : idx === 1 ? 'rank-2' : idx === 2 ? 'rank-3' : ''}">${idx + 1}</span></td>
                     <td>
-                      <strong>${a.name}</strong>
-                      ${a.coupon ? `<span class="pill-tag" style="background:#fee2e2;color:#b91c1c;border-color:#fca5a5;font-size:0.72rem;margin-left:0.25rem;font-weight:700">券: ${a.coupon}</span>` : ''}
-                      <br><small style="color:var(--text-muted)">${a.tagline.split('·')[0]}</small>
+                      <div style="display:flex;align-items:center;gap:0.4rem;flex-wrap:wrap">
+                        <strong style="font-size:0.95rem">${a.name}</strong>
+                        ${a.coupon ? `<span class="coupon-tag">券: ${a.coupon}</span>` : ''}
+                      </div>
+                      <div style="font-size:0.75rem;color:var(--text-muted);margin-top:0.25rem">${a.tagline.split('·')[0]}</div>
                     </td>
                     <td style="color:var(--primary);font-weight:700">${a.currency}${a.startingPrice} <span style="font-size:0.8rem;color:var(--text-muted)">/ ${a.billingCycle}</span></td>
                     <td>${a.plans[0].traffic}<br><small style="color:var(--text-muted)">(¥${a.plans[0].unitPrice}/GB)</small></td>

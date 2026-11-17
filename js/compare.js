@@ -81,7 +81,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var html = '<div class="table-container"><table class="data-table"><thead><tr><th style="min-width:130px">对比维度</th>';
     items.forEach(function (item) {
       html += '<th style="text-align:center;min-width:180px">' + item.name + 
-              (item.coupon ? '<br><span style="font-size:0.75rem;background:#fee2e2;color:#b91c1c;padding:0.1rem 0.4rem;border-radius:4px;font-weight:600">券: ' + item.coupon + '</span>' : '') + 
+              (item.coupon ? '<br><span class="coupon-tag" style="margin-top:0.25rem">券: ' + item.coupon + '</span>' : '') + 
               '</th>';
     });
     html += '</tr></thead><tbody>';
