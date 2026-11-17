@@ -122,7 +122,7 @@ function renderFooter(depth) {
             <li><a href="${rel}editorial-policy/index.html">编辑政策与评测标准</a></li>
             <li><a href="${rel}privacy-policy/index.html">隐私权保护声明</a></li>
             <li><a href="${rel}disclaimer/index.html">免责声明与合规告示</a></li>
-            <li><a href="${rel}sitemap.xml">XML 网站地图</a></li>
+            <li><a href="${rel}sitemap.html">网站地图 (HTML)</a> · <a href="${rel}sitemap.xml">XML 格式</a></li>
           </ul>
         </div>
       </div>
@@ -2593,11 +2593,157 @@ function buildTrustAndLegalPages() {
 }
 
 // ==========================================
+// 10.5 生成 HTML 网站地图 (sitemap.html)
+// ==========================================
+function buildHtmlSitemapPage() {
+  const depth = 0;
+  const rel = getRelPrefix(depth);
+  registerPage(`${SITE_URL}/sitemap.html`, 0.7, 'weekly');
+
+  const contentHtml = `
+  <div class="container section">
+    <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:var(--radius-md);padding:1.25rem 1.5rem;margin-bottom:2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem">
+      <div>
+        <h1 style="color:#1e40af;font-size:1.5rem;margin:0 0 0.25rem;line-height:1.3">🗺️ 机场PRO 站点地图 (Sitemap 索引目录)</h1>
+        <p style="color:#3b82f6;font-size:0.88rem;margin:0">收录全站所有机场推荐、节点排行榜、独立评测、客户端教程与博客文章完整索引。</p>
+      </div>
+      <a href="${rel}sitemap.xml" target="_blank" class="btn btn-primary btn-sm">查看 XML 爬虫格式 ↗</a>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(320px, 1fr));gap:1.5rem">
+      <!-- 核心页面 -->
+      <div style="background:var(--bg-card);border:1px solid var(--border-color);border-radius:var(--radius-md);padding:1.5rem">
+        <h2 style="font-size:1.15rem;margin-bottom:1rem;color:var(--text-main);border-bottom:2px solid var(--primary);padding-bottom:0.5rem">
+          📌 核心页面与横向对比
+        </h2>
+        <ul style="list-style:none;padding:0;display:flex;flex-direction:column;gap:0.5rem">
+          <li><a href="${rel}index.html" style="color:var(--primary);font-weight:600">🏠 网站首页 (2026专业中文机场推荐与节点导航)</a></li>
+          <li><a href="${rel}compare/index.html">⚖️ 机场横向对比工具 (支持2-4家参数横评)</a></li>
+          <li><a href="${rel}guides/index.html">📚 客户端使用教程中心 (30篇全平台指引)</a></li>
+          <li><a href="${rel}blog/index.html">💡 选购指南与技术博客 (100篇知识库)</a></li>
+          <li><a href="${rel}about/index.html">🏢 关于我们</a></li>
+          <li><a href="${rel}editorial-policy/index.html">🛡️ 编辑政策与独立评测准则</a></li>
+          <li><a href="${rel}privacy-policy/index.html">🔒 隐私权保护声明</a></li>
+          <li><a href="${rel}disclaimer/index.html">⚖️ 免责声明与合规告示</a></li>
+          <li><a href="${rel}contact/index.html">✉️ 联系我们与反馈</a></li>
+        </ul>
+      </div>
+
+      <!-- 六大推荐专题 -->
+      <div style="background:var(--bg-card);border:1px solid var(--border-color);border-radius:var(--radius-md);padding:1.5rem">
+        <h2 style="font-size:1.15rem;margin-bottom:1rem;color:var(--text-main);border-bottom:2px solid var(--primary);padding-bottom:0.5rem">
+          🎯 六大场景推荐专题
+        </h2>
+        <ul style="list-style:none;padding:0;display:flex;flex-direction:column;gap:0.5rem">
+          <li><a href="${rel}recommend/budget/index.html">💰 高性价比平价机场推荐</a></li>
+          <li><a href="${rel}recommend/premium/index.html">💎 高端优质专线机场推荐</a></li>
+          <li><a href="${rel}recommend/beginner/index.html">🔰 新手小白友好机场推荐</a></li>
+          <li><a href="${rel}recommend/stable/index.html">🛡️ 稳定防封锁防失联机场</a></li>
+          <li><a href="${rel}recommend/ai/index.html">🤖 ChatGPT / Claude AI 专用节点</a></li>
+          <li><a href="${rel}recommend/streaming/index.html">🎬 4K / 8K 流媒体超清解锁机场</a></li>
+        </ul>
+      </div>
+
+      <!-- 四大排行榜 -->
+      <div style="background:var(--bg-card);border:1px solid var(--border-color);border-radius:var(--radius-md);padding:1.5rem">
+        <h2 style="font-size:1.15rem;margin-bottom:1rem;color:var(--text-main);border-bottom:2px solid var(--primary);padding-bottom:0.5rem">
+          📊 多维度基准排行榜
+        </h2>
+        <ul style="list-style:none;padding:0;display:flex;flex-direction:column;gap:0.5rem">
+          <li><a href="${rel}ranking/overall/index.html">🏆 2026年度翻墙机场综合排行榜</a></li>
+          <li><a href="${rel}ranking/value/index.html">💰 真实性价比单G单价排行榜</a></li>
+          <li><a href="${rel}ranking/budget/index.html">💵 低预算平价机场排行榜</a></li>
+          <li><a href="${rel}ranking/stable/index.html">🚀 晚高峰稳定性专线排行榜</a></li>
+        </ul>
+      </div>
+
+      <!-- 术语百科 -->
+      <div style="background:var(--bg-card);border:1px solid var(--border-color);border-radius:var(--radius-md);padding:1.5rem">
+        <h2 style="font-size:1.15rem;margin-bottom:1rem;color:var(--text-main);border-bottom:2px solid var(--primary);padding-bottom:0.5rem">
+          📖 翻墙网络术语百科
+        </h2>
+        <ul style="list-style:none;padding:0;display:flex;flex-direction:column;gap:0.5rem">
+          <li><a href="${rel}glossary/iplc/index.html">什么是 IPLC 专线？国际私有专线深度解析</a></li>
+          <li><a href="${rel}glossary/iepl/index.html">什么是 IEPL 专线？以太网专线与物理跨境</a></li>
+          <li><a href="${rel}glossary/clash/index.html">什么是 Clash 规则分流？内外网智能路由</a></li>
+          <li><a href="${rel}glossary/hysteria2/index.html">什么是 Hysteria2 协议？魔改UDP暴力弱网提速</a></li>
+          <li><a href="${rel}glossary/native-ip/index.html">什么是住宅原生IP？机房IP风控规避要领</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 14大机场评测与档案 -->
+    <div style="margin-top:2rem;background:var(--bg-card);border:1px solid var(--border-color);border-radius:var(--radius-md);padding:1.5rem">
+      <h2 style="font-size:1.15rem;margin-bottom:1rem;color:var(--text-main);border-bottom:2px solid var(--primary);padding-bottom:0.5rem">
+        🏢 14大核验机场独立评测与参数档案
+      </h2>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill, minmax(260px, 1fr));gap:0.75rem">
+        ${airportsData.map(a => `
+          <div style="padding:0.5rem 0.75rem;background:#f8fafc;border-radius:6px;display:flex;justify-content:space-between;align-items:center">
+            <strong>${a.name}</strong>
+            <div style="display:flex;gap:0.4rem">
+              <a href="${rel}review/${a.slug}/index.html" style="font-size:0.82rem;color:var(--primary)">深度评测</a>
+              <span style="color:#cbd5e1">|</span>
+              <a href="${rel}airport/${a.slug}/index.html" style="font-size:0.82rem;color:var(--text-muted)">参数档案</a>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+
+    <!-- 教程索引 (30篇) -->
+    <div style="margin-top:2rem;background:var(--bg-card);border:1px solid var(--border-color);border-radius:var(--radius-md);padding:1.5rem">
+      <h2 style="font-size:1.15rem;margin-bottom:1rem;color:var(--text-main);border-bottom:2px solid var(--primary);padding-bottom:0.5rem">
+        💻 客户端使用教程 (共30篇)
+      </h2>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill, minmax(280px, 1fr));gap:0.6rem">
+        ${guidesData.map(g => `
+          <div>
+            <span style="font-size:0.75rem;background:#e0f2fe;color:#0369a1;padding:0.1rem 0.35rem;border-radius:3px">${g.platform || '客户端'}</span>
+            <a href="${rel}guides/${g.slug}/index.html" style="font-size:0.85rem;margin-left:0.35rem">${(g.h1 || g.title).split('：')[0]}</a>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+
+    <!-- 博客索引 (100篇) -->
+    <div style="margin-top:2rem;background:var(--bg-card);border:1px solid var(--border-color);border-radius:var(--radius-md);padding:1.5rem">
+      <h2 style="font-size:1.15rem;margin-bottom:1rem;color:var(--text-main);border-bottom:2px solid var(--primary);padding-bottom:0.5rem">
+        💡 选购指南与技术博客 (共100篇)
+      </h2>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill, minmax(320px, 1fr));gap:0.6rem">
+        ${articlesData.map(art => `
+          <div>
+            <span style="font-size:0.75rem;background:#f1f5f9;color:#475569;padding:0.1rem 0.35rem;border-radius:3px">${art.category || '指南'}</span>
+            <a href="${rel}blog/${art.slug}/index.html" style="font-size:0.85rem;margin-left:0.35rem">${(art.h1 || art.title).split('：')[0]}</a>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  </div>`;
+
+  const html = renderHtmlPage({
+    title: '网站地图 (Sitemap) - 全站页面索引导航 | 机场PRO',
+    description: '机场PRO 网站地图，收录全站所有机场推荐、节点排行榜、独立评测、客户端教程与博客文章完整索引。',
+    keywords: '网站地图, 机场PRO sitemap, 机场推荐, 节点导航, 梯子推荐',
+    canonicalPath: 'sitemap.html',
+    depth: 0,
+    activeNav: '',
+    crumbs: [{ name: '网站地图', url: `${rel}sitemap.html` }],
+    schemas: [],
+    contentHtml
+  });
+
+  writeHtmlFile('sitemap.html', html);
+}
+
+// ==========================================
 // 11. 生成 sitemap.xml 与 robots.txt
 // ==========================================
 function buildSitemapAndRobots() {
   // 生成 sitemap.xml
   let xml = `<?xml version="1.0" encoding="UTF-8"?>\n`;
+  xml += `<?xml-stylesheet type="text/xsl" href="./sitemap.xsl"?>\n`;
   xml += `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n`;
 
   allPages.forEach(p => {
@@ -2649,6 +2795,7 @@ buildGuidePages();
 buildBlogPages();
 buildGlossaryPages();
 buildTrustAndLegalPages();
+buildHtmlSitemapPage();
 buildSitemapAndRobots();
 buildIndexNowKeyFile();
 

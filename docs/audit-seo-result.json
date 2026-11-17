@@ -913,5 +913,10 @@
     "file": "review/yinxingren/index.html",
     "status": "PASS",
     "issues": []
+  },
+  {
+    "file": "sitemap.html",
+    "status": "PASS",
+    "issues": []
   }
 ]
