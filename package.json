@@ -1,0 +1,27 @@
+{
+  "name": "jichangpro.top",
+  "version": "1.0.0",
+  "description": "专业中文机场推荐、梯子节点测评与高性价比VPN导航门户",
+  "private": true,
+  "scripts": {
+    "build": "node scripts/build-site.js",
+    "start": "npx serve .",
+    "indexnow": "node scripts/indexnow.js",
+    "audit:seo": "node scripts/audit-seo.js",
+    "check:links": "node scripts/check-links.js",
+    "validate:content": "node scripts/validate-content.js",
+    "test": "node scripts/audit-seo.js && node scripts/check-links.js && node scripts/validate-content.js"
+  },
+  "keywords": [
+    "机场推荐",
+    "机场节点",
+    "性价比机场",
+    "梯子推荐",
+    "vpn",
+    "vpn机场",
+    "vpn节点",
+    "vpn推荐"
+  ],
+  "author": "机场PRO",
+  "license": "MIT"
+}
