@@ -103,6 +103,10 @@
         <a href="../../glossary/iplc/index.html" class="nav-link ">术语百科</a>
       </nav>
       <div class="nav-actions">
+        <button type="button" class="btn btn-contact-nav btn-sm" onclick="openContactModal()" aria-label="联络我们 · 商务合作与技术咨询" title="联络我们 · 商务合作与技术咨询">
+          <span class="contact-pulse-dot"></span>
+          <span>联络我们</span>
+        </button>
         <a href="../../compare/index.html" class="btn btn-outline btn-sm">横向比对</a>
         <a href="../../ranking/value/index.html" class="btn btn-primary btn-sm">高性价比榜</a>
         <button class="mobile-menu-btn" aria-label="展开导航菜单" aria-expanded="false">
@@ -112,6 +116,12 @@
     </div>
   </header>
   <div class="mobile-drawer">
+    <div style="padding:0.75rem 1rem;border-bottom:1px solid var(--border-color);margin-bottom:0.75rem">
+      <button type="button" class="btn btn-contact-nav btn-sm" style="width:100%;justify-content:center;padding:0.6rem" onclick="openContactModal()">
+        <span class="contact-pulse-dot"></span>
+        <span>💬 联络我们 (Telegram / Gmail)</span>
+      </button>
+    </div>
     <ul class="mobile-nav-list">
       <li><a href="../../index.html" class="nav-link">首页</a></li>
       <li><a href="../../recommend/budget/index.html" class="nav-link">高性价比机场推荐</a></li>
@@ -315,6 +325,107 @@ alias unsetproxy="unset http_proxy https_proxy; echo Proxy-off"</code></pre>保�
     </div>
   </footer>
   <script src="../../js/main.js"></script>
+  
+  <!-- 全局商务联络弹窗 (Contact & Business Modal) -->
+  <div id="contactModalOverlay" class="contact-modal-overlay" onclick="handleContactOverlayClick(event)" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="contactModalTitle">
+    <div class="contact-modal-card">
+      <button type="button" class="contact-modal-close" onclick="closeContactModal()" aria-label="关闭窗口">&times;</button>
+      
+      <div class="contact-modal-header">
+        <div class="contact-badge">
+          <span class="contact-pulse-dot"></span>
+          <span>官方商务沟通通道</span>
+        </div>
+        <h3 id="contactModalTitle" class="contact-modal-title">联络我们 · 商务合作与技术咨询</h3>
+        <p class="contact-modal-subtitle">
+          欢迎机场品牌送测核验、商务广告赞助、专线链路技术咨询与读者勘误反馈。<br>
+          我们承诺在 <strong>2~12 小时</strong> 内极速回复，专人对接。
+        </p>
+      </div>
+
+      <div class="contact-channels-grid">
+        <!-- 1. Telegram 渠道 -->
+        <div class="contact-channel-card contact-channel-tg">
+          <div class="contact-channel-top">
+            <div class="contact-channel-icon tg-icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .37z" fill="#0088cc"/>
+              </svg>
+            </div>
+            <div class="contact-channel-meta">
+              <div class="channel-label-row">
+                <span class="channel-name">Telegram 商务直达</span>
+                <span class="channel-tag tag-primary">实时在线 · 优先推荐</span>
+              </div>
+              <div class="channel-val-row">
+                <code class="contact-val">@xintangtang</code>
+              </div>
+            </div>
+          </div>
+          <p class="channel-desc">
+            推荐使用 Telegram 即时沟通，支持商务洽谈、测速送测账号对接与即时响应。
+          </p>
+          <div class="contact-channel-actions">
+            <a href="https://t.me/xintangtang" target="_blank" rel="noopener noreferrer nofollow" class="btn btn-tg-action">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .37z"/></svg>
+              <span>直达 Telegram 沟通 ↗</span>
+            </a>
+            <button type="button" class="btn btn-copy-action" onclick="copyContactText('@xintangtang', 'Telegram 账号')">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              <span>复制 TG 账号</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 2. Gmail 渠道 -->
+        <div class="contact-channel-card contact-channel-gmail">
+          <div class="contact-channel-top">
+            <div class="contact-channel-icon gmail-icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+                <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" fill="#ea4335"/>
+              </svg>
+            </div>
+            <div class="contact-channel-meta">
+              <div class="channel-label-row">
+                <span class="channel-name">Gmail 官方邮箱</span>
+                <span class="channel-tag tag-mail">商务提案 · 正式函件</span>
+              </div>
+              <div class="channel-val-row">
+                <code class="contact-val">xintangtang888@gmail.com</code>
+              </div>
+            </div>
+          </div>
+          <p class="channel-desc">
+            适合长篇商务合作草案、机构评测对接方案、品牌合作备忘录或数据纠错凭证传递。
+          </p>
+          <div class="contact-channel-actions">
+            <a href="mailto:xintangtang888@gmail.com?subject=【机场PRO商务合作与技术咨询】" class="btn btn-mail-action">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+              <span>发送邮件直达 ↗</span>
+            </a>
+            <button type="button" class="btn btn-copy-action" onclick="copyContactText('xintangtang888@gmail.com', 'Gmail 邮箱')">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              <span>复制 Gmail 地址</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 底部合作声明 -->
+      <div class="contact-modal-footer">
+        <div class="contact-notice-box">
+          <div class="notice-title">🛡️ 商务合作与品牌送测声明：</div>
+          <div class="notice-text">
+            机场PRO 始终坚持<strong>独立客观第三方实机评测</strong>。申请品牌收录或评测更新需提供真实可测的骨干专线测试环境。我们<strong>坚决拒绝虚标带宽、资金盘跑路或劣质直连商家</strong>，以确保中文翻墙用户获取真实透明的数据决策参考。
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 复制成功 Toast 提示 -->
+  <div id="contactToast" class="contact-toast" role="status" aria-live="polite"></div>
+  
   <script src="../../js/dynamic-bg.js"></script>
   
 </body>

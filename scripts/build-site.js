@@ -46,6 +46,10 @@ function renderHeader(depth, activeNav = '') {
         <a href="${rel}glossary/iplc/index.html" class="nav-link ${activeNav === 'glossary' ? 'active' : ''}">术语百科</a>
       </nav>
       <div class="nav-actions">
+        <button type="button" class="btn btn-contact-nav btn-sm" onclick="openContactModal()" aria-label="联络我们 · 商务合作与技术咨询" title="联络我们 · 商务合作与技术咨询">
+          <span class="contact-pulse-dot"></span>
+          <span>联络我们</span>
+        </button>
         <a href="${rel}compare/index.html" class="btn btn-outline btn-sm">横向比对</a>
         <a href="${rel}ranking/value/index.html" class="btn btn-primary btn-sm">高性价比榜</a>
         <button class="mobile-menu-btn" aria-label="展开导航菜单" aria-expanded="false">
@@ -55,6 +59,12 @@ function renderHeader(depth, activeNav = '') {
     </div>
   </header>
   <div class="mobile-drawer">
+    <div style="padding:0.75rem 1rem;border-bottom:1px solid var(--border-color);margin-bottom:0.75rem">
+      <button type="button" class="btn btn-contact-nav btn-sm" style="width:100%;justify-content:center;padding:0.6rem" onclick="openContactModal()">
+        <span class="contact-pulse-dot"></span>
+        <span>💬 联络我们 (Telegram / Gmail)</span>
+      </button>
+    </div>
     <ul class="mobile-nav-list">
       <li><a href="${rel}index.html" class="nav-link">首页</a></li>
       <li><a href="${rel}recommend/budget/index.html" class="nav-link">高性价比机场推荐</a></li>
@@ -172,6 +182,111 @@ function renderBreadcrumbSchema(crumbs) {
   };
 }
 
+// 全局商务与技术联络弹窗组件 (Telegram & Gmail 官方直达)
+function renderContactModal() {
+  return `
+  <!-- 全局商务联络弹窗 (Contact & Business Modal) -->
+  <div id="contactModalOverlay" class="contact-modal-overlay" onclick="handleContactOverlayClick(event)" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="contactModalTitle">
+    <div class="contact-modal-card">
+      <button type="button" class="contact-modal-close" onclick="closeContactModal()" aria-label="关闭窗口">&times;</button>
+      
+      <div class="contact-modal-header">
+        <div class="contact-badge">
+          <span class="contact-pulse-dot"></span>
+          <span>官方商务沟通通道</span>
+        </div>
+        <h3 id="contactModalTitle" class="contact-modal-title">联络我们 · 商务合作与技术咨询</h3>
+        <p class="contact-modal-subtitle">
+          欢迎机场品牌送测核验、商务广告赞助、专线链路技术咨询与读者勘误反馈。<br>
+          我们承诺在 <strong>2~12 小时</strong> 内极速回复，专人对接。
+        </p>
+      </div>
+
+      <div class="contact-channels-grid">
+        <!-- 1. Telegram 渠道 -->
+        <div class="contact-channel-card contact-channel-tg">
+          <div class="contact-channel-top">
+            <div class="contact-channel-icon tg-icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .37z" fill="#0088cc"/>
+              </svg>
+            </div>
+            <div class="contact-channel-meta">
+              <div class="channel-label-row">
+                <span class="channel-name">Telegram 商务直达</span>
+                <span class="channel-tag tag-primary">实时在线 · 优先推荐</span>
+              </div>
+              <div class="channel-val-row">
+                <code class="contact-val">@xintangtang</code>
+              </div>
+            </div>
+          </div>
+          <p class="channel-desc">
+            推荐使用 Telegram 即时沟通，支持商务洽谈、测速送测账号对接与即时响应。
+          </p>
+          <div class="contact-channel-actions">
+            <a href="https://t.me/xintangtang" target="_blank" rel="noopener noreferrer nofollow" class="btn btn-tg-action">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .37z"/></svg>
+              <span>直达 Telegram 沟通 ↗</span>
+            </a>
+            <button type="button" class="btn btn-copy-action" onclick="copyContactText('@xintangtang', 'Telegram 账号')">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              <span>复制 TG 账号</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 2. Gmail 渠道 -->
+        <div class="contact-channel-card contact-channel-gmail">
+          <div class="contact-channel-top">
+            <div class="contact-channel-icon gmail-icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+                <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" fill="#ea4335"/>
+              </svg>
+            </div>
+            <div class="contact-channel-meta">
+              <div class="channel-label-row">
+                <span class="channel-name">Gmail 官方邮箱</span>
+                <span class="channel-tag tag-mail">商务提案 · 正式函件</span>
+              </div>
+              <div class="channel-val-row">
+                <code class="contact-val">xintangtang888@gmail.com</code>
+              </div>
+            </div>
+          </div>
+          <p class="channel-desc">
+            适合长篇商务合作草案、机构评测对接方案、品牌合作备忘录或数据纠错凭证传递。
+          </p>
+          <div class="contact-channel-actions">
+            <a href="mailto:xintangtang888@gmail.com?subject=【机场PRO商务合作与技术咨询】" class="btn btn-mail-action">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+              <span>发送邮件直达 ↗</span>
+            </a>
+            <button type="button" class="btn btn-copy-action" onclick="copyContactText('xintangtang888@gmail.com', 'Gmail 邮箱')">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              <span>复制 Gmail 地址</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 底部合作声明 -->
+      <div class="contact-modal-footer">
+        <div class="contact-notice-box">
+          <div class="notice-title">🛡️ 商务合作与品牌送测声明：</div>
+          <div class="notice-text">
+            机场PRO 始终坚持<strong>独立客观第三方实机评测</strong>。申请品牌收录或评测更新需提供真实可测的骨干专线测试环境。我们<strong>坚决拒绝虚标带宽、资金盘跑路或劣质直连商家</strong>，以确保中文翻墙用户获取真实透明的数据决策参考。
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 复制成功 Toast 提示 -->
+  <div id="contactToast" class="contact-toast" role="status" aria-live="polite"></div>
+  `;
+}
+
 // 统一 HTML 页面包装器
 function renderHtmlPage({
   title,
@@ -247,6 +362,7 @@ ${JSON.stringify(allSchemas, null, 2)}
     ${contentHtml}
   </main>
   ${renderFooter(depth)}
+  ${renderContactModal()}
   <script src="${rel}js/dynamic-bg.js"></script>
   ${extraScripts}
 </body>
@@ -2804,21 +2920,89 @@ function buildTrustAndLegalPages() {
     <div class="container" style="padding-top:1.5rem">
       <div class="content-wrapper">
         <div class="post-header">
-          <span class="hero-tag">沟通反馈</span>
-          <h1 style="margin-top:0.5rem">联系 机场PRO 编辑团队</h1>
-          <p class="section-subtitle" style="font-size:1.05rem;line-height:1.7;color:var(--text-body);margin-top:0.75rem">欢迎提供数据勘误、投稿线索、产品更新资讯与技术交流</p>
+          <span class="hero-tag">官方联络中心</span>
+          <h1 style="margin-top:0.5rem">联系 机场PRO · 商务合作与技术咨询</h1>
+          <p class="section-subtitle" style="font-size:1.05rem;line-height:1.7;color:var(--text-body);margin-top:0.75rem">欢迎机场运营方商务洽谈、节点送测核验、广告赞助合作或读者技术交流反馈。我们承诺在 <strong>2~12 小时</strong> 内极速回复，专人对接。</p>
         </div>
         <div class="post-body">
-          <h2>联系通道</h2>
-          <p>为了保障沟通效率，建议通过以下官方电子邮箱与我们联系：</p>
-          <div style="background:var(--bg-subtle);padding:1.25rem;border-radius:var(--radius-sm);margin:1.5rem 0">
-            <p style="margin-bottom:0.5rem">📧 <strong>官方联系邮箱：</strong> <code style="background:#fff;padding:0.2rem 0.5rem;border-radius:4px;border:1px solid var(--border-color)">contact@jichangpro.top</code></p>
-            <p style="margin-bottom:0;font-size:0.9rem;color:var(--text-muted)">通常情况下，编辑团队会在 1-2 个工作日内回复您的邮件。</p>
+          <h2>官方联络渠道</h2>
+          <p>为了保障沟通时效与信息准确度，请选择最契合您业务需求的联络通道：</p>
+          
+          <div class="contact-channels-grid" style="margin:1.5rem 0 2rem">
+            <!-- 1. Telegram 渠道 -->
+            <div class="contact-channel-card contact-channel-tg">
+              <div class="contact-channel-top">
+                <div class="contact-channel-icon tg-icon">
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .37z" fill="#0088cc"/>
+                  </svg>
+                </div>
+                <div class="contact-channel-meta">
+                  <div class="channel-label-row">
+                    <span class="channel-name">Telegram 商务直通</span>
+                    <span class="channel-tag tag-primary">实时在线 · 优先推荐</span>
+                  </div>
+                  <div class="channel-val-row">
+                    <code class="contact-val">@xintangtang</code>
+                  </div>
+                </div>
+              </div>
+              <p class="channel-desc">
+                推荐使用 Telegram 即时沟通，支持商务洽谈、测速送测账号对接与即时响应。
+              </p>
+              <div class="contact-channel-actions">
+                <a href="https://t.me/xintangtang" target="_blank" rel="noopener noreferrer nofollow" class="btn btn-tg-action">
+                  <span>直达 Telegram 沟通 ↗</span>
+                </a>
+                <button type="button" class="btn btn-copy-action" onclick="copyContactText('@xintangtang', 'Telegram 账号')">
+                  <span>复制 TG 账号</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- 2. Gmail 渠道 -->
+            <div class="contact-channel-card contact-channel-gmail">
+              <div class="contact-channel-top">
+                <div class="contact-channel-icon gmail-icon">
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+                    <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" fill="#ea4335"/>
+                  </svg>
+                </div>
+                <div class="contact-channel-meta">
+                  <div class="channel-label-row">
+                    <span class="channel-name">Gmail 官方邮箱</span>
+                    <span class="channel-tag tag-mail">商务提案 · 正式函件</span>
+                  </div>
+                  <div class="channel-val-row">
+                    <code class="contact-val">xintangtang888@gmail.com</code>
+                  </div>
+                </div>
+              </div>
+              <p class="channel-desc">
+                适合长篇商务合作草案、机构评测对接方案、品牌合作备忘录或数据纠错凭证传递。
+              </p>
+              <div class="contact-channel-actions">
+                <a href="mailto:xintangtang888@gmail.com?subject=【机场PRO商务合作与技术咨询】" class="btn btn-mail-action">
+                  <span>发送邮件直达 ↗</span>
+                </a>
+                <button type="button" class="btn btn-copy-action" onclick="copyContactText('xintangtang888@gmail.com', 'Gmail 邮箱')">
+                  <span>复制 Gmail 地址</span>
+                </button>
+              </div>
+            </div>
           </div>
 
-          <h2>反馈与数据纠错机制</h2>
+          <h2>商务合作与品牌送测声明</h2>
+          <div class="contact-notice-box" style="margin-bottom:1.5rem">
+            <div class="notice-title">🛡️ 严格执行的独立中立实测准则：</div>
+            <div class="notice-text">
+              机场PRO 始终坚持<strong>独立客观第三方实机评测</strong>。申请品牌收录或评测更新需提供真实可测的骨干专线测试环境。我们<strong>坚决拒绝虚标带宽、资金盘跑路或劣质直连商家</strong>，以确保中文翻墙用户获取真实透明的数据决策参考。
+            </div>
+          </div>
+
+          <h2>反馈与数据勘误机制</h2>
           <p>
-            若您发现本站展示的某家机场套餐价格、节点线路或优惠政策与官方实际情况不一致，请提供截图与官方公告链接发送邮件至纠错邮箱。经核实后，我们将在 24 小时内更新统一数据库。
+            若您在游览本站时发现某家机场的套餐资费、节点拓扑或优惠码信息发生变更，请随时通过 Telegram 或 Gmail 与编辑部联系。经核验确认后，我们将在 24 小时内全站同步更新。
           </p>
         </div>
       </div>

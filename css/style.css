@@ -2068,3 +2068,359 @@ p {
   backdrop-filter: blur(14px) !important;
   -webkit-backdrop-filter: blur(14px) !important;
 }
+
+/* ==========================================
+   联络我们按钮与全局专业商务弹窗 (Contact Modal)
+   ========================================== */
+.btn-contact-nav {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: rgba(255, 255, 255, 0.95);
+  border: 1.5px solid #2563eb;
+  color: #1d4ed8;
+  font-weight: 700;
+  border-radius: var(--radius-sm);
+  padding: 0.35rem 0.8rem;
+  font-size: 0.82rem;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 1px 3px rgba(37, 99, 235, 0.12);
+  white-space: nowrap;
+}
+.btn-contact-nav:hover {
+  background: #eff6ff;
+  color: #1e40af;
+  border-color: #1d4ed8;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+}
+.contact-pulse-dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  background-color: #10b981;
+  border-radius: 50%;
+  box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+  animation: pulseGreen 1.8s infinite;
+  margin-right: 0.2rem;
+  vertical-align: middle;
+}
+
+/* 弹窗遮罩层 */
+.contact-modal-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(15, 23, 42, 0.7);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 9999;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+.contact-modal-overlay.active {
+  display: flex;
+  opacity: 1;
+}
+
+/* 弹窗卡片本体 */
+.contact-modal-card {
+  position: relative;
+  background: #ffffff;
+  border-radius: var(--radius-lg);
+  width: 100%;
+  max-width: 680px;
+  padding: 2.25rem 2rem;
+  box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.35), 0 0 0 1px rgba(15, 23, 42, 0.05);
+  transform: translateY(20px) scale(0.98);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  max-height: 90vh;
+  overflow-y: auto;
+}
+.contact-modal-overlay.active .contact-modal-card {
+  transform: translateY(0) scale(1);
+}
+
+.contact-modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1.25rem;
+  background: #f1f5f9;
+  border: none;
+  font-size: 1.5rem;
+  line-height: 1;
+  color: #64748b;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.contact-modal-close:hover {
+  background: #e2e8f0;
+  color: #0f172a;
+}
+
+.contact-modal-header {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+.contact-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: #ecfdf5;
+  color: #047857;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.25rem 0.65rem;
+  border-radius: 9999px;
+  margin-bottom: 0.5rem;
+  border: 1px solid #a7f3d0;
+}
+.contact-modal-title {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0.25rem 0 0.5rem;
+}
+.contact-modal-subtitle {
+  font-size: 0.88rem;
+  color: #64748b;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* 渠道卡片栅格 */
+.contact-channels-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+@media (max-width: 640px) {
+  .contact-channels-grid {
+    grid-template-columns: 1fr;
+  }
+  .contact-modal-card {
+    padding: 1.5rem 1rem;
+  }
+  .nav-actions .btn-outline {
+    display: none;
+  }
+}
+
+.contact-channel-card {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: var(--radius-md);
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.2s ease;
+}
+.contact-channel-card:hover {
+  border-color: #cbd5e1;
+  box-shadow: 0 8px 20px -4px rgba(15, 23, 42, 0.08);
+}
+.contact-channel-tg {
+  border-top: 3.5px solid #0088cc;
+}
+.contact-channel-gmail {
+  border-top: 3.5px solid #ea4335;
+}
+
+.contact-channel-top {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+.contact-channel-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.tg-icon {
+  background: #e0f2fe;
+}
+.gmail-icon {
+  background: #fee2e2;
+}
+
+.contact-channel-meta {
+  flex: 1;
+  min-width: 0;
+}
+.channel-label-row {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-bottom: 0.25rem;
+  flex-wrap: wrap;
+}
+.channel-name {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: #0f172a;
+}
+.channel-tag {
+  font-size: 0.68rem;
+  font-weight: 600;
+  padding: 0.15rem 0.45rem;
+  border-radius: 4px;
+}
+.tag-primary {
+  background: #dbeafe;
+  color: #1e40af;
+}
+.tag-mail {
+  background: #ffedd5;
+  color: #9a3412;
+}
+.contact-val {
+  font-size: 0.82rem;
+  font-family: var(--font-mono, monospace);
+  font-weight: 700;
+  color: #1e293b;
+  background: #ffffff;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  border: 1px solid #e2e8f0;
+  display: inline-block;
+  white-space: nowrap;
+  max-width: 100%;
+}
+
+.channel-desc {
+  font-size: 0.8rem;
+  color: #64748b;
+  line-height: 1.5;
+  margin: 0 0 1rem;
+  flex: 1;
+}
+
+.contact-channel-actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-direction: column;
+}
+.btn-tg-action {
+  background: #0088cc;
+  color: #ffffff !important;
+  border: none;
+  font-weight: 700;
+  padding: 0.5rem 0.85rem;
+  font-size: 0.85rem;
+  border-radius: var(--radius-sm);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+.btn-tg-action:hover {
+  background: #0077b5;
+  color: #ffffff !important;
+  box-shadow: 0 4px 12px rgba(0, 136, 204, 0.35);
+  transform: translateY(-1px);
+}
+
+.btn-mail-action {
+  background: #ea4335;
+  color: #ffffff !important;
+  border: none;
+  font-weight: 700;
+  padding: 0.5rem 0.85rem;
+  font-size: 0.85rem;
+  border-radius: var(--radius-sm);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+.btn-mail-action:hover {
+  background: #d93025;
+  color: #ffffff !important;
+  box-shadow: 0 4px 12px rgba(234, 67, 53, 0.35);
+  transform: translateY(-1px);
+}
+
+.btn-copy-action {
+  background: #ffffff;
+  color: #334155;
+  border: 1px solid #cbd5e1;
+  font-weight: 600;
+  padding: 0.45rem 0.75rem;
+  font-size: 0.82rem;
+  border-radius: var(--radius-sm);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.btn-copy-action:hover {
+  background: #f1f5f9;
+  border-color: #94a3b8;
+  color: #0f172a;
+}
+
+.contact-notice-box {
+  background: #f8fafc;
+  border-radius: var(--radius-sm);
+  padding: 0.85rem 1rem;
+  border-left: 3px solid #3b82f6;
+  font-size: 0.78rem;
+  color: #475569;
+  line-height: 1.6;
+}
+.notice-title {
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 0.2rem;
+}
+
+/* 复制提示 Toast */
+.contact-toast {
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%) translateY(50px);
+  background: #0f172a;
+  color: #ffffff;
+  padding: 0.65rem 1.25rem;
+  border-radius: 9999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+  z-index: 10000;
+  pointer-events: none;
+  opacity: 0;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.contact-toast.show {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+}
+
