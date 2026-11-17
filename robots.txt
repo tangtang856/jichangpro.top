@@ -2,5 +2,6 @@ User-agent: *
 Allow: /
 Disallow: /scripts/
 Disallow: /docs/
+Disallow: /cache_scraped/
 
 Sitemap: https://jichangpro.top/sitemap.xml

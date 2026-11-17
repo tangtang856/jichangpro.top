@@ -7,8 +7,8 @@ document.addEventListener('DOMContentLoaded', function () {
   var tableWrapper = document.getElementById('compare-table-wrapper');
   if (!selectorContainer || !tableWrapper) return;
 
-  // 默认对比前3家机场
-  var selectedSlugs = ['flyingbird', 'tag-internet', 'wancheng'];
+  // 默认对比前3家代表性机场
+  var selectedSlugs = ['yinxingren', 'breezenet', 'flashleap'];
 
   // 渲染选择器
   function renderSelectors() {
@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', function () {
     label.style.fontWeight = '600';
     label.style.fontSize = '0.95rem';
     label.style.color = 'var(--text-main)';
-    label.textContent = '选择对比机场（支持勾选 2 ~ 4 家）：';
+    label.textContent = '选择对比机场（支持在 14 款精选中勾选 2 ~ 4 家）：';
     selectorContainer.appendChild(label);
 
     var checkboxWrap = document.createElement('div');
@@ -80,7 +80,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
     var html = '<div class="table-container"><table class="data-table"><thead><tr><th style="min-width:130px">对比维度</th>';
     items.forEach(function (item) {
-      html += '<th style="text-align:center;min-width:180px">' + item.name + '</th>';
+      html += '<th style="text-align:center;min-width:180px">' + item.name + 
+              (item.coupon ? '<br><span style="font-size:0.75rem;background:#fee2e2;color:#b91c1c;padding:0.1rem 0.4rem;border-radius:4px;font-weight:600">券: ' + item.coupon + '</span>' : '') + 
+              '</th>';
     });
     html += '</tr></thead><tbody>';
 
@@ -99,7 +101,7 @@ document.addEventListener('DOMContentLoaded', function () {
     html += '</tr>';
 
     // 3. 入门套餐单价 (每GB)
-    html += '<tr><td><strong>入門套餐单价 (元/GB)</strong></td>';
+    html += '<tr><td><strong>入门套餐单价</strong></td>';
     items.forEach(function (i) {
       var plan = i.plans[0];
       html += '<td>¥' + plan.unitPrice + ' / GB<br><small style="color:var(--text-muted)">(' + plan.traffic + ' / ' + plan.price + '元)</small></td>';
@@ -135,7 +137,7 @@ document.addEventListener('DOMContentLoaded', function () {
     html += '</tr>';
 
     // 8. 流媒体支持
-    html += '<tr><td><strong>流媒体解锁 (Netflix/Disney+)</strong></td>';
+    html += '<tr><td><strong>流媒体解锁</strong></td>';
     items.forEach(function (i) {
       html += '<td style="font-size:0.85rem">' + i.streamingSupport.slice(0, 4).join('、') + '</td>';
     });
@@ -159,10 +161,13 @@ document.addEventListener('DOMContentLoaded', function () {
     });
     html += '</tr>';
 
-    // 11. 详细评测与资料链接
-    html += '<tr><td><strong>评测报告与档案</strong></td>';
+    // 11. 详细评测与直达官网
+    html += '<tr><td><strong>评测与官网直达</strong></td>';
     items.forEach(function (i) {
-      html += '<td style="text-align:center"><a href="../review/' + i.slug + '/index.html" class="btn btn-outline btn-sm">查看深度评测</a></td>';
+      html += '<td style="text-align:center;display:flex;flex-direction:column;gap:0.4rem;align-items:center">' +
+              '<a href="../review/' + i.slug + '/index.html" class="btn btn-outline btn-sm" style="width:100%">查看评测</a>' +
+              '<a href="' + i.affiliateUrl + '" target="_blank" rel="noopener noreferrer nofollow" class="btn btn-primary btn-sm" style="width:100%">前往官网 ↗</a>' +
+              '</td>';
     });
     html += '</tr>';
 

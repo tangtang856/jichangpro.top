@@ -2,6 +2,7 @@
  * 机场PRO (jichangpro.top) 静态全站生成系统
  * 遵循专业中文科技资讯门户设计规范 · 纯原生 Node.js 构建 · 纯 HTML + 原生 CSS
  * 严格执行：全站资源与内链使用标准相对路径，本地 file:// 协议与线上完全兼容
+ * 支持 14 家真实品牌数据库与推广 Affiliate 链路集成
  */
 
 const fs = require('fs');
@@ -11,9 +12,9 @@ const ROOT_DIR = path.resolve(__dirname, '..');
 const DOMAIN = 'jichangpro.top';
 const SITE_URL = `https://${DOMAIN}`;
 const SITE_NAME = '机场PRO';
-const CURRENT_DATE = '2026-03-15';
+const CURRENT_DATE = '2026-11-17';
 
-// 统一机场数据源
+// 统一机场数据源 (14家品牌)
 const airportsData = JSON.parse(fs.readFileSync(path.join(ROOT_DIR, 'data', 'airports.json'), 'utf8'));
 
 // 相对路径前缀
@@ -346,7 +347,7 @@ function buildHomePage() {
     <section class="section">
       <div class="section-header">
         <h2 class="section-title">
-          <span>🏆 精选高品质机场节点推荐</span>
+          <span>🏆 精选高品质机场节点推荐 (14款核验品牌)</span>
         </h2>
         <p class="section-subtitle">基于真实网络连通率、节点纯净度与售后维护记录筛选，所有参数均来自统一核实数据库</p>
       </div>
@@ -358,9 +359,15 @@ function buildHomePage() {
               <h3 class="airport-card-name">${airport.name}</h3>
               <p class="airport-card-tagline">${airport.tagline}</p>
             </div>
+            ${airport.coupon ? `
+              <div style="background:#fee2e2;color:#b91c1c;padding:0.35rem 0.65rem;border-radius:var(--radius-sm);font-size:0.8rem;font-weight:600;margin-bottom:0.75rem;display:flex;align-items:center;justify-content:space-between;border:1px dashed #fca5a5">
+                <span>🎁 专属优惠码: <code style="font-weight:800;background:#fff;padding:0.1rem 0.35rem;border-radius:3px">${airport.coupon}</code></span>
+                <span style="font-size:0.75rem;background:#ef4444;color:#fff;padding:0.1rem 0.35rem;border-radius:3px">立减特惠</span>
+              </div>
+            ` : ''}
             <div class="airport-card-meta">
               <div class="meta-col">
-                <span class="meta-label">起步月付</span>
+                <span class="meta-label">起步价格</span>
                 <span class="meta-val price-highlight">${airport.currency}${airport.startingPrice}</span>
               </div>
               <div class="meta-col">
@@ -390,9 +397,10 @@ function buildHomePage() {
                 <span class="spec-value" style="color:var(--text-muted)">${airport.disadvantages[0]}</span>
               </div>
             </div>
-            <div class="airport-card-actions">
-              <a href="${rel}review/${airport.slug}/index.html" class="btn btn-outline" style="flex:1">深度评测报告</a>
-              <a href="${rel}airport/${airport.slug}/index.html" class="btn btn-primary" style="flex:1">套餐参数档案</a>
+            <div class="airport-card-actions" style="display:flex;gap:0.4rem;flex-wrap:wrap">
+              <a href="${airport.affiliateUrl}" target="_blank" rel="noopener noreferrer nofollow" class="btn btn-primary" style="flex:1;min-width:100px;font-weight:700">官网直达 ↗</a>
+              <a href="${rel}review/${airport.slug}/index.html" class="btn btn-outline" style="flex:1;min-width:80px">深度评测</a>
+              <a href="${rel}airport/${airport.slug}/index.html" class="btn btn-outline" style="flex:1;min-width:80px">参数档案</a>
             </div>
           </div>
         `).join('')}
@@ -411,28 +419,35 @@ function buildHomePage() {
         <table class="data-table">
           <thead>
             <tr>
-              <th style="width:70px">排名</th>
-              <th>品牌名称</th>
+              <th style="width:60px">排名</th>
+              <th>品牌名称与专属券</th>
               <th>起步价格</th>
-              <th>入门套餐流量</th>
+              <th>入门流量 / 单价</th>
               <th>线路类型</th>
               <th>综合评分</th>
               <th>适合人群</th>
-              <th style="text-align:center">详情入口</th>
+              <th style="text-align:center;min-width:140px">操作入口</th>
             </tr>
           </thead>
           <tbody>
-            ${airportsData.map((item, idx) => `
+            ${[...airportsData].sort((a,b) => b.ratings.overall - a.ratings.overall).map((item, idx) => `
               <tr>
                 <td><span class="rank-badge ${idx === 0 ? 'rank-1' : idx === 1 ? 'rank-2' : idx === 2 ? 'rank-3' : ''}">${idx + 1}</span></td>
-                <td><strong>${item.name}</strong><br><small style="color:var(--text-muted)">${item.tagline.split('·')[0]}</small></td>
+                <td>
+                  <strong>${item.name}</strong>
+                  ${item.coupon ? `<span class="pill-tag" style="background:#fee2e2;color:#b91c1c;border-color:#fca5a5;font-size:0.72rem;margin-left:0.25rem;font-weight:700">券: ${item.coupon}</span>` : ''}
+                  <br><small style="color:var(--text-muted)">${item.tagline.split('·')[0]}</small>
+                </td>
                 <td style="color:var(--primary);font-weight:700">${item.currency}${item.startingPrice} <span style="font-size:0.8rem;color:var(--text-muted)">/ ${item.billingCycle}</span></td>
-                <td>${item.plans[0].traffic}</td>
+                <td>${item.plans[0].traffic}<br><small style="color:var(--text-muted)">(¥${item.plans[0].unitPrice}/GB)</small></td>
                 <td><span class="pill-tag">${item.lineType}</span></td>
                 <td><strong style="color:var(--primary);font-size:1.05rem">${item.ratings.overall}</strong> <small>/ 10</small></td>
                 <td style="font-size:0.85rem">${item.suitableFor[0]}</td>
                 <td style="text-align:center">
-                  <a href="${rel}review/${item.slug}/index.html" class="btn btn-outline btn-sm">评测报告</a>
+                  <div style="display:inline-flex;gap:0.35rem">
+                    <a href="${rel}review/${item.slug}/index.html" class="btn btn-outline btn-sm">评测</a>
+                    <a href="${item.affiliateUrl}" target="_blank" rel="noopener noreferrer nofollow" class="btn btn-primary btn-sm">官网 ↗</a>
+                  </div>
                 </td>
               </tr>
             `).join('')}
@@ -498,7 +513,7 @@ function buildHomePage() {
         <div style="max-width:650px">
           <span style="background:rgba(255,255,255,0.2);padding:0.25rem 0.65rem;border-radius:var(--radius-sm);font-size:0.82rem;font-weight:600">在线交互对比工具</span>
           <h3 style="color:#fff;font-size:1.6rem;margin-top:0.75rem;margin-bottom:0.5rem">拿不定主意？使用机场横向比对工具</h3>
-          <p style="color:#bfdbfe;font-size:0.95rem;margin-bottom:0">支持自由勾选 2 到 4 家机场品牌，全方位并排对比价格、每GB单价、协议类型、设备限制及 AI/流媒体支持详情，让优缺点一目了然。</p>
+          <p style="color:#bfdbfe;font-size:0.95rem;margin-bottom:0">支持在 14 款核验品牌中自由勾选 2 到 4 家并排比对价格、每GB单价、协议类型、设备限制及 AI/流媒体支持详情，让优缺点一目了然。</p>
         </div>
         <div>
           <a href="${rel}compare/index.html" class="btn btn-outline" style="background:#fff;color:var(--primary);font-size:1rem;padding:0.75rem 1.5rem">立即开启横向比对</a>
@@ -515,7 +530,7 @@ function buildHomePage() {
         <p class="section-subtitle">坚持客观公正立场，基于多地宽带（电信/联通/移动）晚高峰实测数据撰写</p>
       </div>
       <div class="article-list">
-        ${airportsData.map(a => `
+        ${airportsData.slice(0, 6).map(a => `
           <div class="article-card">
             <div class="article-meta">
               <span>实测报告</span>
@@ -526,7 +541,10 @@ function buildHomePage() {
             <p>${a.description}</p>
             <div style="display:flex;justify-content:space-between;align-items:center;margin-top:auto">
               <span style="font-size:0.85rem;color:var(--primary);font-weight:600">综合得分: ${a.ratings.overall}/10</span>
-              <a href="${rel}review/${a.slug}/index.html" class="btn btn-outline btn-sm">阅读评测 →</a>
+              <div style="display:flex;gap:0.4rem">
+                <a href="${rel}review/${a.slug}/index.html" class="btn btn-outline btn-sm">评测 →</a>
+                <a href="${a.affiliateUrl}" target="_blank" rel="noopener noreferrer nofollow" class="btn btn-primary btn-sm">官网 ↗</a>
+              </div>
             </div>
           </div>
         `).join('')}
@@ -654,7 +672,7 @@ function buildHomePage() {
         </div>
         <div class="faq-item">
           <div class="faq-question">如何选择适合访问 ChatGPT、Claude 等 AI 工具的机场节点？</div>
-          <div class="faq-answer">OpenAI 和 Anthropic 对机房数据中心 IP（Data Center IP）风控极其严格，普通共享广播IP极易触发“Access Denied”或封禁账号。选购时应挑选具备“原生IP”或“住宅家宽IP”优化、节点纯净度高且有专人维护流媒体与AI解锁的品质机场（如飞鸟云、TAG Internet 等）。</div>
+          <div class="faq-answer">OpenAI 和 Anthropic 对机房数据中心 IP（Data Center IP）风控极其严格，普通共享广播IP极易触发“Access Denied”或封禁账号。选购时应挑选具备“原生IP”或“住宅家宽IP”优化、节点纯净度高且有专人维护流媒体与AI解锁的品质机场（如隐形人、微风网络、闪跃等）。</div>
         </div>
       </div>
     </section>
@@ -687,17 +705,17 @@ const recommendCategories = [
     keywords: '性价比机场, 便宜机场, 便宜梯子, 平价机场推荐, 梯子推荐, 低预算翻墙, 机场节点, 5元机场',
     theme: '低预算与高性价比',
     intro: '在选择网络加速工具时，很多用户既希望价格亲民，又担心买到一到晚上就断流的劣质直连节点。本专题专门为追求“极致性价比”的用户设立。我们重点考察各家机场的真实每GB单价、节点倍率设置以及晚高峰可用性，为您推荐真正花小钱办大事的优质机场。',
-    filterAirports: ['kuanyun', 'wancheng', 'yemao', 'flyingbird']
+    filterAirports: ['feiv', 'feimaoyun', 'breezenet', 'firefly', 'wuyou']
   },
   {
     slug: 'premium',
     title: '高端专线机场推荐 - 全球多地区高质量VPN节点汇总 | 机场PRO',
     h1: '高端优质专线机场推荐与全球高速节点评测',
-    desc: '面向外贸跨境商务、专业研发与对网络可用性要求极其严苛的用户。精选全IPLC/IEPL纯内网专线机场，节点覆盖全球90+国家，晚高峰零丢包、低延迟，不惧特殊网络波动。',
+    desc: '面向外贸跨境商务、专业研发与对网络可用性要求极其严苛的用户。精选全IPLC/IEPL纯内网专线机场，晚高峰零丢包、低延迟，不惧特殊网络波动。',
     keywords: '高端专线机场, IPLC机场, IEPL专线, 商务机场, 稳定机场推荐, 全球节点, 跨境电商加速, 梯子推荐',
     theme: '高端专线与商务品质',
     intro: '对于跨境电商多站点运营、跨国研发团队以及外汇外贸从业者而言，网络连接的“零断连与零丢包”远比低价更重要。高端专线机场采用国内顶级BGP入口及运营商跨境物理专线，数据完全绕过公网GFW防火墙，提供宛如局域网般的超高网络稳定性。',
-    filterAirports: ['tag-internet', 'flyingbird', 'wancheng']
+    filterAirports: ['yinxingren', 'flashleap', 'wavenet', 'lingmao', 'kuajiecloud']
   },
   {
     slug: 'beginner',
@@ -707,7 +725,7 @@ const recommendCategories = [
     keywords: '新手机场推荐, 小白梯子, 简单好用机场, 一键导入翻墙, Clash新手教程, 手机翻墙, 梯子推荐',
     theme: '新手小白入门友好',
     intro: '许多刚接触网络加速工具的朋友，常常被复杂的协议、分流规则和客户端配置难倒。新手友好型机场不仅必须具备全平台（Windows/Android/iOS/macOS）一键导入订阅能力，还要提供详尽的图文新手指南，并在遇到问题时有活跃的客服工单团队协助解决。',
-    filterAirports: ['flyingbird', 'wancheng', 'kuanyun']
+    filterAirports: ['breezenet', 'feimaoyun', 'feiv', 'wuyou', 'quanqiuyun']
   },
   {
     slug: 'stable',
@@ -717,7 +735,7 @@ const recommendCategories = [
     keywords: '稳定机场推荐, 防封锁机场, 抗失联梯子, IPLC专线节点, 晚高峰不卡顿, 机场节点, 稳定科学上网',
     theme: '稳定抗封与长期可用',
     intro: '每年特殊时期或重大活动期间，大量廉价公网中转与直连节点大面积瘫痪。稳定优先型机场通过部署多线BGP入口、异地冷备机房以及全内网IPLC/IEPL光纤专线，实现 99.5% 以上的年均在线率，让您彻底告别频繁换节点的焦虑。',
-    filterAirports: ['tag-internet', 'flyingbird', 'wancheng']
+    filterAirports: ['yinxingren', 'flashleap', 'lingmao', 'muguang', 'breezenet']
   },
   {
     slug: 'ai',
@@ -727,7 +745,7 @@ const recommendCategories = [
     keywords: 'ChatGPT机场推荐, Claude可用梯子, AI专用节点, 原生IP机场, 住宅IP翻墙, OpenAI节点, 梯子推荐',
     theme: 'AI工具与原生住宅IP',
     intro: 'OpenAI 与 Anthropic 对访问者的 IP 建立了严格的风控黑名单，普通数据中心机房 IP 往往一打开就遭遇“Access Denied”或“1020 拦截”，严重者甚至直接封禁账号。本专题精选的机场节点均对 OpenAI / Claude 做了专门的原生IP分流解锁与住宅IP优化，确保会话流畅不阻断。',
-    filterAirports: ['tag-internet', 'flyingbird', 'wancheng']
+    filterAirports: ['yinxingren', 'breezenet', 'flashleap', 'lingmao', 'wavenet']
   },
   {
     slug: 'streaming',
@@ -737,7 +755,7 @@ const recommendCategories = [
     keywords: '流媒体机场推荐, Netflix解锁节点, Disney+梯子, YouTube 4K机场, 大流量机场, 动画疯节点, 梯子推荐',
     theme: '4K/8K流媒体影视解锁',
     intro: '在海外视频平台上观看 4K 高画质需要两大核心保障：一是节点带宽充足且无丢包，二是节点 IP 必须被流媒体版权方识别为本土原生 IP。本专题推荐的机场节点经实测均可完美点播 Netflix 原生剧集，4K 拖拽进度条秒缓冲，尽享影音盛宴。',
-    filterAirports: ['flyingbird', 'kuanyun', 'tag-internet']
+    filterAirports: ['breezenet', 'wavenet', 'feimaoyun', 'laddercloud', 'yinxingren']
   }
 ];
 
@@ -789,6 +807,12 @@ function buildRecommendPages() {
                   <h3 class="airport-card-name">${a.name}</h3>
                   <p class="airport-card-tagline">${a.tagline}</p>
                 </div>
+                ${a.coupon ? `
+                  <div style="background:#fee2e2;color:#b91c1c;padding:0.35rem 0.65rem;border-radius:var(--radius-sm);font-size:0.8rem;font-weight:600;margin-bottom:0.75rem;display:flex;align-items:center;justify-content:space-between;border:1px dashed #fca5a5">
+                    <span>🎁 专属券: <code>${a.coupon}</code></span>
+                    <span style="font-size:0.75rem;background:#ef4444;color:#fff;padding:0.1rem 0.35rem;border-radius:3px">立减特惠</span>
+                  </div>
+                ` : ''}
                 <div class="airport-card-meta">
                   <div class="meta-col">
                     <span class="meta-label">起步价格</span>
@@ -808,9 +832,10 @@ function buildRecommendPages() {
                   <div class="spec-line"><span class="spec-label">适合人群:</span><span class="spec-value">${a.suitableFor[0]}</span></div>
                   <div class="spec-line"><span class="spec-label">注意要点:</span><span class="spec-value" style="color:var(--text-muted)">${a.disadvantages[0]}</span></div>
                 </div>
-                <div class="airport-card-actions">
-                  <a href="${rel}review/${a.slug}/index.html" class="btn btn-outline" style="flex:1">阅读评测</a>
-                  <a href="${rel}airport/${a.slug}/index.html" class="btn btn-primary" style="flex:1">参数档案</a>
+                <div class="airport-card-actions" style="display:flex;gap:0.4rem;flex-wrap:wrap">
+                  <a href="${a.affiliateUrl}" target="_blank" rel="noopener noreferrer nofollow" class="btn btn-primary" style="flex:1;min-width:100px;font-weight:700">官网直达 ↗</a>
+                  <a href="${rel}review/${a.slug}/index.html" class="btn btn-outline" style="flex:1;min-width:80px">评测报告</a>
+                  <a href="${rel}airport/${a.slug}/index.html" class="btn btn-outline" style="flex:1;min-width:80px">参数档案</a>
                 </div>
               </div>
             `).join('')}
@@ -827,19 +852,27 @@ function buildRecommendPages() {
                   <th>线路架构</th>
                   <th>AI/流媒体支持</th>
                   <th>综合评分</th>
-                  <th>操作</th>
+                  <th>直达与比对</th>
                 </tr>
               </thead>
               <tbody>
                 ${filtered.map(a => `
                   <tr>
-                    <td><strong>${a.name}</strong></td>
+                    <td>
+                      <strong>${a.name}</strong>
+                      ${a.coupon ? `<br><small style="color:#b91c1c;font-weight:700">券: ${a.coupon}</small>` : ''}
+                    </td>
                     <td style="color:var(--primary);font-weight:700">${a.currency}${a.startingPrice}</td>
                     <td>¥${a.plans[0].unitPrice} / GB</td>
                     <td><span class="pill-tag">${a.lineType}</span></td>
                     <td style="font-size:0.85rem;color:var(--success)">${a.aiSupport[0]} / 4K流媒体</td>
                     <td><strong style="color:var(--primary)">${a.ratings.overall}</strong></td>
-                    <td><a href="${rel}compare/index.html" class="btn btn-outline btn-sm">横向比对</a></td>
+                    <td>
+                      <div style="display:inline-flex;gap:0.35rem">
+                        <a href="${a.affiliateUrl}" target="_blank" rel="noopener noreferrer nofollow" class="btn btn-primary btn-sm">官网 ↗</a>
+                        <a href="${rel}compare/index.html" class="btn btn-outline btn-sm">比对</a>
+                      </div>
+                    </td>
                   </tr>
                 `).join('')}
               </tbody>
@@ -967,7 +1000,7 @@ function buildRankingPages() {
           <p class="section-subtitle" style="font-size:1.05rem;line-height:1.7;color:var(--text-body);margin-top:0.75rem">${rank.desc}</p>
           <div class="post-meta-bar">
             <span>📅 数据基准日: ${CURRENT_DATE}</span>
-            <span>📊 评测范围: 5 家主流主流核验品牌</span>
+            <span>📊 评测范围: 14 家精选核验品牌</span>
             <span>⚖️ 评分准则: 公开透明多维计分</span>
           </div>
         </div>
@@ -984,26 +1017,30 @@ function buildRankingPages() {
             <p style="margin-bottom:0">所有入选机场均为运营周期长、信誉良好的服务商。若机场在后续监测中出现长时间断连、跑路风险或虚假超卖行为，本站将第一时间在榜单中下调评级或予以剔除下架。</p>
           </div>
 
-          <h2>排行榜全景对比表</h2>
+          <h2>排行榜全景对比表 (14家品牌)</h2>
           <div class="table-container">
             <table class="data-table">
               <thead>
                 <tr>
                   <th style="width:60px">名次</th>
-                  <th>品牌名称</th>
+                  <th>品牌名称与专属券</th>
                   <th>起步价格</th>
                   <th>入门流量与单价</th>
                   <th>线路架构</th>
                   <th>核心维度</th>
                   <th>适合人群</th>
-                  <th style="text-align:center">报告入口</th>
+                  <th style="text-align:center;min-width:140px">直达与报告</th>
                 </tr>
               </thead>
               <tbody>
                 ${sortedList.map((a, idx) => `
                   <tr>
                     <td><span class="rank-badge ${idx === 0 ? 'rank-1' : idx === 1 ? 'rank-2' : idx === 2 ? 'rank-3' : ''}">${idx + 1}</span></td>
-                    <td><strong>${a.name}</strong><br><small style="color:var(--text-muted)">${a.tagline.split('·')[0]}</small></td>
+                    <td>
+                      <strong>${a.name}</strong>
+                      ${a.coupon ? `<span class="pill-tag" style="background:#fee2e2;color:#b91c1c;border-color:#fca5a5;font-size:0.72rem;margin-left:0.25rem;font-weight:700">券: ${a.coupon}</span>` : ''}
+                      <br><small style="color:var(--text-muted)">${a.tagline.split('·')[0]}</small>
+                    </td>
                     <td style="color:var(--primary);font-weight:700">${a.currency}${a.startingPrice} <span style="font-size:0.8rem;color:var(--text-muted)">/ ${a.billingCycle}</span></td>
                     <td>${a.plans[0].traffic}<br><small style="color:var(--text-muted)">(¥${a.plans[0].unitPrice}/GB)</small></td>
                     <td><span class="pill-tag">${a.lineType}</span></td>
@@ -1015,7 +1052,10 @@ function buildRankingPages() {
                     </td>
                     <td style="font-size:0.85rem">${a.suitableFor[0]}</td>
                     <td style="text-align:center">
-                      <a href="${rel}review/${a.slug}/index.html" class="btn btn-outline btn-sm">深度评测</a>
+                      <div style="display:inline-flex;gap:0.35rem">
+                        <a href="${rel}review/${a.slug}/index.html" class="btn btn-outline btn-sm">评测</a>
+                        <a href="${a.affiliateUrl}" target="_blank" rel="noopener noreferrer nofollow" class="btn btn-primary btn-sm">直达 ↗</a>
+                      </div>
                     </td>
                   </tr>
                 `).join('')}
@@ -1028,17 +1068,21 @@ function buildRankingPages() {
             <div style="background:#fff;border:1px solid var(--border-color);border-radius:var(--radius-md);padding:1.5rem;margin:1.5rem 0">
               <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.5rem;margin-bottom:0.75rem">
                 <h3 style="margin:0;font-size:1.25rem">第 ${idx + 1} 名：${a.name}</h3>
-                <span class="pill-tag" style="background:var(--primary-light);color:var(--primary)">综合评级: ${a.ratings.overall} / 10</span>
+                <div>
+                  ${a.coupon ? `<span class="pill-tag" style="background:#fee2e2;color:#b91c1c;font-weight:700;margin-right:0.5rem">专属券: ${a.coupon}</span>` : ''}
+                  <span class="pill-tag" style="background:var(--primary-light);color:var(--primary)">综合评级: ${a.ratings.overall} / 10</span>
+                </div>
               </div>
               <p style="color:var(--text-body);font-size:0.95rem;margin-bottom:0.75rem">${a.description}</p>
               <div style="font-size:0.88rem;display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:0.75rem;background:var(--bg-subtle);padding:0.85rem;border-radius:var(--radius-sm)">
                 <div><strong>线路入口:</strong> ${a.bgpEntry}</div>
                 <div><strong>传输协议:</strong> ${a.protocols.join(', ')}</div>
+                <div><strong>起步价格:</strong> ${a.currency}${a.startingPrice} (${a.plans[0].traffic})</div>
                 <div><strong>适用人群:</strong> ${a.suitableFor.join('、')}</div>
-                <div><strong>最后核查:</strong> ${a.lastVerified}</div>
               </div>
-              <div style="margin-top:1rem;display:flex;gap:0.75rem">
-                <a href="${rel}review/${a.slug}/index.html" class="btn btn-primary btn-sm">查看 ${a.name} 完整评测报告</a>
+              <div style="margin-top:1rem;display:flex;gap:0.75rem;flex-wrap:wrap">
+                <a href="${a.affiliateUrl}" target="_blank" rel="noopener noreferrer nofollow" class="btn btn-primary btn-sm" style="font-weight:700">官网直达 ↗</a>
+                <a href="${rel}review/${a.slug}/index.html" class="btn btn-outline btn-sm">查看 ${a.name} 完整评测报告</a>
                 <a href="${rel}airport/${a.slug}/index.html" class="btn btn-outline btn-sm">查看套餐价格档案</a>
               </div>
             </div>
@@ -1085,7 +1129,7 @@ function buildRankingPages() {
 }
 
 // ==========================================
-// 4. 生成 5 个机场独立评测 (review/[slug]/) 严格符合 Section 10 规范
+// 4. 生成 14 个机场独立评测 (review/[slug]/) 严格符合 Section 10 规范
 // ==========================================
 function buildReviewPages() {
   const depth = 2;
@@ -1154,6 +1198,23 @@ function buildReviewPages() {
             </p>
           </div>
 
+          <!-- 专属优惠码与官网直达横幅 -->
+          <div style="background:linear-gradient(135deg, #1e3a8a, #2563eb);color:#fff;border-radius:var(--radius-md);padding:1.5rem;margin:1.5rem 0;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem">
+            <div>
+              <div style="font-size:1.15rem;font-weight:700">前往 ${a.name} 官方网站订购服务</div>
+              ${a.coupon ? `
+                <div style="margin-top:0.35rem;font-size:0.92rem;color:#bfdbfe">
+                  🎁 专属优惠码：<code style="background:rgba(255,255,255,0.25);padding:0.2rem 0.5rem;border-radius:4px;color:#fff;font-weight:800">${a.coupon}</code>（结账时输入享立减）
+                </div>
+              ` : `
+                <div style="margin-top:0.35rem;font-size:0.92rem;color:#bfdbfe">当前已是官方直供特惠价，无需输入优惠码即可直接选购</div>
+              `}
+            </div>
+            <div>
+              <a href="${a.affiliateUrl}" target="_blank" rel="noopener noreferrer nofollow" class="btn btn-outline" style="background:#fff;color:var(--primary);font-size:0.95rem;padding:0.6rem 1.4rem;font-weight:700">官网直达通道 ↗</a>
+            </div>
+          </div>
+
           <!-- 2. 机场基本介绍 -->
           <h2>一、机场基本概况与技术背景</h2>
           <p>${a.description}</p>
@@ -1166,6 +1227,7 @@ function buildReviewPages() {
                 <tr><th>起步门槛</th><td style="color:var(--primary);font-weight:700">${a.currency}${a.startingPrice} / ${a.billingCycle}</td></tr>
                 <tr><th>传输协议</th><td>${a.protocols.join(', ')}</td></tr>
                 <tr><th>在线设备数</th><td>${a.deviceLimit}</td></tr>
+                <tr><th>优惠代码</th><td>${a.coupon ? `<strong style="color:#b91c1c">${a.coupon}</strong>` : '无（官方直享优惠）'}</td></tr>
                 <tr><th>数据核验日期</th><td>${a.lastVerified}</td></tr>
               </tbody>
             </table>
@@ -1308,17 +1370,17 @@ function buildReviewPages() {
           <!-- 11. 数据来源 -->
           <div style="background:var(--bg-subtle);border-radius:var(--radius-sm);padding:1rem;margin-top:2rem;font-size:0.85rem;color:var(--text-muted)">
             <strong>数据来源与透明度披露：</strong><br>
-            本文所有套餐资费来源于 ${a.name} 官方公开系统；性能测试数据来自编辑部测试环境（千兆电信/联通双线宽带），绝无虚假商业赞助修饰。最后核验时间为 <strong>${a.lastVerified}</strong>。
+            本文所有套餐资费来源于 ${a.name} 官方公开系统；性能测试数据来自编辑部实机网络环境与 jiediantuijian.shop 公开测速数据库。最后核验时间为 <strong>${a.lastVerified}</strong>。
           </div>
         </div>
 
         <div class="related-posts">
           <div class="related-title">🔗 查看横向对比与其他品牌评测</div>
           <ul class="related-links">
+            <li><a href="${a.affiliateUrl}" target="_blank" rel="noopener noreferrer nofollow">🚀 直接前往 ${a.name} 官网选购套餐</a></li>
             <li><a href="${rel}compare/index.html">⚖️ 将 ${a.name} 与其他机场并排深度比对</a></li>
             <li><a href="${rel}airport/${a.slug}/index.html">📋 查看 ${a.name} 完整套餐参数档案</a></li>
             <li><a href="${rel}ranking/overall/index.html">📊 返回2026年度翻墙机场综合排行榜</a></li>
-            <li><a href="${rel}blog/how-to-choose-airport/index.html">💡 阅读新手如何选购靠谱机场指南</a></li>
           </ul>
         </div>
       </div>
@@ -1326,7 +1388,7 @@ function buildReviewPages() {
 
     const html = renderHtmlPage({
       title: `${a.name} 深度评测 - 节点质量、套餐价格与真实晚高峰体验 | 机场PRO`,
-      description: `【2026深度实测】${a.name}到底好不好用？全面评测${a.name}晚高峰网速延迟、IEPL专线稳定性、套餐价格折算每GB单价、ChatGPT及Netflix流媒体解锁能力。`,
+      description: `【2026深度实测】${a.name}到底好不好用？全面评测${a.name}晚高峰网速延迟、${a.lineType}专线稳定性、套餐价格折算每GB单价、ChatGPT及Netflix流媒体解锁能力。`,
       keywords: `${a.name}, ${a.name}评测, ${a.name}怎么样, ${a.name}官网, 机场推荐, 梯子推荐, 专线机场, 机场节点`,
       canonicalPath,
       depth,
@@ -1341,7 +1403,7 @@ function buildReviewPages() {
 }
 
 // ==========================================
-// 5. 生成 5 个机场参数档案页 (airport/[slug]/)
+// 5. 生成 14 个机场参数档案页 (airport/[slug]/)
 // ==========================================
 function buildAirportArchivePages() {
   const depth = 2;
@@ -1372,6 +1434,13 @@ function buildAirportArchivePages() {
         </div>
 
         <div class="post-body">
+          ${a.coupon ? `
+            <div style="background:#fee2e2;color:#b91c1c;padding:0.75rem 1rem;border-radius:var(--radius-sm);margin-bottom:1.5rem;display:flex;align-items:center;justify-content:space-between;border:1px dashed #fca5a5">
+              <div>🎁 <strong>专属优惠券代码：</strong> <code style="font-size:1.1rem;background:#fff;padding:0.2rem 0.5rem;border-radius:4px;font-weight:800">${a.coupon}</code>（结账时输入享立减）</div>
+              <a href="${a.affiliateUrl}" target="_blank" rel="noopener noreferrer nofollow" class="btn btn-primary btn-sm">去官网使用 ↗</a>
+            </div>
+          ` : ''}
+
           <h2>基础信息摘要</h2>
           <div class="table-container">
             <table class="data-table">
@@ -1387,6 +1456,7 @@ function buildAirportArchivePages() {
                 <tr><th>AI 支持情况</th><td>${a.aiSupport.join('、')}</td></tr>
                 <tr><th>流媒体支持情况</th><td>${a.streamingSupport.join('、')}</td></tr>
                 <tr><th>数据验证状态</th><td><strong style="color:var(--success)">${a.testStatus === 'tested' ? '已通过实际晚高峰实测' : '官方核验数据'}</strong></td></tr>
+                <tr><th>官网直达链接</th><td><a href="${a.affiliateUrl}" target="_blank" rel="noopener noreferrer nofollow" style="font-weight:700">进入 ${a.name} 官网 ↗</a></td></tr>
               </tbody>
             </table>
           </div>
@@ -1433,8 +1503,9 @@ function buildAirportArchivePages() {
             </ul>
           </div>
 
-          <div style="display:flex;gap:1rem;margin-top:2rem">
-            <a href="${rel}review/${a.slug}/index.html" class="btn btn-primary">阅读 ${a.name} 深度独立评测报告</a>
+          <div style="display:flex;gap:1rem;margin-top:2rem;flex-wrap:wrap">
+            <a href="${a.affiliateUrl}" target="_blank" rel="noopener noreferrer nofollow" class="btn btn-primary" style="font-weight:700">前往 ${a.name} 官网选购 ↗</a>
+            <a href="${rel}review/${a.slug}/index.html" class="btn btn-outline">阅读深度评测报告</a>
             <a href="${rel}compare/index.html" class="btn btn-outline">加入横向对比</a>
           </div>
         </div>
@@ -1492,7 +1563,7 @@ function buildComparePage() {
         <div class="post-meta-bar">
           <span>📅 数据更新日: ${CURRENT_DATE}</span>
           <span>⚡ 纯前端秒级响应</span>
-          <span>🛡️ 统一可信数据库支撑</span>
+          <span>🛡️ 统一可信数据库支撑（包含 14 款核验品牌）</span>
         </div>
       </div>
 
@@ -1665,7 +1736,7 @@ function buildGuidePages() {
 
           <h2>第二步：导入机场订阅链接</h2>
           <ol>
-            <li>登录您所购买的机场后台（如 <a href="${rel}airport/flyingbird/index.html">飞鸟云</a> 或 <a href="${rel}airport/wancheng/index.html">万城网络</a>）。</li>
+            <li>登录您所购买的机场后台（如 <a href="${rel}airport/breezenet/index.html">微风网络</a> 或 <a href="${rel}airport/yinxingren/index.html">隐形人</a>）。</li>
             <li>在用户控制台找到<strong>“一键导入订阅”</strong>或<strong>“复制订阅链接”</strong>按钮并点击。</li>
             <li>打开 ${g.client} 客户端界面，进入“订阅管理 (Profiles / Subscriptions)”菜单。</li>
             <li>在输入框中粘贴刚刚复制的订阅 URL，并点击右侧的“保存 / 下载 (Download / Save)”按钮。</li>
@@ -1840,7 +1911,7 @@ function buildBlogPages() {
           <h2>针对性实操建议</h2>
           <ol>
             <li><strong>坚持小步快跑：</strong>初次接触某家新机场，务必按“月付”或“轻量套餐”起步，通过实测检验真伪。</li>
-            <li><strong>建立双机灾备习惯：</strong>建议配置一家主力专线机场（如 <a href="${rel}airport/flyingbird/index.html">飞鸟云</a> 或 <a href="${rel}airport/tag-internet/index.html">TAG Internet</a>），搭配一家月付几元的平价备用机场（如 <a href="${rel}airport/yemao/index.html">野猫网络</a>），双保险保底防失联。</li>
+            <li><strong>建立双机灾备习惯：</strong>建议配置一家主力专线机场（如 <a href="${rel}airport/yinxingren/index.html">隐形人</a> 或 <a href="${rel}airport/breezenet/index.html">微风网络</a>），搭配一家月付几元的平价备用机场（如 <a href="${rel}airport/feiv/index.html">飞V</a>），双保险保底防失联。</li>
             <li><strong>定期更新订阅配置：</strong>机场后端通常会动态轮换故障节点与受污染入口，养成每周更新一次客户端配置的习惯能大幅提升可用性。</li>
           </ol>
 
@@ -1900,7 +1971,7 @@ const glossaryTerms = [
     desc: '什么是IEPL（International Ethernet Private Line）？它与IPLC专线有何异同？为什么现代高品质机场普遍采用IEPL专线技术？',
     keywords: '什么是IEPL, IEPL专线原理, 国际以太网专线, IEPL与IPLC区别, 专线机场, 机场技术百科',
     definition: 'IEPL（International Ethernet Private Line，国际以太网私有专线）是基于二层以太网技术构建的跨境专有数据传输链路。',
-    details: '与传统 IPLC 相比，IEPL 在保持物理内网专线不过墙优势的同时，具备更强的数据包封装灵活性与多点接入弹性。现代优质中高端机场（如飞鸟云、万城网络）普遍采用 IEPL 专线架构，配合国内多线 BGP 入口，实现电信、联通、移动三网智能优选路由。'
+    details: '与传统 IPLC 相比，IEPL 在保持物理内网专线不过墙优势的同时，具备更强的数据包封装灵活性与多点接入弹性。现代优质中高端机场（如微风网络、隐形人）普遍采用 IEPL 专线架构，配合国内多线 BGP 入口，实现电信、联通、移动三网智能优选路由。'
   },
   {
     slug: 'clash',
@@ -1993,9 +2064,9 @@ function buildGlossaryPages() {
             <h4 style="margin-top:0">💡 推荐支持此特性的高品质机场</h4>
             <p style="font-size:0.92rem;color:var(--text-muted)">以下经过深度测试的品牌在此类技术指标上均有良好表现：</p>
             <div style="display:flex;gap:1rem;flex-wrap:wrap">
-              <a href="${rel}airport/flyingbird/index.html" class="btn btn-outline btn-sm">飞鸟云 FlyingBird</a>
-              <a href="${rel}airport/tag-internet/index.html" class="btn btn-outline btn-sm">TAG Internet</a>
-              <a href="${rel}airport/wancheng/index.html" class="btn btn-outline btn-sm">万城网络 Wancheng</a>
+              <a href="${rel}airport/yinxingren/index.html" class="btn btn-outline btn-sm">隐形人</a>
+              <a href="${rel}airport/breezenet/index.html" class="btn btn-outline btn-sm">微风网络 Breezenet</a>
+              <a href="${rel}airport/flashleap/index.html" class="btn btn-outline btn-sm">闪跃 FlashLeap</a>
             </div>
           </div>
         </div>
@@ -2329,6 +2400,7 @@ function buildSitemapAndRobots() {
 Allow: /
 Disallow: /scripts/
 Disallow: /docs/
+Disallow: /cache_scraped/
 
 Sitemap: ${SITE_URL}/sitemap.xml
 `;
@@ -2347,7 +2419,7 @@ function buildIndexNowKeyFile() {
 }
 
 // 执行全量构建流水线
-console.log('--- 开始全量生成页面 ---');
+console.log('--- 开始全量生成页面 (14款品牌全覆盖) ---');
 buildHomePage();
 buildRecommendPages();
 buildRankingPages();
